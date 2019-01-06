@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Tester {
-    public static void main (String[] args) {
-        MapReader map = new MapReader("MapOne");
-    }
-}
 
 public class MapReader {
     private String fileName;
-    String[][] mapLayout;
+    MapComponent[][] mapLayout;
     Scanner fileReader;
 
     MapReader (String fileName) {
@@ -45,21 +40,22 @@ public class MapReader {
 
         System.out.println(length + " " + width);
 
-        mapLayout = new String[length][width];
+        mapLayout = new MapComponent[length][width];
         for (int i = 0; i < length; i++) {
-
-            for (int j = 0; j <= width - 1; j++) {
-                mapLayout[i][j] = mapChar.get(index).substring(j, j + 1);
+            for (int j = 0; j <= width -  1; j++) {
+                if (mapChar.get(index).substring(j, j + 1).equals("r")){
+                    mapLayout[i][j] = new Road();
+                } else if (mapChar.get(index).substring(j, j + 1).equals("w")) {
+                    mapLayout[i][j] = new Wall();
+                }
             }
             index++;
         }
 
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j <= width - 1; j++) {
-               System.out.print(mapLayout[i][j]);
-            }
-            System.out.println(" ");
-        }
+    }
+
+    public MapComponent[][] getMap () {
+        return mapLayout;
     }
 
 }
