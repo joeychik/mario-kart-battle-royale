@@ -28,3 +28,4 @@ hs_err_pid*
 .idea/**/dictionaries
 .idea/**/shelf
 *.xml___jb_tmp___
+*.xml___jb_old___
