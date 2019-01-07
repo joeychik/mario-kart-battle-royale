@@ -45,8 +45,12 @@ public class MapReader {
             for (int j = 0; j <= width -  1; j++) {
                 if (mapChar.get(index).substring(j, j + 1).equals("r")){
                     mapLayout[i][j] = new Road();
+                    mapLayout[i][j].setxPosition(j* (int)mapLayout[i][j].getDimensions());
+                    mapLayout[i][j].setxPosition(i* (int)mapLayout[i][j].getDimensions());
                 } else if (mapChar.get(index).substring(j, j + 1).equals("w")) {
                     mapLayout[i][j] = new Wall();
+                    mapLayout[i][j].setxPosition(j* (int)mapLayout[i][j].getDimensions());
+                    mapLayout[i][j].setxPosition(i* (int)mapLayout[i][j].getDimensions());
                 }
             }
             index++;

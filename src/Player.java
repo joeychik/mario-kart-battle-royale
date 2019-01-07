@@ -3,10 +3,11 @@ public class Player {
     private double yPos;
     private int dimensions;
     private double velocity;
+    private int relativePosition = 0;
 
     Player() {
-        xPos = 50.0;
-        yPos = 50.0;
+        xPos = 250.0;
+        yPos = 150.0;
         dimensions = 25;
         velocity = 0;
     }
@@ -41,5 +42,13 @@ public class Player {
 
     public void setVelocity(double velocity) {
         this.velocity = velocity;
+    }
+
+    public int getRelativePosition() {
+        return relativePosition;
+    }
+
+    public void setRelativePosition(int relativePosition) {
+        this.relativePosition = relativePosition;
     }
 }

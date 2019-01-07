@@ -47,7 +47,7 @@ import java.util.Arrays;
 
             // Set the frame to full screen
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setSize(800, 600);
+            this.setSize(1350, 600);
             // this.setUndecorated(true);  //Set to true to remove title bar
             // frame.setResizable(false);
 
@@ -77,31 +77,65 @@ import java.util.Arrays;
             String mapName;
             MapReader mapInfo;
             MapComponent[][] map;
+            MapComponent[][] visibleMap = new MapComponent[5][9];
+            int lastPosition = 150;
+            int mapIncrement = 0;
+            int yMapPosition = 0;
+
 
             GameAreaPanel (String mapName) {
                 this.mapName = mapName;
                 mapInfo = new MapReader(mapName);
                 map = mapInfo.getMap();
+                for (int i = 0; i < 5; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        visibleMap[i][j] = map[i][j];
+                    }
+                }
+
             }
 
             public void paintComponent(Graphics g) {
                 super.paintComponent(g); //required
                 setDoubleBuffered(true);
 
-                for (int i = 0; i < map.length; i++) {
-                    for (int j = 0; j < map[0].length; j++) {
-                        if (map[i][j] instanceof Road) {
+                if ((player.getyPos() - lastPosition >= 150)) {
+                    mapIncrement++;
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 9;j++) {
+                            visibleMap[i][j] = map[i + mapIncrement][j];
+                        }
+                    }
+                    lastPosition = (int)player.getyPos();
+                    player.setRelativePosition(0);
+                }
+
+                // this doesn't work
+//                if ((player.getyPos() - lastPosition <= -150)) {
+//                    mapIncrement++;
+//                    for (int i = 0; i < 5; i++) {
+//                        for (int j = 0; j < 9;j++) {
+//                            visibleMap[i][j] = map[ mapIncrement - i][j];
+//                        }
+//                    }
+//                    lastPosition = (int)player.getyPos();
+//                    player.setRelativePosition(0);
+//                }
+
+                for (int i = 0; i < visibleMap.length; i++) {
+                    for (int j = 0; j < visibleMap[0].length; j++) {
+                        if (visibleMap[i][j] instanceof Road) {
                             g.setColor(Color.BLACK);
-                            g.fillRect( i * (int)map[i][j].getDimensions(), j * (int)map[i][j].getDimensions(), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
-                        } else if (map[i][j] instanceof Wall) {
+                            g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        } else if (visibleMap[i][j] instanceof Wall) {
                             g.setColor(Color.BLUE);
-                            g.fillRect( i * (int)map[i][j].getDimensions(), j * (int)map[i][j].getDimensions(), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
+                            g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
                         }
                     }
                 }
 
                 g.setColor(Color.RED);
-                g.drawRect((int)player.getxPos(), (int)player.getyPos(), player.getDimensions(), player.getDimensions());
+                g.drawRect((int)player.getxPos(),300,player.getDimensions(), player.getDimensions());
 
 
                 repaint();
@@ -113,19 +147,26 @@ import java.util.Arrays;
         private class MyKeyListener implements KeyListener {
 
             public void keyTyped(KeyEvent e) {
-            }
-
-            public void keyPressed(KeyEvent e) {
-                if (player.getVelocity() <= 10) {
-                    player.setVelocity(player.getVelocity() + 1);
-                }
-
                 if (e.getKeyChar() == 'w') {
-                    player.setyPos(player.getyPos() - player.getVelocity());
+                    if (e.getKeyChar() == 'd') {
+                        player.setxPos(player.getxPos() + player.getVelocity());
+                        player.setyPos((player.getyPos() - player.getVelocity()) * -1);
+                        player.setRelativePosition(player.getRelativePosition() - (int) player.getVelocity());
+                    } else {
+                        player.setyPos((player.getyPos() - player.getVelocity()) * -1);
+                        player.setRelativePosition(player.getRelativePosition() - (int) player.getVelocity());
+                    }
                 }
 
                 if (e.getKeyChar() == 's') {
-                    player.setyPos(player.getyPos() + player.getVelocity());
+                    if (e.getKeyChar() == 'd') {
+                        player.setxPos(player.getxPos() + player.getVelocity());
+                        player.setyPos(player.getyPos() + player.getVelocity());
+                        player.setRelativePosition(player.getRelativePosition() + (int) player.getVelocity());
+                    } else {
+                        player.setyPos(player.getyPos() + player.getVelocity());
+                        player.setRelativePosition(player.getRelativePosition() + (int) player.getVelocity());
+                    }
                 }
 
                 if (e.getKeyChar() == 'd') {
@@ -138,7 +179,16 @@ import java.util.Arrays;
 
             }
 
+            public void keyPressed(KeyEvent e) {
+                if (player.getVelocity() <= 10) {
+                    player.setVelocity(player.getVelocity() + 1);
+                }
+
+
+            }
+
             public void keyReleased(KeyEvent e) {
+                player.setVelocity(0);
             }
         } //end of keyboard listener
 
