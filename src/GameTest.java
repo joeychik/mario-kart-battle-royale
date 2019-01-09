@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -29,6 +30,7 @@ class GameTest extends JFrame {
     static JFrame window;
     JPanel gamePanel;
     Player player;
+    boolean movingBackwards = false;
 
     //Main
     public static void main(String[] args) {
@@ -105,28 +107,42 @@ class GameTest extends JFrame {
                     }
                 }
                 lastPosition = (int)player.getyPos();
-                player.setRelativePosition(0);
+                player.setPosRelativePosition(0);
             }
 
             if ((player.getyPos() - lastPosition <= -150)) {
                 mapIncrement--;
+                System.out.println("incremented");
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 9;j++) {
                         visibleMap[i][j] = map[i + mapIncrement][j];
                     }
                 }
                 lastPosition = (int)player.getyPos();
-                player.setRelativePosition(0);
+                player.setNegRelativePosition(0);
             }
 
             for (int i = 0; i < visibleMap.length; i++) {
                 for (int j = 0; j < visibleMap[0].length; j++) {
                     if (visibleMap[i][j] instanceof Road) {
                         g.setColor(Color.BLACK);
-                        g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        if (player.isMovingBackwards()) {
+                            //System.out.println(player.getOrientation());
+                            g.fillRect(j * (int) visibleMap[i][j].getDimensions(), (((i * (int) visibleMap[i][j].getDimensions()) - 150)
+                                    + player.getNegRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        } else {
+                            g.fillRect(j * (int) visibleMap[i][j].getDimensions(), (i * (int) visibleMap[i][j].getDimensions()
+                                    - player.getPosRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        }
                     } else if (visibleMap[i][j] instanceof Wall) {
                         g.setColor(Color.BLUE);
-                        g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        if (player.isMovingBackwards()) {
+                            g.fillRect(j * (int) visibleMap[i][j].getDimensions(), (((i * (int) visibleMap[i][j].getDimensions()) - 150)
+                                    + player.getNegRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        } else {
+                            g.fillRect(j * (int) visibleMap[i][j].getDimensions(), (i * (int) visibleMap[i][j].getDimensions()
+                                    - player.getPosRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+                        }
                     }
                 }
             }
@@ -175,7 +191,6 @@ class GameTest extends JFrame {
         public void keyReleased(KeyEvent e) {
             if (e.getKeyChar() == 'w' || e.getKeyChar() == 's')
             player.setBrake(true);
-            System.out.println("yeet");
         }
     } //end of keyboard listener
 

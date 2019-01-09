@@ -6,7 +6,9 @@ public class Player {
     private double accel;
     private boolean brake;
     private double orientation;
-    private int relativePosition = 0;
+    private int posRelativePosition = 0;
+    private int negRelativePosition = 0;
+    private boolean movingBackwards = false;
 
     Player() {
         xPos = 250.0;
@@ -27,24 +29,37 @@ public class Player {
             velocity = -0.6;
         }
 
+        if (orientation >= (5 * Math.PI)/2) {
+            orientation = (5 * Math.PI/2 - orientation) + Math.PI/2;
+        } else if (orientation <= -(3*Math.PI)/2) {
+            orientation = (Math.abs(orientation) - 3*Math.PI/2) + Math.PI/2;
+        }
+
+
+        if (((orientation < 0) && (orientation > -Math.PI)) || (((orientation > Math.PI)) && (orientation < (Math.PI * 2)))) {
+            movingBackwards = true;
+        } else {
+            movingBackwards = false;
+        }
+
+
         // accelerates/decelerates the player to 0 if brake is true
         if (brake) {
             accel = 0;
             if (velocity > 0) {
-                System.out.println("hit");
                 velocity -= 0.0025;
                 if (velocity < 0) velocity = 0;
             } else if (velocity < 0) {
                 velocity += 0.0025;
                 if (velocity > 0) velocity = 0;
             }
-            System.out.println(velocity);
         }
 
         xPos += velocity * Math.cos(orientation);
         yPos += velocity * Math.sin(orientation);
 
-        relativePosition = ((int) yPos) % 150;
+        posRelativePosition = ((int) yPos) % 150;
+        negRelativePosition = 150 - ((int) yPos % 150);
     }
 
     public double getxPos() {
@@ -95,11 +110,23 @@ public class Player {
         this.orientation = orientation;
     }
 
-    public int getRelativePosition() {
-        return relativePosition;
+    public int getPosRelativePosition() {
+        return posRelativePosition;
     }
 
-    public void setRelativePosition(int relativePosition) {
-        this.relativePosition = relativePosition;
+    public void setPosRelativePosition(int relativePosition) {
+        this.posRelativePosition = relativePosition;
+    }
+
+    public int getNegRelativePosition() {
+        return negRelativePosition;
+    }
+
+    public void setNegRelativePosition(int relativePosition) {
+        this.negRelativePosition = relativePosition;
+    }
+
+    public boolean isMovingBackwards() {
+        return movingBackwards;
     }
 }
