@@ -10,7 +10,7 @@ public class Player {
 
     Player() {
         xPos = 250.0;
-        yPos = 150.0;
+        yPos = 750.0;
         dimensions = 25;
         velocity = 0;
         accel = 0;

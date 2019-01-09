@@ -74,7 +74,6 @@ class GameTest extends JFrame {
         String mapName;
         MapReader mapInfo;
         MapComponent[][] map;
-        MapComponent[][] visibleMap = new MapComponent[5][9];
         int lastPosition = 150;
         int mapIncrement = 0;
         int yMapPosition = 0;
@@ -84,11 +83,6 @@ class GameTest extends JFrame {
             this.mapName = mapName;
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 9; j++) {
-                    visibleMap[i][j] = map[i][j];
-                }
-            }
         }
 
         public void paintComponent(Graphics g) {
@@ -97,36 +91,18 @@ class GameTest extends JFrame {
 
             player.update();
 
-            if ((player.getyPos() - lastPosition >= 150)) {
-                mapIncrement++;
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 9;j++) {
-                        visibleMap[i][j] = map[i + mapIncrement][j];
-                    }
-                }
-                lastPosition = (int)player.getyPos();
-                player.setRelativePosition(0);
-            }
+            int playerYPos = ((int) player.getyPos()) / 150;
 
-            if ((player.getyPos() - lastPosition <= -150)) {
-                mapIncrement--;
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 9;j++) {
-                        visibleMap[i][j] = map[i + mapIncrement][j];
-                    }
-                }
-                lastPosition = (int)player.getyPos();
-                player.setRelativePosition(0);
-            }
-
-            for (int i = 0; i < visibleMap.length; i++) {
-                for (int j = 0; j < visibleMap[0].length; j++) {
-                    if (visibleMap[i][j] instanceof Road) {
-                        g.setColor(Color.BLACK);
-                        g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
-                    } else if (visibleMap[i][j] instanceof Wall) {
-                        g.setColor(Color.BLUE);
-                        g.fillRect( j * (int)visibleMap[i][j].getDimensions(), (i * (int)visibleMap[i][j].getDimensions() - player.getRelativePosition()), (int) visibleMap[i][j].getDimensions(), (int) visibleMap[i][j].getDimensions());
+            for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
+                for (int j = 0; j < map[0].length; j++) {
+                    if (map[i][j] != null) {
+                        g.setColor(Color.WHITE);
+                        if (map[i][j] instanceof Road) {
+                            g.setColor(Color.BLACK);
+                        } else if (map[i][j] instanceof Wall) {
+                            g.setColor(Color.BLUE);
+                        }
+                        g.fillRect(j * (int) map[i][j].getDimensions(), ((i - playerYPos + 3) * (int) map[i][j].getDimensions() - player.getRelativePosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
                     }
                 }
             }
