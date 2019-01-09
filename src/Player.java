@@ -21,7 +21,7 @@ public class Player {
     public void update() {
         velocity += accel;
 
-        if (velocity > 1) {
+        if (velocity > 4) {
             velocity = 1;
         } else if (velocity < -0.6) {
             velocity = -0.6;
@@ -31,14 +31,12 @@ public class Player {
         if (brake) {
             accel = 0;
             if (velocity > 0) {
-                System.out.println("hit");
-                velocity -= 0.0025;
+                velocity -= 0.005;
                 if (velocity < 0) velocity = 0;
             } else if (velocity < 0) {
-                velocity += 0.0025;
+                velocity += 0.005;
                 if (velocity > 0) velocity = 0;
             }
-            System.out.println(velocity);
         }
 
         xPos += velocity * Math.cos(orientation);

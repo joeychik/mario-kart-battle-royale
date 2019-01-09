@@ -128,20 +128,20 @@ class GameTest extends JFrame {
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == 'w') {
                 player.setBrake(false);
-                player.setAccel(0.25);
+                player.setAccel(0.45);
             }
 
             if (e.getKeyChar() == 's') {
                 player.setBrake(false);
-                player.setAccel(-0.05);
+                player.setAccel(-0.1);
             }
 
             if (e.getKeyChar() == 'd') {
-                player.setOrientation(player.getOrientation() - 0.1);
+                player.setOrientation(player.getOrientation() + 0.1);
             }
 
             if (e.getKeyChar() == 'a') {
-                player.setOrientation(player.getOrientation() + 0.1);
+                player.setOrientation(player.getOrientation() - 0.1);
             }
 
         }
