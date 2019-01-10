@@ -6,8 +6,7 @@ public class Player {
     private double accel;
     private boolean brake;
     private double orientation;
-    private int posRelativePosition = 0;
-    private int negRelativePosition = 0;
+    private int relativePosition = 0;
     private boolean movingBackwards = false;
 
     Player() {
@@ -58,8 +57,7 @@ public class Player {
         xPos += velocity * Math.cos(orientation);
         yPos += velocity * Math.sin(orientation);
 
-        posRelativePosition = ((int) yPos) % 150;
-        negRelativePosition = 150 - ((int) yPos % 150);
+        relativePosition = ((int) yPos) % 150;
     }
 
     public double getxPos() {
@@ -110,20 +108,12 @@ public class Player {
         this.orientation = orientation;
     }
 
-    public int getPosRelativePosition() {
-        return posRelativePosition;
+    public int getRelativePosition() {
+        return relativePosition;
     }
 
-    public void setPosRelativePosition(int relativePosition) {
-        this.posRelativePosition = relativePosition;
-    }
-
-    public int getNegRelativePosition() {
-        return negRelativePosition;
-    }
-
-    public void setNegRelativePosition(int relativePosition) {
-        this.negRelativePosition = relativePosition;
+    public void setRelativePosition(int relativePosition) {
+        this.relativePosition = relativePosition;
     }
 
     public boolean isMovingBackwards() {
