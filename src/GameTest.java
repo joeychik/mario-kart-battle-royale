@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -29,6 +30,7 @@ class GameTest extends JFrame {
     static JFrame window;
     JPanel gamePanel;
     Player player;
+    boolean movingBackwards = false;
 
     //Main
     public static void main(String[] args) {
@@ -151,7 +153,6 @@ class GameTest extends JFrame {
         public void keyReleased(KeyEvent e) {
             if (e.getKeyChar() == 'w' || e.getKeyChar() == 's')
             player.setBrake(true);
-            System.out.println("yeet");
         }
     } //end of keyboard listener
 

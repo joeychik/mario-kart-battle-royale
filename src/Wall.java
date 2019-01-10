@@ -1,17 +1,33 @@
+import java.awt.*;
+
 public class Wall extends MapComponent{
     private boolean driveable;
     private double dimensions;
     private int xPosition;
     private int yPosition;
+    private Rectangle hitBox;
 
-    Wall() {
-        driveable = false;
-        dimensions = 150.0;
+    Wall(int dimensions, int xPosition, int yPosition, boolean driveable) {
+        super(dimensions,xPosition, yPosition, driveable);
+        this.dimensions = dimensions;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.driveable = driveable;
+        hitBox = new Rectangle(xPosition, yPosition, dimensions, dimensions);
+    }
+
+    Wall () {
+
     }
 
     @Override
-    boolean getDriveable() {
+    public boolean getDriveable() {
         return driveable;
+    }
+
+    @Override
+    public void setDriveable(boolean driveable) {
+        this.driveable = driveable;
     }
 
     public double getDimensions() {
@@ -40,5 +56,13 @@ public class Wall extends MapComponent{
     @Override
     public void setxPosition(int position) {
         this.xPosition = position;
+    }
+
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
+    public void setHitBox(Rectangle hitBox) {
+        this.hitBox = hitBox;
     }
 }
