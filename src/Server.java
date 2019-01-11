@@ -54,7 +54,7 @@ public class Server {
         }
 
         public void startGame(ArrayList<Player> players) {
-
+            // TODO draft protocol
         }
     }
 }
