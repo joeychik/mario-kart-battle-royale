@@ -1,31 +1,21 @@
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 
 
 //Graphics &GUI imports
 import javax.swing.JFrame;
 
 import javax.swing.JPanel;
-import java.awt.Toolkit;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.Color;
 
 //Keyboard imports
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
 //Util
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
-class GameTest extends JFrame {
+class Game extends JFrame {
     //class variables
     static JFrame window;
     JPanel gamePanel;
@@ -35,12 +25,12 @@ class GameTest extends JFrame {
     //Main
     public static void main(String[] args) {
         System.out.println("The game is running.");
-        window = new GameTest();
+        window = new Game();
 
     }
 
     //Constructor - this runs first
-    GameTest() {
+    Game() {
         super("Mario Kart");
 
 

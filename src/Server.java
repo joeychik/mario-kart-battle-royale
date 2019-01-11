@@ -7,6 +7,9 @@ public class Server {
     private ArrayList<Client> clients;
     private Boolean running = true;
 
+    Server() {
+    }
+
     private void go() {
         System.out.println("Waiting for a client connection..");
 
@@ -18,9 +21,7 @@ public class Server {
             while(running) {  //this loops to accept multiple clients
                 s = serverSock.accept();  //wait for connection
                 System.out.println("Client connected");
-                //Note: you might want to keep references to all clients if you plan to broadcast messages
-                //Also: Queues are good tools to buffer incoming/outgoing messages
-                Client c = new Client();
+                Client c = new Client(s);
                 clients.add(c);
                 c.startThread();
             }
@@ -34,6 +35,26 @@ public class Server {
                 System.out.println("Failed to close socket");
             }
             System.exit(-1);
+        }
+    }
+
+    private class ServerGame {
+        String mapName;
+        MapReader mapInfo;
+        MapComponent[][] map;
+        int lastPosition = 150;
+        int mapIncrement = 0;
+        int yMapPosition = 0;
+
+
+        ServerGame (String mapName) {
+            this.mapName = mapName;
+            mapInfo = new MapReader(mapName);
+            map = mapInfo.getMap();
+        }
+
+        public void startGame(ArrayList<Player> players) {
+
         }
     }
 }
