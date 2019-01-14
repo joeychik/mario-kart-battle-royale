@@ -14,9 +14,10 @@ public class Client {
     private Socket socket;
     private ConnectionHandler connectionHandler;
     private boolean running;
-    private Gson gson;
+    private Gson gson = new Gson();
     private JsonReader input;
     private JsonWriter output;
+    private Player player;
 
     Client(Socket socket) {
         this.socket = socket;
@@ -29,6 +30,18 @@ public class Client {
             System.err.println("problem making input reader/output writer");
             e.printStackTrace();
         }
+
+        // set up client
+        try {
+            StartClientPacket startClientPacket = gson.fromJson(input, StartClientPacket.class);
+            player = new Player(startClientPacket.getCharacterSprite(), startClientPacket.getCarSprite());
+        } catch (Exception e) {
+
+        }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void startThread() {
@@ -36,6 +49,10 @@ public class Client {
         Thread t = new Thread(connectionHandler);
         running = true;
         t.start();
+    }
+
+    public void send() {
+        connectionHandler.send();
     }
 
     private class ConnectionHandler implements Runnable{
@@ -74,7 +91,7 @@ public class Client {
             }
         }
 
-        public void send(ServerPacket packet) {
+        public void send(Object packet) {
             gson.toJson(packet, ServerPacket.class, output);
             try {
                 output.flush();

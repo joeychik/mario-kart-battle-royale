@@ -6,6 +6,7 @@ public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;
     private ServerGame serverGame;
+    private ArrayList<Player> players;
     private Boolean accepting = true;
 
     Server() {
@@ -29,6 +30,12 @@ public class Server implements Runnable{
                 System.out.println("Client connected");
                 Client c = new Client(s);
                 clients.add(c);
+                players.add(c.getPlayer());
+
+                for (Client client : clients) {
+                    client.send();
+                }
+
                 c.startThread();
             }
         } catch (Exception e) {
@@ -59,8 +66,9 @@ public class Server implements Runnable{
             map = mapInfo.getMap();
         }
 
-        public void startGame(ArrayList<Player> players) {
-            // TODO draft protocol
-        }
+        // why does this exist
+//        public void startGame(ArrayList<Player> players) {
+//            // TODO draft protocol
+//        }
     }
 }

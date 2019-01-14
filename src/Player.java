@@ -8,8 +8,10 @@ public class Player {
     private double orientation;
     private int relativePosition = 0;
     private boolean movingBackwards = false;
+    private String characterSprite;
+    private String carSprite;
 
-    Player() {
+    Player(String characterSprite, String carSprite) {
         xPos = 250.0;
         yPos = 750.0;
         dimensions = 25;
@@ -17,6 +19,8 @@ public class Player {
         accel = 0;
         brake = false;
         orientation = 0.5 * Math.PI;
+        this.characterSprite = characterSprite;
+        this.carSprite = carSprite;
     }
 
     public void update() {
