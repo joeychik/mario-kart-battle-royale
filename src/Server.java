@@ -2,15 +2,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server {
+public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;
-    private Boolean running = true;
+    private ServerGame serverGame;
+    private Boolean accepting = true;
 
     Server() {
     }
 
-    private void go() {
+    public void startGame(String mapName) {
+        accepting = false;
+        serverGame = new ServerGame(mapName);
+    }
+
+    public void run() {
         System.out.println("Waiting for a client connection..");
 
         Socket s = null;//hold the client connection
@@ -18,7 +24,7 @@ public class Server {
         try {
             serverSock = new ServerSocket(5000);  //assigns an port to the server
             //serverSock.setSoTimeout(25000);  //25 second timeout
-            while(running) {  //this loops to accept multiple clients
+            while(accepting) {  //this loops to accept multiple clients
                 s = serverSock.accept();  //wait for connection
                 System.out.println("Client connected");
                 Client c = new Client(s);
