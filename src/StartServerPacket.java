@@ -1,19 +1,13 @@
 import java.util.ArrayList;
 
-public class StartServerPacket {
+public class StartServerPacket extends ServerPacket{
     private String map;
-    private ArrayList<String> playerNames = new ArrayList<>();
-    private ArrayList<String> playerCharacterSprites = new ArrayList<>();
-    private ArrayList<String> playerCarSprites = new ArrayList<>();
+    private ArrayList<Player> playerList;
 
-    StartServerPacket (String map, String playerName, String playerSprite, String carSprite) {
+    StartServerPacket (String map, ArrayList<Player> playerList) {
+        super(playerList);
         this.map = map;
-        playerNames.add(playerName);
-        playerCharacterSprites.add(playerSprite);
-        playerCarSprites.add(carSprite);
-    }
-
-    StartServerPacket () {
+        this.playerList = playerList;
     }
 
     public String getMap() {
@@ -24,27 +18,9 @@ public class StartServerPacket {
         this.map = map;
     }
 
-    public ArrayList<String> getPlayerNames() {
-        return playerNames;
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
     }
 
-    public void addPlayerName(String playerNames) {
-        this.playerNames.add(playerNames);
-    }
 
-    public ArrayList<String> getPlayerCharacterSprites() {
-        return playerCharacterSprites;
-    }
-
-    public void addPlayerCharacterSprites(String playerCharacterSprite) {
-        this.playerCharacterSprites.add(playerCharacterSprite);
-    }
-
-    public ArrayList<String> getPlayerCarSprites() {
-        return playerCarSprites;
-    }
-
-    public void addPlayerCarSprites(String playerCarSprite) {
-        this.playerCarSprites.add(playerCarSprite);
-    }
 }
