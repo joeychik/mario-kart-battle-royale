@@ -19,7 +19,7 @@ public class Server implements Runnable{
 
     public void startGame() {
         accepting = false;
-        serverGame = new ServerGame(mapName);
+        serverGame = new ServerGame();
     }
 
     public void run() {
@@ -36,12 +36,9 @@ public class Server implements Runnable{
                 Client c = new Client(s);
                 clients.add(c);
                 players.add(c.getPlayer());
-                StartClientPacket startClientPacket = new StartClientPacket(c.getPlayer().getName(),
-                        c.getPlayer().getCharacterSprite(), c.getPlayer().getCarSprite());
-                StartServerPacket startServerPacket = new StartServerPacket()
 
                 for (Client client : clients) {
-                    client.send(startClientPacket);
+                    client.send(c.getStartClientPacket());
                 }
 
                 c.startThread();

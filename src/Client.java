@@ -18,6 +18,7 @@ public class Client {
     private JsonReader input;
     private JsonWriter output;
     private Player player;
+    private StartClientPacket startClientPacket;
 
     Client(Socket socket) {
         this.socket = socket;
@@ -33,11 +34,15 @@ public class Client {
 
         // set up client
         try {
-            StartClientPacket startClientPacket = gson.fromJson(input, StartClientPacket.class);
+            startClientPacket = gson.fromJson(input, StartClientPacket.class);
             player = new Player(startClientPacket.getCharacterSprite(), startClientPacket.getCarSprite());
         } catch (Exception e) {
 
         }
+    }
+
+    public StartClientPacket getStartClientPacket() {
+        return startClientPacket;
     }
 
     public Player getPlayer() {
