@@ -92,7 +92,7 @@ public class Client {
         }
 
         public void send(Object packet) {
-            gson.toJson(packet, ServerPacket.class, output);
+            gson.toJson(packet, packet.getClass(), output);
             try {
                 output.flush();
             } catch (IOException e) {

@@ -1,18 +1,23 @@
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;
     private ServerGame serverGame;
+    private String mapName;
     private ArrayList<Player> players;
     private Boolean accepting = true;
 
-    Server() {
+    Server(String mapName) {
+        this.mapName = mapName;
     }
 
-    public void startGame(String mapName) {
+    public void startGame() {
         accepting = false;
         serverGame = new ServerGame(mapName);
     }
@@ -33,6 +38,7 @@ public class Server implements Runnable{
                 players.add(c.getPlayer());
                 StartClientPacket startClientPacket = new StartClientPacket(c.getPlayer().getName(),
                         c.getPlayer().getCharacterSprite(), c.getPlayer().getCarSprite());
+                StartServerPacket startServerPacket = new StartServerPacket()
 
                 for (Client client : clients) {
                     client.send(startClientPacket);
@@ -54,18 +60,33 @@ public class Server implements Runnable{
     }
 
     private class ServerGame {
-        String mapName;
         MapReader mapInfo;
         MapComponent[][] map;
+        Timer gameLoopTimer;
         int lastPosition = 150;
         int mapIncrement = 0;
         int yMapPosition = 0;
 
 
-        ServerGame (String mapName) {
-            this.mapName = mapName;
+        ServerGame () {
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
+
+            gameLoopTimer = new Timer();
+            gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    for (Player player : players) {
+                        player.update();
+                    }
+
+                    ServerPacket packet = new ServerPacket();
+
+                    for (Client client : clients) {
+                        client.send(packet);
+                    }
+                }
+            });
         }
 
         public void serverGameLoop() {
