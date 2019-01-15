@@ -3,8 +3,10 @@ public class StartClientPacket {
     private String characterSprite;
     private String carSprite;
 
-    StartClientPacket() {
-
+    StartClientPacket(String name, String characterSprite, String carSprite) {
+        this.name = name;
+        this.characterSprite = characterSprite;
+        this.carSprite = carSprite;
     }
 
     public String getName() {

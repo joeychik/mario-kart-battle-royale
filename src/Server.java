@@ -31,9 +31,11 @@ public class Server implements Runnable{
                 Client c = new Client(s);
                 clients.add(c);
                 players.add(c.getPlayer());
+                StartClientPacket startClientPacket = new StartClientPacket(c.getPlayer().getName(),
+                        c.getPlayer().getCharacterSprite(), c.getPlayer().getCarSprite());
 
                 for (Client client : clients) {
-                    client.send();
+                    client.send(startClientPacket);
                 }
 
                 c.startThread();
@@ -64,6 +66,10 @@ public class Server implements Runnable{
             this.mapName = mapName;
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
+        }
+
+        public void serverGameLoop() {
+            
         }
 
         // why does this exist

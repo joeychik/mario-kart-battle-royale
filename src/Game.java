@@ -14,7 +14,6 @@ import java.awt.Color;
 
 //Util
 
-
 class Game extends JFrame {
     //class variables
     static JFrame window;

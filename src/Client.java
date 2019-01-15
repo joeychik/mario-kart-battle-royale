@@ -51,8 +51,8 @@ public class Client {
         t.start();
     }
 
-    public void send() {
-        connectionHandler.send();
+    public void send(Object packet) {
+        connectionHandler.send(packet);
     }
 
     private class ConnectionHandler implements Runnable{

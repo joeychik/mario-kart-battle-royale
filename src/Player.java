@@ -8,6 +8,7 @@ public class Player {
     private double orientation;
     private int relativePosition = 0;
     private boolean movingBackwards = false;
+    private String name;
     private String characterSprite;
     private String carSprite;
 
@@ -122,5 +123,29 @@ public class Player {
 
     public boolean isMovingBackwards() {
         return movingBackwards;
+    }
+
+    public String getCharacterSprite() {
+        return characterSprite;
+    }
+
+    public void setCharacterSprite(String characterSprite) {
+        this.characterSprite = characterSprite;
+    }
+
+    public String getCarSprite() {
+        return carSprite;
+    }
+
+    public void setCarSprite(String carSprite) {
+        this.carSprite = carSprite;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
