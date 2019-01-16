@@ -44,13 +44,10 @@ public class MapReader {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j <= width -  1; j++) {
                 if (mapChar.get(index).substring(j, j + 1).equals("r")){
-                    mapLayout[i][j] = new Road(150, i * 150, j * 150, true);
-                    mapLayout[i][j].setyPosition(j* (int)mapLayout[i][j].getDimensions());
-                    mapLayout[i][j].setxPosition(i* (int)mapLayout[i][j].getDimensions());
+                    mapLayout[i][j] = new Road(150, j * 150, i * 150, true);
+
                 } else if (mapChar.get(index).substring(j, j + 1).equals("w")) {
-                    mapLayout[i][j] = new Wall(150, i * 150, j * 150, true);
-                    mapLayout[i][j].setyPosition(j* (int)mapLayout[i][j].getDimensions());
-                    mapLayout[i][j].setxPosition(i* (int)mapLayout[i][j].getDimensions());
+                    mapLayout[i][j] = new Wall(150, j * 150, i * 150, false);
                 }
             }
             index++;
