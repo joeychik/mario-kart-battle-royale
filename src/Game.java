@@ -47,7 +47,7 @@ class Game extends JFrame {
 
         MyKeyListener keyListener = new MyKeyListener();
         this.addKeyListener(keyListener);
-        player = new Player();
+        player = new Player("res\\yeet.jpg", "res\\yeet.jpg");
         this.requestFocusInWindow(); //make sure the frame has focus
         this.setVisible(true);
 

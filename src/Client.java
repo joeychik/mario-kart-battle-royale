@@ -56,7 +56,7 @@ public class Client {
         t.start();
     }
 
-    public void send(Object packet) {
+    public void send(Packet packet) {
         connectionHandler.send(packet);
     }
 
@@ -96,7 +96,7 @@ public class Client {
             }
         }
 
-        public void send(Object packet) {
+        public void send(Packet packet) {
             gson.toJson(packet, packet.getClass(), output);
             try {
                 output.flush();

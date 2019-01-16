@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 
-public class StartServerPacket extends ServerPacket{
+public class StartServerPacket extends Packet{
     private String map;
     private ArrayList<Player> playerList;
 
     StartServerPacket (String map, ArrayList<Player> playerList) {
-        super(playerList);
         this.map = map;
         this.playerList = playerList;
     }

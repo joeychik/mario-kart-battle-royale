@@ -63,9 +63,9 @@ public class Server implements Runnable{
         int lastPosition = 150;
         int mapIncrement = 0;
         int yMapPosition = 0;
+        private final int FRAMERATE = 60;
 
-
-        ServerGame () {
+        ServerGame() {
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
 
@@ -77,13 +77,13 @@ public class Server implements Runnable{
                         player.update();
                     }
 
-                    ServerPacket packet = new ServerPacket();
+                    ServerPacket packet = new ServerPacket(players);
 
                     for (Client client : clients) {
                         client.send(packet);
                     }
                 }
-            });
+            }, 0, 1000 / FRAMERATE);
         }
 
         public void serverGameLoop() {
