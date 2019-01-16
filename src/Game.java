@@ -47,7 +47,9 @@ class Game extends JFrame {
 
         MyKeyListener keyListener = new MyKeyListener();
         this.addKeyListener(keyListener);
-        player = new Player();
+
+
+
         this.requestFocusInWindow(); //make sure the frame has focus
         this.setVisible(true);
 
@@ -74,6 +76,8 @@ class Game extends JFrame {
             this.mapName = mapName;
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
+            //replace placeholders
+            player = new Player("placeholder", "placeholder", map);
         }
 
         public void paintComponent(Graphics g) {
@@ -104,6 +108,21 @@ class Game extends JFrame {
             // shows orientation
             g.drawLine((int)player.getxPos(),300, (int) (player.getxPos() + 3000 * Math.cos(player.getOrientation())), (int) (300 + 3000 * Math.sin(player.getOrientation())));
 
+
+            for (int i = 0; i < 9; i++) {
+                if (map[playerYPos][i].getHitBox().intersects(player.getHitBox()) && !map[playerYPos][i].getDriveable() ) {
+                    if (player.getxPos() > map[playerYPos][i].getxPosition()) {
+
+                        player.setxPos(map[playerYPos][i].getxPosition() + 151);
+                        player.setOrientation(Math.PI - player.getOrientation());
+                        player.setAccel(-0.1);
+                    } else if (player.getxPos() == map[playerYPos][i].getxPosition()) {
+                        player.setxPos(player.getxPos() - 1);
+                    }
+                    //player.setxPos(map[playerYPos][i].getxPosition());
+                    player.setyPos(map[playerYPos][i].getHitBox().getY() + (player.getyPos() % 150) + 1);
+                }
+            }
             repaint();
             try {
                 Thread.sleep(5);

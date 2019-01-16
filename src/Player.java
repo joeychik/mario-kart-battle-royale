@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Player {
     private double xPos;
     private double yPos;
@@ -11,14 +13,17 @@ public class Player {
     private String name;
     private String characterSprite;
     private String carSprite;
+    private Rectangle hitBox;
 
-    Player(String characterSprite, String carSprite) {
+
+    Player(String characterSprite, String carSprite, MapComponent[][] map) {
         xPos = 250.0;
         yPos = 750.0;
         dimensions = 25;
         velocity = 0;
         accel = 0;
         brake = false;
+        hitBox = new Rectangle((int)xPos, (int)yPos, dimensions, dimensions);
         orientation = 0.5 * Math.PI;
         this.characterSprite = characterSprite;
         this.carSprite = carSprite;
@@ -63,6 +68,7 @@ public class Player {
         yPos += velocity * Math.sin(orientation);
 
         relativePosition = ((int) yPos) % 150;
+        hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
     }
 
     public double getxPos() {
@@ -147,5 +153,13 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
+    public void setHitBox(Rectangle hitBox) {
+        this.hitBox = hitBox;
     }
 }
