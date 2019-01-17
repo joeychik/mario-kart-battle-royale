@@ -3,7 +3,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
@@ -20,6 +19,10 @@ public class Server implements Runnable{
     public void startGame() {
         accepting = false;
         serverGame = new ServerGame();
+    }
+
+    public ServerGame getServerGame() {
+        return serverGame;
     }
 
     public void run() {
@@ -98,6 +101,10 @@ public class Server implements Runnable{
                     }
                 }
             }, 0, 1000 / FRAMERATE);
+        }
+
+        public MapComponent[][] getMap() {
+            return map;
         }
 
         public void collision(Player playerOne, Player playerTwo) {

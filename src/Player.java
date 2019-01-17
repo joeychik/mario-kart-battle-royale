@@ -13,7 +13,8 @@ public class Player {
     private String name;
     private String characterSprite;
     private String carSprite;
-    private Rectangle hitBox;
+    private transient Rectangle hitBox;
+    private transient MapComponent[][] map;
 
 
     Player(String characterSprite, String carSprite, MapComponent[][] map) {
@@ -27,6 +28,7 @@ public class Player {
         orientation = 0.5 * Math.PI;
         this.characterSprite = characterSprite;
         this.carSprite = carSprite;
+        this.map = map;
     }
 
     public void update() {
@@ -45,7 +47,11 @@ public class Player {
         }
 
 
-        if (((orientation < 0) && (orientation > -Math.PI)) || (((orientation > Math.PI)) && (orientation < (Math.PI * 2)))) {
+        if ((
+                (orientation < 0) && (orientation > -Math.PI)
+        ) || (
+                (orientation > Math.PI) && (orientation < Math.PI * 2)
+        )) {
             movingBackwards = true;
         } else {
             movingBackwards = false;

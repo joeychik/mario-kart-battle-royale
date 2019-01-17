@@ -14,7 +14,7 @@ public class Client {
     private Socket socket;
     private ConnectionHandler connectionHandler;
     private boolean running;
-    private Gson gson = new Gson();
+    private static Gson gson = new Gson();
     private JsonReader input;
     private JsonWriter output;
     private Player player;
@@ -35,7 +35,10 @@ public class Client {
         // set up client
         try {
             startClientPacket = gson.fromJson(input, StartClientPacket.class);
-            player = new Player(startClientPacket.getCharacterSprite(), startClientPacket.getCarSprite());
+            player = new Player(
+                    startClientPacket.getCharacterSprite(),
+                    startClientPacket.getCarSprite(),
+                    );
         } catch (Exception e) {
 
         }
