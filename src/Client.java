@@ -19,9 +19,11 @@ public class Client {
     private JsonWriter output;
     private Player player;
     private StartClientPacket startClientPacket;
+    private Server server;
 
-    Client(Socket socket) {
+    Client(Socket socket, Server server) {
         this.socket = socket;
+        this.server = server;
 
         // initialize json readers/writers and attach them to the socket's input/output streams
         try {
@@ -35,9 +37,11 @@ public class Client {
         // set up client
         try {
             startClientPacket = gson.fromJson(input, StartClientPacket.class);
+            MapComponent[][] map = server.getServerGame().getMap();
             player = new Player(
                     startClientPacket.getCharacterSprite(),
                     startClientPacket.getCarSprite(),
+                    map
                     );
         } catch (Exception e) {
 

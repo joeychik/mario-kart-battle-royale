@@ -14,11 +14,12 @@ public class Server implements Runnable{
 
     Server(String mapName) {
         this.mapName = mapName;
+        serverGame = new ServerGame();
     }
 
     public void startGame() {
         accepting = false;
-        serverGame = new ServerGame();
+        serverGame.start();
     }
 
     public ServerGame getServerGame() {
@@ -36,7 +37,7 @@ public class Server implements Runnable{
             while(accepting) {  //this loops to accept multiple clients
                 s = serverSock.accept();  //wait for connection
                 System.out.println("Client connected");
-                Client c = new Client(s);
+                Client c = new Client(s, this);
                 clients.add(c);
                 players.add(c.getPlayer());
 
@@ -59,7 +60,7 @@ public class Server implements Runnable{
         }
     }
 
-    private class ServerGame {
+    public class ServerGame {
         MapReader mapInfo;
         ServerPacket packet;
         MapComponent[][] map;
@@ -73,8 +74,10 @@ public class Server implements Runnable{
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
 
-
             gameLoopTimer = new Timer();
+        }
+
+        public void start() {
             gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
@@ -82,7 +85,7 @@ public class Server implements Runnable{
                     for (int i = 0; i < players.size() - 1; i++) {
                         // may want to make more efficient but it's probably not a big deal because we won't have a lot of players
                         if (players.get(i).getHitBox().intersects(players.get(i+1).getHitBox())) {
-                        //  collision(players.get(i), players.get(i+1));
+                            //  collision(players.get(i), players.get(i+1));
                             players.get(i).setOrientation((Math.PI * 0.5) * (players.get(i).getOrientation() / Math.abs(players.get(i).getOrientation())));
                             players.get(i).setBrake(true);
                             players.get(i+1).setOrientation((Math.PI * 0.5) * (players.get(i+1).getOrientation() / Math.abs(players.get(i + 1).getOrientation())));
