@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -25,6 +26,7 @@ public class Game extends JFrame {
     private static JFrame window;
     private JPanel gamePanel;
     private Player player;
+    private ServerConnection serverConnection;
 
     //Main
     public static void main(String[] args) {
@@ -35,22 +37,23 @@ public class Game extends JFrame {
 
     //Constructor - this runs first
     Game() {
-        super("Mario Kart");
-
-        // Set the frame to full screen
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1350, 600);
-        // this.setUndecorated(true);  //Set to true to remove title bar
-        // frame.setResizable(false);
-
-        //Set up the game panel (where we put our graphics)
-        gamePanel = new GamePanel("MapOne"); //placeholder
-        this.add(gamePanel);
-
-        MyKeyListener keyListener = new MyKeyListener();
-        this.addKeyListener(keyListener);
-        this.requestFocusInWindow(); //make sure the frame has focus
-        this.setVisible(true);
+        serverConnection = new ServerConnection("127.0.0.1", 5000);
+//        super("Mario Kart");
+//
+//        // Set the frame to full screen
+//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        this.setSize(1350, 600);
+//        // this.setUndecorated(true);  //Set to true to remove title bar
+//        // frame.setResizable(false);
+//
+//        //Set up the game panel (where we put our graphics)
+//        gamePanel = new GamePanel("MapOne"); //placeholder
+//        this.add(gamePanel);
+//
+//        MyKeyListener keyListener = new MyKeyListener();
+//        this.addKeyListener(keyListener);
+//        this.requestFocusInWindow(); //make sure the frame has focus
+//        this.setVisible(true);
     } //End of Constructor
 
 
@@ -64,6 +67,7 @@ public class Game extends JFrame {
         private Socket socket;
         private JsonReader input;
         private JsonWriter output;
+        private Gson gson;
 
         public ServerConnection(String serverIP, int port) {
             this.serverIP = serverIP;
@@ -74,7 +78,11 @@ public class Game extends JFrame {
                 input = new JsonReader(new InputStreamReader(socket.getInputStream()));
                 output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
 
+                System.out.println("connected");
 
+                StartClientPacket startClientPacket = new StartClientPacket("", "", "");
+
+                gson.toJson(startClientPacket, StartClientPacket.class, output);
             } catch (Exception e) {
                 System.err.println("problem connecting to server");
                 e.printStackTrace();

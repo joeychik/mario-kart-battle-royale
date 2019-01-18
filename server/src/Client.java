@@ -43,8 +43,9 @@ public class Client {
                     startClientPacket.getCarSprite(),
                     map
                     );
-        } catch (Exception e) {
-
+        } catch (JsonSyntaxException e) {
+            System.out.println("this isnt a json packet");
+            e.printStackTrace();
         }
     }
 
