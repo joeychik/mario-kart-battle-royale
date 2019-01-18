@@ -14,6 +14,8 @@ public class Server implements Runnable{
 
     Server(String mapName) {
         this.mapName = mapName;
+        clients = new ArrayList<>();
+        players = new ArrayList<>();
         serverGame = new ServerGame();
     }
 
@@ -29,11 +31,10 @@ public class Server implements Runnable{
     public void run() {
         System.out.println("Waiting for a client connection..");
 
-        Socket s = null;//hold the client connection
+        Socket s = null;
 
         try {
             serverSock = new ServerSocket(5000);  //assigns an port to the server
-            //serverSock.setSoTimeout(25000);  //25 second timeout
             while(accepting) {  //this loops to accept multiple clients
                 s = serverSock.accept();  //wait for connection
                 System.out.println("Client connected");
@@ -42,7 +43,7 @@ public class Server implements Runnable{
                 players.add(c.getPlayer());
 
                 for (Client client : clients) {
-                    client.send(c.getStartClientPacket());
+                    client.send(new StartServerPacket(mapName, players));
                 }
 
                 c.startThread();
