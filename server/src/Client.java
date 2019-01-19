@@ -18,13 +18,15 @@ public class Client {
     private JsonReader input;
     private JsonWriter output;
     private Player player;
+    OutputStreamWriter output2;
     private StartClientPacket startClientPacket;
+    StartServerPacket startServerPacketPacket;
     private Server server;
 
     Client(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
-
+        startClientPacket = new StartClientPacket("name", "place", "holder");
         // initialize json readers/writers and attach them to the socket's input/output streams
         try {
             input = new JsonReader(new InputStreamReader(socket.getInputStream()));
@@ -36,7 +38,7 @@ public class Client {
 
         // set up client
         try {
-            startClientPacket = gson.fromJson(input, StartClientPacket.class);
+           // startClientPacket = gson.fromJson(input, StartClientPacket.class);
             MapComponent[][] map = server.getServerGame().getMap();
             player = new Player(
                     startClientPacket.getName(),
@@ -65,7 +67,8 @@ public class Client {
         t.start();
     }
 
-    public void send(Packet packet) {
+    public void send(StartServerPacket packet) {
+        System.out.println(packet);
         connectionHandler.send(packet);
     }
 
@@ -75,6 +78,7 @@ public class Client {
         }
 
         public void run() {
+
             while(running) {  // loop unit a message is received
                 try {
                     // adds message to messageBuffer
@@ -109,10 +113,15 @@ public class Client {
             System.out.println(packet.getClass());
             gson.toJson(new WrapperPacket(packet), WrapperPacket.class, output);
             try {
+
+                //serializing object to send check api notes
+                output.beginObject();
+                gson.toJson(packet, packet.getClass(), output);
+                output.endObject();
                 output.flush();
+                output.close();
             } catch (IOException e) {
-                System.err.println("Packet failed to send");
-                e.printStackTrace();
+                System.out.println("failed to send packet");
             }
         }
     }

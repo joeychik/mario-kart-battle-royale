@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+class ServerRun {
+    public static void main (String[] args) {
+        Server server = new Server("res/mapone.txt");
+        server.run();
+    }
+}
+
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;
@@ -107,7 +115,7 @@ public class Server implements Runnable{
                     ServerPacket packet = new ServerPacket(players);
 
                     for (Client client : clients) {
-                        client.send(new ServerPacket(players));
+                    //    client.send(new ServerPacket(players));
                     }
                 }
             }, 0, 1000 / FRAMERATE);
