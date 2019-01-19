@@ -50,11 +50,11 @@ public class Server implements Runnable{
                 clients.add(c);
                 players.add(c.getPlayer());
 
+                c.startThread();
+
                 for (Client client : clients) {
                     client.send(new StartServerPacket(mapName, players));
                 }
-
-                c.startThread();
             }
         } catch (Exception e) {
             System.out.println("Error accepting connection");
@@ -109,7 +109,7 @@ public class Server implements Runnable{
                     ServerPacket packet = new ServerPacket(players);
 
                     for (Client client : clients) {
-                        client.send(new ServerPacket(players));
+                    //    client.send(new ServerPacket(players));
                     }
                 }
             }, 0, 1000 / FRAMERATE);
