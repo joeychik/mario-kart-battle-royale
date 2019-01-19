@@ -1,2 +1,2 @@
-public class Packet {
+public interface Packet {
 }

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class StartServerPacket extends Packet{
+public class StartServerPacket implements Packet{
     private String map;
     private ArrayList<Player> playerList;
 

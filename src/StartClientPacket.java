@@ -1,4 +1,4 @@
-public class StartClientPacket extends Packet{
+public class StartClientPacket implements Packet{
     private String name;
     private String characterSprite;
     private String carSprite;

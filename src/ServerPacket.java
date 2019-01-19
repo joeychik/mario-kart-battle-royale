@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class ServerPacket extends Packet{
+public class ServerPacket implements Packet{
     ArrayList<Player> playerList;
 
     public ServerPacket(ArrayList<Player> playerList) {

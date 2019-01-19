@@ -107,7 +107,7 @@ public class Client {
 
         public void send(Packet packet) {
             System.out.println(packet.getClass());
-            gson.toJson(packet, packet.getClass(), output);
+            gson.toJson(new WrapperPacket(packet), WrapperPacket.class, output);
             try {
                 output.flush();
             } catch (IOException e) {
