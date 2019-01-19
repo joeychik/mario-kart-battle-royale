@@ -1,4 +1,6 @@
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -7,14 +9,14 @@ import java.awt.event.KeyListener;
 
 
 //Graphics &GUI imports
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 //Keyboard imports
 
@@ -68,10 +70,12 @@ public class Game extends JFrame {
         private JsonReader input;
         private JsonWriter output;
         private Gson gson;
+        private boolean recieving = true;
 
         public ServerConnection(String serverIP, int port) {
             this.serverIP = serverIP;
             this.port = port;
+            this.gson = new Gson();
 
             try {
                 socket = new Socket(serverIP, port);
@@ -80,9 +84,12 @@ public class Game extends JFrame {
 
                 System.out.println("connected");
 
-                StartClientPacket startClientPacket = new StartClientPacket("", "", "");
+                StartClientPacket startClientPacket = new StartClientPacket("asdf", "", "");
 
                 gson.toJson(startClientPacket, StartClientPacket.class, output);
+                output.flush();
+
+                run();
             } catch (Exception e) {
                 System.err.println("problem connecting to server");
                 e.printStackTrace();
@@ -91,7 +98,14 @@ public class Game extends JFrame {
 
         @Override
         public void run() {
-
+            while (recieving) {
+                try {
+                    StartServerPacket startServerPacket = gson.fromJson(input, StartServerPacket.class);
+                    System.out.println(startServerPacket.getPlayerList().get(0).getName());
+                } catch (JsonSyntaxException | JsonIOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

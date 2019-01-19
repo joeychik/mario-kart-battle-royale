@@ -16,7 +16,7 @@ public class GamePanel extends JPanel {
         mapInfo = new MapReader(mapName);
         map = mapInfo.getMap();
         //replace placeholders
-        player = new Player("placeholder", "placeholder", map);
+        player = new Player("placeholder", "placeholder", "placeholder", map);
     }
 
     public void paintComponent(Graphics g) {

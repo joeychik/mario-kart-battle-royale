@@ -1,2 +1,2 @@
-public abstract class Packet {
+public class Packet {
 }

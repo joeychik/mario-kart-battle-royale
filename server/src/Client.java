@@ -39,6 +39,7 @@ public class Client {
             startClientPacket = gson.fromJson(input, StartClientPacket.class);
             MapComponent[][] map = server.getServerGame().getMap();
             player = new Player(
+                    startClientPacket.getName(),
                     startClientPacket.getCharacterSprite(),
                     startClientPacket.getCarSprite(),
                     map
@@ -79,7 +80,7 @@ public class Client {
                     // adds message to messageBuffer
                     ClientPacket clientPacket = gson.fromJson(input, ClientPacket.class);
                     System.out.println("got message");
-                    // todo process the received packet
+
                 } catch (JsonIOException e) {
                     System.err.println("Failed to receive msg from the socket");
                     e.printStackTrace();
@@ -105,6 +106,7 @@ public class Client {
         }
 
         public void send(Packet packet) {
+            System.out.println(packet.getClass());
             gson.toJson(packet, packet.getClass(), output);
             try {
                 output.flush();

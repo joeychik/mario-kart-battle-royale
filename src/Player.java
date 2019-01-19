@@ -17,7 +17,7 @@ public class Player {
     private transient MapComponent[][] map;
 
 
-    Player(String characterSprite, String carSprite, MapComponent[][] map) {
+    Player(String name, String characterSprite, String carSprite, MapComponent[][] map) {
         xPos = 250.0;
         yPos = 750.0;
         dimensions = 25;
@@ -29,6 +29,7 @@ public class Player {
         this.characterSprite = characterSprite;
         this.carSprite = carSprite;
         this.map = map;
+        this.name = name;
     }
 
     public void update() {

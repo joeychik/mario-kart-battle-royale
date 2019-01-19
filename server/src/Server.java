@@ -12,11 +12,17 @@ public class Server implements Runnable{
     private ArrayList<Player> players;
     private Boolean accepting = true;
 
+    public static void main(String[] args) {
+        new Server("MapOne.txt");
+        System.out.println("running");
+    }
+
     Server(String mapName) {
         this.mapName = mapName;
         clients = new ArrayList<>();
         players = new ArrayList<>();
         serverGame = new ServerGame();
+        run();
     }
 
     public void startGame() {
@@ -42,11 +48,11 @@ public class Server implements Runnable{
                 clients.add(c);
                 players.add(c.getPlayer());
 
+                c.startThread();
+
                 for (Client client : clients) {
                     client.send(new StartServerPacket(mapName, players));
                 }
-
-                c.startThread();
             }
         } catch (Exception e) {
             System.out.println("Error accepting connection");
