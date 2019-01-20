@@ -33,7 +33,8 @@ class PanelTester {
         private  JPanel characterPanel;
         private JPanel serverPanel;
         private JPanel controlPanel;
-
+        private JPanel carPanel;
+        
         public Game2() {
             super("MarioKart");
 
@@ -52,6 +53,9 @@ class PanelTester {
 //            this.loginPanel = new LoginPanel(this);
 //            this.pmPanel = new PMPanel(this);
             this.menuPanel = new MenuPanel(this);
+            this.characterPanel = new CharacterPanel(this);
+            this.carPanel = new CarPanel(this);
+
 
 
             //set displayed panel to menu
@@ -63,6 +67,10 @@ class PanelTester {
                     closeWindow();
                 }
             });
+            
+            
+            
+            
 
             this.setVisible(true);
         }
@@ -86,6 +94,9 @@ class PanelTester {
                 case 4:
                     switchPanel(characterPanel);
                     return;
+                case 5:
+                	switchPanel(carPanel);
+                	return;
                 default:
                     throw new IndexOutOfBoundsException();
             }

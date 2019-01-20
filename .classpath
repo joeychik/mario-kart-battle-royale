@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="client/src"/>
+	<classpathentry kind="src" path="server/src"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Users/yasharora/Desktop/gson-2.6.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

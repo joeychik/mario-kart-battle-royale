@@ -1,4 +1,4 @@
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO; 
 import javax.swing.*;
 
 
@@ -95,7 +95,7 @@ public class MenuPanel extends JPanel {
                     window.setControlPanel(new ControlPanel(window));
                     window.changeState(1);
                 } else if (e.getSource() == joinGame) {
-                    window.changeState(2);
+                    window.changeState(4);
                 } else if (e.getSource() == createGame) {
                     window.changeState(3);
                 }
