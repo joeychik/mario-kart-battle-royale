@@ -9,13 +9,21 @@ import java.io.IOException;
 
 public class CharacterPanel extends JPanel {
 
+    /*
+    --------FOR YASH--------
+    This is the player and car selection class, can you make it look pretty?
+    Each character should correspond to a sprite file url
+    i made some player cards in the res folder if you wanna see and work off of those
+
+     */
+
     private Game2 window;
     private JLayeredPane pane;
     Action action;
 
-    JButton controlScreen;
-    JButton joinGame;
-    JButton createGame;
+    JButton brickBlock;
+    JButton coinBlock;
+    JButton pipe;
     Image background;
 
     String characterSprite;
@@ -48,14 +56,14 @@ public class CharacterPanel extends JPanel {
     private class Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == controlScreen) {
-                window.setControlPanel(new ControlPanel(window));
-                window.changeState(1);
-            } else if (e.getSource() == joinGame) {
-                window.changeState(2);
-            } else if (e.getSource() == createGame) {
-                window.changeState(3);
-            }
+//            if (e.getSource() == controlScreen) {
+//                window.setControlPanel(new ControlPanel(window));
+//                window.changeState(1);
+//            } else if (e.getSource() == joinGame) {
+//                window.changeState(2);
+//            } else if (e.getSource() == createGame) {
+//                window.changeState(3);
+//            }
         }
     }
 
