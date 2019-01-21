@@ -5,7 +5,7 @@ import java.util.*;
 
 class ServerRun {
     public static void main (String[] args) {
-        Server server = new Server("res/mapone.txt");
+        Server server = new Server("MapOne.txt");
         server.run();
     }
 }

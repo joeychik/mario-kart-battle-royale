@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel {
     private String mapName;
@@ -11,17 +13,22 @@ public class GamePanel extends JPanel {
     private Player player;
 
     GamePanel(String mapName, Player player) {
-        this.player = player;
+    	this.player = player;
         this.mapName = mapName;
         mapInfo = new MapReader(mapName);
         map = mapInfo.getMap();
+        this.addKeyListener(new MyKeyListener());
+
         //replace placeholders
-        player = new Player("placeholder", "placeholder", "placeholder", map);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g); //required
         setDoubleBuffered(true);
+        
+        this.setFocusable(true);
+        this.requestFocus(true);
+        this.requestFocusInWindow(true);
 
         player.update();
 
@@ -69,5 +76,37 @@ public class GamePanel extends JPanel {
             System.out.println("idk thread interruption");
         }
     }
+    
+    private class MyKeyListener implements KeyListener {
+        public void keyTyped(KeyEvent e) {
+            if (e.getKeyChar() == 'w') {
+            	
+            	System.out.println("registered w");
+                player.setBrake(false);
+                player.setAccel(0.45);
+            }
+
+            if (e.getKeyChar() == 's') {
+                player.setBrake(false);
+                player.setAccel(-0.1);
+            }
+
+            if (e.getKeyChar() == 'd') {
+                player.setOrientation(player.getOrientation() + 0.1);
+            }
+
+            if (e.getKeyChar() == 'a') {
+                player.setOrientation(player.getOrientation() - 0.1);
+            }
+
+        }
+
+        public void keyPressed(KeyEvent e) { }
+
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyChar() == 'w' || e.getKeyChar() == 's')
+            player.setBrake(true);
+        }
+    } //end of keyboard listener
 
 }

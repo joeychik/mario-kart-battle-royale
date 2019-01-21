@@ -1,4 +1,4 @@
-import com.google.gson.Gson; 
+import com.google.gson.Gson;  
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
@@ -43,8 +43,7 @@ public class Client {
             player = new Player(
                     startClientPacket.getName(),
                     startClientPacket.getCharacterSprite(),
-                    startClientPacket.getCarSprite(),
-                    map
+                    startClientPacket.getCarSprite()
                     );
         } catch (JsonSyntaxException e) {
             System.out.println("this isnt a json packet");
