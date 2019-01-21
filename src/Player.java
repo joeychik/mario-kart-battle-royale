@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private double xPos;
     private double yPos;
     private int dimensions;
@@ -15,7 +16,10 @@ public class Player {
     private String carSprite;
     private transient Rectangle hitBox;
     private transient MapComponent[][] map;
-
+    private transient ArrayList<MapComponent> markerList = new ArrayList<>();
+    private MapComponent lastMarker;
+    private int markersPassed;
+    private int lapsCompleted;
 
     Player(String name, String characterSprite, String carSprite, MapComponent[][] map) {
         xPos = 250.0;
@@ -23,7 +27,10 @@ public class Player {
         dimensions = 25;
         velocity = 0;
         accel = 0;
+        markersPassed = 0;
+        lapsCompleted = 0;
         brake = false;
+        lastMarker = null;
         hitBox = new Rectangle((int)xPos, (int)yPos, dimensions, dimensions);
         orientation = 0.5 * Math.PI;
         this.characterSprite = characterSprite;
@@ -168,5 +175,44 @@ public class Player {
 
     public void setHitBox(Rectangle hitBox) {
         this.hitBox = hitBox;
+    }
+
+    public ArrayList<MapComponent> getMarkerList() {
+        return markerList;
+    }
+
+    public int getMarkersPassed() {
+        return markersPassed;
+    }
+
+    public void setMarkersPassed(int markersPassed) {
+        this.markersPassed = markersPassed;
+    }
+
+    public int getLapsCompleted() {
+        return lapsCompleted;
+    }
+
+    public void setLapsCompleted(int lapsCompleted) {
+        this.lapsCompleted = lapsCompleted;
+    }
+
+    public MapComponent getLastMarker() {
+        return lastMarker;
+    }
+
+    public void setLastMarker(MapComponent lastMarker) {
+        this.lastMarker = lastMarker;
+    }
+
+    @Override
+    public int compareTo(Player player) {
+        if (this.getMarkerList().size() < player.getMarkerList().size()) {
+            return -1;
+        } else if (this.getMarkerList().size() > player.getMarkerList().size()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

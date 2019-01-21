@@ -1,8 +1,6 @@
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 class ServerRun {
@@ -83,12 +81,14 @@ public class Server implements Runnable{
         int lastPosition = 150;
         int mapIncrement = 0;
         int yMapPosition = 0;
+        int xMapPosition = 0;
         private final int FRAMERATE = 60;
+        private ArrayList<MapComponent> masterMarkerList = new ArrayList<>();
 
         ServerGame() {
             mapInfo = new MapReader(mapName);
             map = mapInfo.getMap();
-
+            masterMarkerList = mapInfo.getMarkerList();
             gameLoopTimer = new Timer();
         }
 
@@ -111,6 +111,25 @@ public class Server implements Runnable{
                     for (Player player : players) {
                         player.update();
                     }
+
+                    for (Player p : players) {
+                        yMapPosition = ((int)p.getyPos() /150) - 1;
+                        xMapPosition = ((int)p.getxPos()/150) - 1;
+                        if (map[yMapPosition][xMapPosition] instanceof Marker) {
+                                for (MapComponent check: p.getMarkerList()) {
+                                    if (p.getHitBox().intersects(check.getHitBox())) {
+                                        p.setMarkersPassed(p.getMarkersPassed() + 1);
+                                        p.getMarkerList().remove(check);
+                                    }
+                            }
+                        } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
+                            for (MapComponent marker: masterMarkerList) {
+                                p.getMarkerList().add(marker);
+                            }
+                        }
+                    }
+
+                    Collections.sort(players);
 
                     ServerPacket packet = new ServerPacket(players);
 
