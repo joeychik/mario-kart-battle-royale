@@ -21,7 +21,7 @@ public class Player implements Comparable<Player> {
     private int markersPassed;
     private int lapsCompleted;
 
-    Player(String name, String characterSprite, String carSprite, MapComponent[][] map) {
+    Player(String name, String characterSprite, String carSprite) {
         xPos = 250.0;
         yPos = 750.0;
         dimensions = 25;
@@ -35,7 +35,6 @@ public class Player implements Comparable<Player> {
         orientation = 0.5 * Math.PI;
         this.characterSprite = characterSprite;
         this.carSprite = carSprite;
-        this.map = map;
         this.name = name;
     }
 

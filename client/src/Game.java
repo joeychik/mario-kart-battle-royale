@@ -37,6 +37,7 @@ public class Game extends JFrame {
 
     //Constructor - this runs first
     Game() {
+        player = new Player("asdf", "", "");
         serverConnection = new ServerConnection("127.0.0.1", 5000);
 //        super("Mario Kart");
 //
