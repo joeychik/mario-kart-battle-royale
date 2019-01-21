@@ -14,6 +14,10 @@ public class MapReader {
     ArrayList<MapComponent> markerList = new ArrayList<>();
     ArrayList<MapComponent> markerListRight = new ArrayList<>();
 
+    /**
+     * Constructor
+     * @param fileName
+     */
     MapReader (String fileName) {
         this.fileName = fileName;
 
@@ -26,6 +30,11 @@ public class MapReader {
         }
     }
 
+    /**
+     * readMap
+     * Constructs a 2D array out of a text file
+     * @throws Exception
+     */
     void readMap() throws Exception{
         String line;
         ArrayList<String> mapChar = new ArrayList<>();
@@ -37,7 +46,7 @@ public class MapReader {
         int rightIndex = 0;
 
 
-
+        //calculates the length of the text file for the array
         while (fileReader.hasNextLine()) {
             line = fileReader.nextLine();
             length++;
@@ -45,24 +54,30 @@ public class MapReader {
             mapChar.add(line);
         }
 
-        System.out.println(length + " " + width);
-
+        //creates array
         mapLayout = new MapComponent[length][width];
+
+        //initializes all objects in the array
         for (int i = 0; i < length; i++) {
             marker = false;
             for (int j = 0; j <= width -  1; j++) {
+
+                //road
                 if (mapChar.get(index).substring(j, j + 1).equals("r")){
                     mapLayout[i][j] = new Road(150, j * 150, i * 150, true);
 
+                    //wall
                 } else if (mapChar.get(index).substring(j, j + 1).equals("w")) {
                     mapLayout[i][j] = new Wall(150, j * 150, i * 150, false);
 
+                    //road marker
                 } else if (mapChar.get(index).substring(j, j + 1).equals("m")) {
                     mapLayout[i][j] = new Marker(150, j * 150, i * 150, true, markerNum);
                     if (!marker) {
                         markerList.add(mapLayout[i][j]);
                     }
 
+                    //finish marker
                 } else if (mapChar.get(index).substring(j, j + 1).equals("f")) {
                     mapLayout[i][j] = new FinishMarker (150, j * 150, i * 150, true);
                 }
@@ -73,6 +88,7 @@ public class MapReader {
             index++;
         }
 
+        //adjusts hit boxes for markers to make it easier to detect intersections in the game
         for (MapComponent m : markerList) {
             rightIndex = m.getxPosition();
             while (!(mapLayout[(m.getyPosition()/150) - 1][rightIndex] instanceof Wall)) {
