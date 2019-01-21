@@ -52,7 +52,7 @@ class PanelTester {
             this.controlPanel = new ControlPanel(this);
             this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
             this.joinGamePanel = new JoinGamePanel(this);
-            this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"));
+            this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"), this);
             
             changeState(0);
 

@@ -4,6 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -11,10 +12,14 @@ import java.awt.event.KeyListener;
 //Graphics &GUI imports
 import javax.swing.*;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //Keyboard imports
 
@@ -22,42 +27,147 @@ import java.net.Socket;
 //Util
 
 public class Game extends JFrame {
+    private final int UPDATE_RATE = 60; // times the server is updated per second
+
     //class variables
-    private static JFrame window;
-    private JPanel gamePanel;
+    JPanel menuPanel;
+    JPanel joinGamePanel;
+    CharacterPanel characterPanel;
+    JPanel serverPanel;
+    JPanel controlPanel;
+    CarPanel carPanel;
+    JPanel createGamePanel;
+    GamePanel gamePanel;
+    
+    
     private Player player;
     private ServerConnection serverConnection;
+    private Timer gameLoopTimer;
 
     //Main
     public static void main(String[] args) {
         System.out.println("The game is running.");
-        window = new Game();
-
+        new Game();
     }
 
     //Constructor - this runs first
     Game() {
+        super("MarioKart");
         player = new Player("asdf", "", "");
-        serverConnection = new ServerConnection("127.0.0.1", 5000);
-//        super("Mario Kart");
-//
-//        // Set the frame to full screen
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setSize(1350, 600);
-//        // this.setUndecorated(true);  //Set to true to remove title bar
-//        // frame.setResizable(false);
-//
-//        //Set up the game panel (where we put our graphics)
-//        gamePanel = new GamePanel("MapOne"); //placeholder
-//        this.add(gamePanel);
-//
-//        MyKeyListener keyListener = new MyKeyListener();
-//        this.addKeyListener(keyListener);
-//        this.requestFocusInWindow(); //make sure the frame has focus
-//        this.setVisible(true);
+
+        this.setLocation(0, 0);
+        this.setSize(new Dimension(800, 600));
+        this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+
+//        this.menuPanel = new MenuPanel(this);
+//        this.characterPanel = new CharacterPanel(this);
+//        this.carPanel = new CarPanel(this);
+//        this.controlPanel = new ControlPanel(this);
+//        this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
+//        this.joinGamePanel = new JoinGamePanel(this);
+//        this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"));
+
+        changeState(0);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
+
+
+
+
+
+        this.setVisible(true);
     } //End of Constructor
 
+    public void startRace() {
+        gameLoopTimer = new Timer();
+        gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                serverConnection.send(new ClientPacket(
+                        player.getVelocity(),
+                        player.getAccel(),
+                        player.getOrientation(),
+                        player.isBrake()
+                ));
+            }
+        }, 0, 1000 / UPDATE_RATE);
+    }
 
+    public void connectToGame(String serverIP, int port) {
+        serverConnection = new ServerConnection(serverIP, port);
+    }
+
+    public void changeState(int state) {
+        switch (state) {
+            case 0:
+                switchPanel(menuPanel);
+                return;
+            case 1:
+                switchPanel(controlPanel);
+                return;
+            case 2:
+                switchPanel(joinGamePanel);
+                return;
+            case 3:
+                switchPanel(serverPanel);
+                return;
+            case 4:
+                switchPanel(characterPanel);
+                return;
+            case 5:
+                switchPanel(carPanel);
+                return;
+            case 6:
+                switchPanel(createGamePanel);
+                return;
+            case 7:
+                switchPanel(gamePanel);
+                return;
+            default:
+                throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private void switchPanel(JPanel newPanel) {
+        getContentPane().removeAll();
+        newPanel.setPreferredSize(new Dimension(800, 600));
+        getContentPane().add(newPanel, BorderLayout.EAST);
+        newPanel.setVisible(true);
+
+        getContentPane().revalidate();
+        getContentPane().repaint();
+    }
+
+    private void closeWindow() {
+        dispose();
+    }
+
+    public void setMenuPanel(JPanel menuPanel) {
+        this.menuPanel = menuPanel;
+    }
+
+    public void setJoinGamePanel(JPanel joinGamePanel) {
+        this.joinGamePanel = joinGamePanel;
+    }
+
+    public void setCharacterPanel(CharacterPanel characterPanel) {
+        this.characterPanel = characterPanel;
+    }
+
+    public void setServerPanel(JPanel serverPanel) {
+        this.serverPanel = serverPanel;
+    }
+
+    public void setControlPanel(JPanel controlPanel) {
+        this.controlPanel = controlPanel;
+    }
 
     /** --------- INNER CLASSES ------------- **/
 

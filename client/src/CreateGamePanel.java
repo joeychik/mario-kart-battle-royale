@@ -75,6 +75,7 @@ public class CreateGamePanel extends JPanel {
             g.drawImage(Utilities.getCarImages()[carNumber], 100, 150, 200, 300, null);
             g.drawImage(Utilities.getCharacterSpriteImages()[characterNumber], 50 + 100, 100 + 150, 100, 100, null);
 
+            
            // g.fillRect(0, 0, 800, 600);
             
             

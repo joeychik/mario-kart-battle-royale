@@ -1,4 +1,4 @@
-import java.awt.*; 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player implements Comparable<Player> {
@@ -20,6 +20,7 @@ public class Player implements Comparable<Player> {
     private MapComponent lastMarker;
     private int markersPassed;
     private int lapsCompleted;
+    private boolean finishedRace;
 
     Player(String name, String characterSprite, String carSprite) {
         xPos = 250.0;
@@ -30,6 +31,7 @@ public class Player implements Comparable<Player> {
         markersPassed = 0;
         lapsCompleted = 0;
         brake = false;
+        finishedRace = false;
         lastMarker = null;
         hitBox = new Rectangle((int)xPos, (int)yPos, dimensions, dimensions);
         orientation = 0.5 * Math.PI;
@@ -202,6 +204,22 @@ public class Player implements Comparable<Player> {
 
     public void setLastMarker(MapComponent lastMarker) {
         this.lastMarker = lastMarker;
+    }
+
+    public double getAccel() {
+        return accel;
+    }
+
+    public boolean isBrake() {
+        return brake;
+    }
+
+    public boolean isFinishedRace() {
+        return finishedRace;
+    }
+
+    public void setFinishedRace(boolean finishedRace) {
+        this.finishedRace = finishedRace;
     }
 
     @Override

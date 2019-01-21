@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;
@@ -117,6 +115,7 @@ public class Server implements Runnable{
         Timer gameLoopTimer;
         int yMapPosition = 0;
         int xMapPosition = 0;
+        int playersFinished = 0;
         private final int FRAMERATE = 60;
         private ArrayList<MapComponent> masterMarkerList = new ArrayList<>();
 
@@ -138,6 +137,11 @@ public class Server implements Runnable{
             gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
+
+                    if (playersFinished == players.size()) {
+                        //finished game code
+                        gameLoopTimer.cancel();
+                    }
 
                     //player - player hit detection
                     for (int i = 0; i < players.size() - 1; i++) {
@@ -185,7 +189,10 @@ public class Server implements Runnable{
                         } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
                             //increase laps completed by one
                             p.setLapsCompleted(p.getLapsCompleted() + 1);
-
+                            if (p.getLapsCompleted() == lapCount) {
+                                p.setFinishedRace(true);
+                                playersFinished++;
+                            }
                             //re initializes player's arraylist of markers
                             for (MapComponent marker: masterMarkerList) {
                                 p.getMarkerList().add(marker);
@@ -193,7 +200,7 @@ public class Server implements Runnable{
                         }
                     }
 
-                    //sorts players in array by number of marker's passed
+                    //sorts players in array by number of markers passed
                     Collections.sort(players);
 
                     //creates a new packet to send
