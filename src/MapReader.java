@@ -23,9 +23,12 @@ public class MapReader {
 
         // creates file reader to initiate map
         try {
-            fileReader = new Scanner(new File("res/" + fileName));
+            //fileReader = new Scanner(new File("res/" + fileName));
+            fileReader = new Scanner(new File(fileName));
+
             readMap();
         } catch (Exception e) {
+        	e.printStackTrace();
             System.err.println("error finding map file");
         }
     }
