@@ -35,6 +35,7 @@ class PanelTester {
          JPanel controlPanel;
          CarPanel carPanel;
          JPanel createGamePanel;
+         GamePanel gamePanel;
 
         public Game2() {
             super("MarioKart");
@@ -51,7 +52,8 @@ class PanelTester {
             this.controlPanel = new ControlPanel(this);
             this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
             this.joinGamePanel = new JoinGamePanel(this);
-
+            this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"));
+            
             changeState(0);
 
             addWindowListener(new WindowAdapter() {
@@ -92,6 +94,9 @@ class PanelTester {
                 	return;
                 case 6:
                 	switchPanel(createGamePanel);
+                	return;
+                case 7:
+                	switchPanel(gamePanel);
                 	return;
                 default:
                     throw new IndexOutOfBoundsException();
