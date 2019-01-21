@@ -30,11 +30,12 @@ class PanelTester {
 
         private JPanel menuPanel;
         private JPanel joinGamePanel;
-        private  JPanel characterPanel;
+        private JPanel characterPanel;
         private JPanel serverPanel;
         private JPanel controlPanel;
         private JPanel carPanel;
-        
+        private JPanel createGamePanel;
+
         public Game2() {
             super("MarioKart");
 
@@ -52,11 +53,14 @@ class PanelTester {
 //            //generate panels
 //            this.loginPanel = new LoginPanel(this);
 //            this.pmPanel = new PMPanel(this);
+            
+            
             this.menuPanel = new MenuPanel(this);
             this.characterPanel = new CharacterPanel(this);
             this.carPanel = new CarPanel(this);
-
-
+            this.controlPanel = new ControlPanel(this);
+            this.createGamePanel = new ControlPanel(this); // NEEDS TO BE CHANGED
+            this.joinGamePanel = new JoinGamePanel(this);
 
             //set displayed panel to menu
             changeState(0);
@@ -96,6 +100,9 @@ class PanelTester {
                     return;
                 case 5:
                 	switchPanel(carPanel);
+                	return;
+                case 6:
+                	switchPanel(createGamePanel);
                 	return;
                 default:
                     throw new IndexOutOfBoundsException();
