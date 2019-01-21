@@ -70,6 +70,7 @@ public class CharacterPanel extends JPanel {
         if (selectCharacter.getSelectedItemValue() != -1 && hasQuit == false) {
         	hasQuit = true;
         	setCharacterValue(selectCharacter.getSelectedItemValue());
+        	System.out.println(characterValue);
         	window.changeState(5);
         }
 

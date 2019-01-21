@@ -28,13 +28,14 @@ class PanelTester {
      */
     public class Game2 extends JFrame {
 
-        private JPanel menuPanel;
-        private JPanel joinGamePanel;
-        private JPanel characterPanel;
-        private JPanel serverPanel;
-        private JPanel controlPanel;
-        private JPanel carPanel;
-        private JPanel createGamePanel;
+         JPanel menuPanel;
+         JPanel joinGamePanel;
+         CharacterPanel characterPanel;
+         JPanel serverPanel;
+         JPanel controlPanel;
+         CarPanel carPanel;
+         JPanel createGamePanel;
+         GamePanel gamePanel;
 
         public Game2() {
             super("MarioKart");
@@ -44,25 +45,15 @@ class PanelTester {
             this.setResizable(false);
             this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             this.setLayout(new BorderLayout());
-
-
-
-//            this.dashboardPanel = new DashBoardPanel(this);
-//
-//
-//            //generate panels
-//            this.loginPanel = new LoginPanel(this);
-//            this.pmPanel = new PMPanel(this);
-            
             
             this.menuPanel = new MenuPanel(this);
             this.characterPanel = new CharacterPanel(this);
             this.carPanel = new CarPanel(this);
             this.controlPanel = new ControlPanel(this);
-            this.createGamePanel = new ControlPanel(this); // NEEDS TO BE CHANGED
+            this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
             this.joinGamePanel = new JoinGamePanel(this);
-
-            //set displayed panel to menu
+            this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"));
+            
             changeState(0);
 
             addWindowListener(new WindowAdapter() {
@@ -104,6 +95,9 @@ class PanelTester {
                 case 6:
                 	switchPanel(createGamePanel);
                 	return;
+                case 7:
+                	switchPanel(gamePanel);
+                	return;
                 default:
                     throw new IndexOutOfBoundsException();
             }
@@ -132,7 +126,7 @@ class PanelTester {
             this.joinGamePanel = joinGamePanel;
         }
 
-        public void setCharacterPanel(JPanel characterPanel) {
+        public void setCharacterPanel(CharacterPanel characterPanel) {
             this.characterPanel = characterPanel;
         }
 

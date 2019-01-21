@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +18,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class JoinGamePanel extends JPanel {
+public class CreateGamePanel extends JPanel {
         private Game2 window;
         private JLayeredPane pane;
         Action action;
@@ -25,12 +26,15 @@ public class JoinGamePanel extends JPanel {
         Image background;
         JPanel panel;
         String ip;
-        JTextField field;
-        CustomButton message;
-        CustomButton back;
+        CustomButton ready;
+        
+        ArrayList<int[]> players = new ArrayList<int[]>();
 
+        int characterNumber;
+        int carNumber;
 
-        JoinGamePanel(Game2 window) {
+        CreateGamePanel(Game2 window) {
+        	
         	
         	this.panel = this;
             this.window = window;
@@ -39,29 +43,19 @@ public class JoinGamePanel extends JPanel {
             pane = new JLayeredPane();
             pane.setBounds(0, 0, 800, 600);
 
-//            try {
-//                background = ImageIO.read(new File("res/menubackground.png"));
-//            } catch (IOException e) {
-//                System.err.println("Error loading image");
-//            }
+            try {
+                background = ImageIO.read(new File("res/lobbyScreen.png"));
+            } catch (IOException e) {
+                System.err.println("Error loading image");
+            }
+            
 
-            field = new JTextField(8);
-            field.setBounds(new Rectangle(300, 200, 200, 60));
-            field.setOpaque(false);
-            field.setBorder(BorderFactory.createLineBorder(Color.white, 2));
-            field.setBackground(null);
-            field.setFont(new Font("SansSerif", Font.BOLD, 20));
-        	field.setHorizontalAlignment(JTextField.CENTER);
-            field.setForeground(Color.white);
 
-            pane.add(field);
             add(pane);
             pane.setVisible(true);
             
             
-            message = new CustomButton("Join", 300, 300, 200, 60);
-            back = new CustomButton("Menu", 650, 0, 150, 60);
-            
+            ready = new CustomButton("Ready", 650, 520, 150, 60);            
             
             this.setVisible(true);
 
@@ -70,11 +64,21 @@ public class JoinGamePanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            //g.drawImage(background, 0,0, 800, 600, null);
+            
+            characterNumber = window.characterPanel.getCharacterValue();
+            carNumber = window.carPanel.getCarValue();
+//            g.setColor(Color.WHITE);
+//            g.fillRect(0, 0, 800, 600);
+            g.drawImage(background, 0, 0, 800, 600, null);
+            
+            
+            g.drawImage(Utilities.getCarImages()[carNumber], 100, 150, 200, 300, null);
+            g.drawImage(Utilities.getCharacterSpriteImages()[characterNumber], 50 + 100, 100 + 150, 100, 100, null);
 
-            g.fillRect(0, 0, 800, 600);
-            message.draw(g, panel);
-            back.draw(g, panel);
+           // g.fillRect(0, 0, 800, 600);
+            
+            
+            ready.draw(g, panel);
             repaint();
         }
         
@@ -89,10 +93,8 @@ public class JoinGamePanel extends JPanel {
              * @param e mouse event which occurred
              */
             public void mouseClicked(MouseEvent e) {
-            	if (back.isMouseOnButton(panel)) {
-            		window.changeState(0);
-            	} else if (message.isMouseOnButton(panel)) {
-            		// DO SOMETHING HERE
+            	if (ready.isMouseOnButton(panel)) {
+            		window.changeState(7);
             	}
             }
 

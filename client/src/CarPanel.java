@@ -66,7 +66,7 @@ public class CarPanel extends JPanel {
         
         if (selectCar.getSelectedItemValue() != -1) {
         	setCarValue(selectCar.getSelectedItemValue());
-        	window.changeState(1);
+        	window.changeState(6);
         }
 
         repaint();

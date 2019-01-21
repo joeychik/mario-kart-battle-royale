@@ -91,9 +91,8 @@ public class MenuPanel extends JPanel {
                 } else if (joinGame.isMouseOnButton(panel)) {
                 	window.changeState(2);
                 } else if (createGame.isMouseOnButton(panel)) {
-                	window.changeState(6);
+                	window.changeState(4); // go to character
                 } else {
-                	window.changeState(4);
                 }
             }
 

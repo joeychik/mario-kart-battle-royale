@@ -3,6 +3,14 @@ import java.net.Socket;
 import java.util.*;
 
 
+
+class ServerRun {
+    public static void main (String[] args) {
+        Server server = new Server("MapOne.txt");
+        server.run();
+    }
+}
+
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection
     private ArrayList<Client> clients;

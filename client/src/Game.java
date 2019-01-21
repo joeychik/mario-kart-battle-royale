@@ -101,7 +101,7 @@ public class Game extends JFrame {
             while (recieving) {
                 try {
                     StartServerPacket startServerPacket = gson.fromJson(input, StartServerPacket.class);
-                    System.out.println(startServerPacket.getPlayerList().get(0).getName());
+                    //System.out.println(startServerPacket.getPlayerList().get(0).getName());
                 } catch (JsonSyntaxException | JsonIOException e) {
                     e.printStackTrace();
                 }
