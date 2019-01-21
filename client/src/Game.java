@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -12,14 +11,10 @@ import java.awt.event.KeyListener;
 //Graphics &GUI imports
 import javax.swing.*;
 
-import java.awt.Graphics;
-import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.net.SocketException;
 
 //Keyboard imports
 
@@ -86,9 +81,14 @@ public class Game extends JFrame {
                 output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                 System.out.println("connected");
-
-                StartClientPacket packet = new StartClientPacket("asdf", "", "");
-                send(packet);
+                StartClientPacket packet = new StartClientPacket(player);
+                gson.toJson(packet, StartClientPacket.class, output);
+                try {
+                    output.flush();
+                } catch (IOException e) {
+                    System.err.println("couldn't send message");
+                    e.printStackTrace();
+                }
 
                 run();
             } catch (Exception e) {
@@ -101,11 +101,11 @@ public class Game extends JFrame {
         public void run() {
             while (receiving) {
                 try {
-                    WrapperPacket wrapperPacket = gson.fromJson(input, WrapperPacket.class);
-                    if (wrapperPacket.getData() instanceof StartServerPacket) {
-                        processStartServerPacket((StartServerPacket) wrapperPacket.getData());
-                    } else if (wrapperPacket.getData() instanceof ServerPacket) {
-                        processServerPacket((ServerPacket) wrapperPacket.getData());
+                    ServerPacket packet = gson.fromJson(input, ServerPacket.class);
+                    if (packet.getPacketType() == ServerPacket.START_PACKET) {
+                        processStartServerPacket(packet);
+                    } else if (packet.getPacketType() == ServerPacket.GAME_PACKET) {
+                        processServerPacket(packet);
                     }
                 } catch (JsonSyntaxException | JsonIOException e) {
                     e.printStackTrace();
@@ -113,10 +113,8 @@ public class Game extends JFrame {
             }
         }
 
-        public void send(Packet packet) {
-            WrapperPacket wrapperPacket = new WrapperPacket<>(packet);
-            System.out.println(gson.toJson(wrapperPacket));
-            gson.toJson(wrapperPacket, WrapperPacket.class, output);
+        public void send(ClientPacket packet) {
+            gson.toJson(packet, ClientPacket.class, output);
             try {
                 output.flush();
             } catch (IOException e) {
@@ -125,7 +123,7 @@ public class Game extends JFrame {
             }
         }
 
-        private void processStartServerPacket(StartServerPacket packet) {
+        private void processStartServerPacket(ServerPacket packet) {
             for (Player player : packet.getPlayerList()) {
                 System.out.println(player.getName());
             }

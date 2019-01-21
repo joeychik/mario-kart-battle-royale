@@ -1,23 +1,11 @@
 public class StartClientPacket extends Packet{
-    private String name;
-    private String characterSprite;
-    private String carSprite;
+    private Player player;
 
-    StartClientPacket(String name, String characterSprite, String carSprite) {
-        this.name = name;
-        this.characterSprite = characterSprite;
-        this.carSprite = carSprite;
+    StartClientPacket(Player player) {
+        this.player = player;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getCharacterSprite() {
-        return characterSprite;
-    }
-
-    public String getCarSprite() {
-        return carSprite;
+    public Player getPlayer() {
+        return player;
     }
 }

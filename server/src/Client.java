@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import java.sql.Wrapper;
 
 public class Client {
     private Socket socket;
@@ -38,7 +37,7 @@ public class Client {
         t.start();
     }
 
-    public void send(StartServerPacket packet) {
+    public void send(ServerPacket packet) {
         System.out.println(packet);
         connectionHandler.send(packet);
     }
@@ -52,37 +51,28 @@ public class Client {
         private ConnectionHandler(Socket socket) throws JsonSyntaxException, IOException{
             this.socket = socket;
             this.socket.setSoTimeout(100200);
-            startClientPacket = new StartClientPacket("name", "place", "holder");
             // initialize json readers/writers and attach them to the socket's input/output streams
             input = new JsonReader(new InputStreamReader(socket.getInputStream()));
             output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             // set up client
-            WrapperPacket packet = gson.fromJson(input, WrapperPacket.class);
-            System.out.println("receive");
-            System.out.println(packet.getData());
-            startClientPacket = (StartClientPacket) packet.getData();
+            startClientPacket = gson.fromJson(input, StartClientPacket.class);
 
             MapComponent[][] map = server.getServerGame().getMap();
-            player = new Player(
-                    startClientPacket.getName(),
-                    startClientPacket.getCharacterSprite(),
-                    startClientPacket.getCarSprite(),
-                    map
-            );
+            player = startClientPacket.getPlayer();
         }
 
         public void run() {
-
-            while(running) {  // loop unit a message is received
+            while(running) {
                 try {
-                    // adds message to messageBuffer
-                    WrapperPacket wrapperPacket = gson.fromJson(input, WrapperPacket.class);
-                    ClientPacket packet = (ClientPacket) wrapperPacket.getData();
-                    System.out.println("got message");
-
+                    ClientPacket packet = gson.fromJson(input, ClientPacket.class);
+                    System.out.println("got packet");
+                    player.setOrientation(packet.getOrientation());
+                    player.setAccel(packet.getAccel());
+                    player.setBrake(packet.isBrake());
+                    player.setVelocity(packet.getVelocity());
                 } catch (JsonIOException e) {
-                    System.err.println("Failed to receive msg from the socket");
+                    System.err.println("Failed to receive packet from the socket");
                     e.printStackTrace();
                 } catch (JsonSyntaxException e) {
                     // check if socket is disconnected
@@ -111,9 +101,8 @@ public class Client {
             }
         }
 
-        public void send(Packet packet) {
-            System.out.println(packet.getClass());
-            gson.toJson(new WrapperPacket<>(packet), WrapperPacket.class, output);
+        public void send(ServerPacket packet) {
+            gson.toJson(packet, ServerPacket.class, output);
             try {
                 output.flush();
             } catch (IOException e) {

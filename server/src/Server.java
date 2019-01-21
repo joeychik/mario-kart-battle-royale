@@ -3,11 +3,10 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 class ServerRun {
     public static void main (String[] args) {
@@ -74,7 +73,7 @@ public class Server implements Runnable{
                     c.startThread();
 
                     for (Client client : clients) {
-                        client.send(new StartServerPacket(mapName, players));
+                        client.send(new ServerPacket(mapName, players));
                     }
                 } catch (JsonSyntaxException e) {
                     System.err.println("client timed out");

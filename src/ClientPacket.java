@@ -1,30 +1,29 @@
 public class ClientPacket extends Packet{
-    private double xPos;
-    private double yPos;
     private double velocity;
+    private double accel;
     private double orientation;
-    private boolean movingBackwards;
+    private boolean brake;
 
-    ClientPacket (double xPos, double yPos, double velocity, double orientation, boolean movingBackwards) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public ClientPacket(double velocity, double accel, double orientation, boolean brake) {
         this.velocity = velocity;
+        this.accel = accel;
         this.orientation = orientation;
-        this.movingBackwards = movingBackwards;
+        this.brake = brake;
     }
 
-
-    public double getxPos() {
-        return xPos;
+    public double getAccel() {
+        return accel;
     }
 
-    public double getyPos() {
-        return yPos;
+    public boolean isBrake() {
+        return brake;
     }
 
     public double getVelocity() {
         return velocity;
     }
 
-
+    public double getOrientation() {
+        return orientation;
+    }
 }
