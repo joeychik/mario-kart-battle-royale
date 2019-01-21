@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,23 +18,23 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MenuPanel extends JPanel {
+public class CreateGamePanel extends JPanel {
         private Game2 window;
         private JLayeredPane pane;
         Action action;
 
-        CustomButton controls;
-        CustomButton joinGame;
-        CustomButton createGame;
         Image background;
-        BufferedImage createGameIcon;
-        BufferedImage joinGameIcon;
-        BufferedImage controlsIcon;
-        
         JPanel panel;
+        String ip;
+        CustomButton ready;
+        
+        ArrayList<int[]> players = new ArrayList<int[]>();
 
+        int characterNumber;
+        int carNumber;
 
-        MenuPanel(Game2 window) {
+        CreateGamePanel(Game2 window) {
+        	
         	
         	this.panel = this;
             this.window = window;
@@ -43,19 +44,19 @@ public class MenuPanel extends JPanel {
             pane.setBounds(0, 0, 800, 600);
 
             try {
-                background = ImageIO.read(new File("res/menubackground.png"));
+                background = ImageIO.read(new File("res/lobbyScreen.png"));
             } catch (IOException e) {
                 System.err.println("Error loading image");
             }
-        
-            joinGame = new CustomButton("Join Game", 350, 300, 200, 50, Color.black);
-            createGame = new CustomButton("Create Game", 400, 400, 250, 50, Color.black);
-            controls = new CustomButton("", 750, 0, 50, 50, null);
+            
 
 
             add(pane);
             pane.setVisible(true);
-
+            
+            
+            ready = new CustomButton("Ready", 650, 520, 150, 60);            
+            
             this.setVisible(true);
 
         }
@@ -63,14 +64,21 @@ public class MenuPanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.drawImage(background, 0,0, 800, 600, null);
+            
+            characterNumber = window.characterPanel.getCharacterValue();
+            carNumber = window.carPanel.getCarValue();
+//            g.setColor(Color.WHITE);
+//            g.fillRect(0, 0, 800, 600);
+            g.drawImage(background, 0, 0, 800, 600, null);
+            
+            
+            g.drawImage(Utilities.getCarImages()[carNumber], 100, 150, 200, 300, null);
+            g.drawImage(Utilities.getCharacterSpriteImages()[characterNumber], 50 + 100, 100 + 150, 100, 100, null);
 
-            joinGame.draw(g, this);
-            createGame.draw(g, this);
-            controls.draw(g, this);
-
-
-
+           // g.fillRect(0, 0, 800, 600);
+            
+            
+            ready.draw(g, panel);
             repaint();
         }
         
@@ -85,15 +93,9 @@ public class MenuPanel extends JPanel {
              * @param e mouse event which occurred
              */
             public void mouseClicked(MouseEvent e) {
-            	            	
-                if (controls.isMouseOnButton(panel)) { // back button returns to teacher dashboard
-                	window.changeState(1);
-                } else if (joinGame.isMouseOnButton(panel)) {
-                	window.changeState(2);
-                } else if (createGame.isMouseOnButton(panel)) {
-                	window.changeState(4); // go to character
-                } else {
-                }
+            	if (ready.isMouseOnButton(panel)) {
+            		// DO SOMETHING HERE
+            	}
             }
 
             public void mousePressed(MouseEvent e) {

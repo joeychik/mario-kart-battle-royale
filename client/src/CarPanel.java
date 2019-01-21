@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class CharacterPanel extends JPanel {
+public class CarPanel extends JPanel {
 
     private Game2 window;
     private JLayeredPane pane;
@@ -23,17 +23,15 @@ public class CharacterPanel extends JPanel {
     String characterSprite;
     String carSprite;
     
-    CustomSelectionPane selectCharacter;
+    CustomSelectionPane selectCar;
     
-    private int characterValue;
-    
-    private boolean hasQuit = false;
+    private int carValue;
     
     int xPoz;
-    String[] characters = new String[] {"Brick", "Question Mark", "Pipe"};
+    String[] characters = new String[] {"Car1", "Car2", "Car3"};
     Image[] images = new Image[3];
  
-    CharacterPanel(Game2 window) {
+    CarPanel(Game2 window) {
         this.window = window;
 
         this.setLayout(new BorderLayout());
@@ -42,18 +40,18 @@ public class CharacterPanel extends JPanel {
         
         
         try {
-            images[0] = ImageIO.read(new File("res/pipecard.png"));
-            images[1] = ImageIO.read(new File("res/brickCard.png"));
-            images[2] = ImageIO.read(new File("res/coincard.png"));
+            images[0] = ImageIO.read(new File("res/car1.png"));
+            images[1] = ImageIO.read(new File("res/car2.png"));
+            images[2] = ImageIO.read(new File("res/car3.png"));
         } catch (IOException e) {
             System.err.println("Error loading image");
         }
         
-        selectCharacter = new CustomSelectionPane(characters, images);
+        selectCar = new CustomSelectionPane(characters, images);
 
         
 
-        add(selectCharacter);
+        add(selectCar);
 
         this.setVisible(true);
 
@@ -66,23 +64,20 @@ public class CharacterPanel extends JPanel {
 
         g.drawImage(background, 0,0, 800, 600, null);
         
-        
-        if (selectCharacter.getSelectedItemValue() != -1 && hasQuit == false) {
-        	hasQuit = true;
-        	setCharacterValue(selectCharacter.getSelectedItemValue());
-        	System.out.println(characterValue);
-        	window.changeState(5);
+        if (selectCar.getSelectedItemValue() != -1) {
+        	setCarValue(selectCar.getSelectedItemValue());
+        	window.changeState(6);
         }
 
         repaint();
     }
 
-    public int getCharacterValue() {
-		return characterValue;
+    public int getCarValue() {
+		return carValue;
 	}
 
-	public void setCharacterValue(int characterValue) {
-		this.characterValue = characterValue;
+	public void setCarValue(int carValue) {
+		this.carValue = carValue;
 	}
 
 	private class Action implements ActionListener {
