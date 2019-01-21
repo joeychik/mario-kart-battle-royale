@@ -33,6 +33,7 @@ public class GamePanel extends JPanel {
         player.update();
 
         int playerYPos = ((int) player.getyPos()) / 150;
+        int playerXPos = ((int) player.getxPos()) / 150;
 
         for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
             for (int j = 0; j < map[0].length; j++) {
@@ -62,8 +63,10 @@ public class GamePanel extends JPanel {
                     player.setxPos(map[playerYPos][i].getxPosition() + 151);
                     player.setOrientation(Math.PI - player.getOrientation());
                     player.setAccel(-0.1);
-                } else if (player.getxPos() == map[playerYPos][i].getxPosition()) {
-                    player.setxPos(player.getxPos() - 1);
+                } else if (player.getxPos() < map[playerYPos][i].getxPosition()) {
+                    player.setxPos(map[playerYPos][i].getxPosition() - 1);
+                    player.setOrientation(Math.PI - player.getOrientation());
+                    player.setAccel(-0.1);
                 }
                 //player.setxPos(map[playerYPos][i].getxPosition());
                 player.setyPos(map[playerYPos][i].getHitBox().getY() + (player.getyPos() % 150) + 1);
@@ -80,10 +83,9 @@ public class GamePanel extends JPanel {
     private class MyKeyListener implements KeyListener {
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == 'w') {
-            	
-            	System.out.println("registered w");
+
                 player.setBrake(false);
-                player.setAccel(0.45);
+                player.setAccel(0.15);
             }
 
             if (e.getKeyChar() == 's') {
