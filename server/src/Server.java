@@ -9,12 +9,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-class ServerRun {
-    public static void main (String[] args) {
-        Server server = new Server("MapOne.txt");
-        server.run();
-    }
-}
+//class ServerRun {
+//    public static void main (String[] args) {
+//        Server server = new Server("MapOne.txt");
+//        server.run();
+//    }
+//}
 
 public class Server implements Runnable{
     private ServerSocket serverSock;// server socket for connection

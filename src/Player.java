@@ -204,6 +204,14 @@ public class Player implements Comparable<Player> {
         this.lastMarker = lastMarker;
     }
 
+    public double getAccel() {
+        return accel;
+    }
+
+    public boolean isBrake() {
+        return brake;
+    }
+
     @Override
     public int compareTo(Player player) {
         if (this.getMarkerList().size() < player.getMarkerList().size()) {
