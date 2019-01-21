@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -13,8 +14,10 @@ import javax.swing.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -70,7 +73,7 @@ public class Game extends JFrame {
         private JsonReader input;
         private JsonWriter output;
         private Gson gson;
-        private boolean recieving = true;
+        private boolean receiving = true;
 
         public ServerConnection(String serverIP, int port) {
             this.serverIP = serverIP;
@@ -84,10 +87,8 @@ public class Game extends JFrame {
 
                 System.out.println("connected");
 
-                StartClientPacket startClientPacket = new StartClientPacket("asdf", "", "");
-
-                gson.toJson(startClientPacket, StartClientPacket.class, output);
-                output.flush();
+                StartClientPacket packet = new StartClientPacket("asdf", "", "");
+                send(packet);
 
                 run();
             } catch (Exception e) {
@@ -98,14 +99,40 @@ public class Game extends JFrame {
 
         @Override
         public void run() {
-            while (recieving) {
+            while (receiving) {
                 try {
-                    StartServerPacket startServerPacket = gson.fromJson(input, StartServerPacket.class);
-                    System.out.println(startServerPacket.getPlayerList().get(0).getName());
+                    WrapperPacket wrapperPacket = gson.fromJson(input, WrapperPacket.class);
+                    if (wrapperPacket.getData() instanceof StartServerPacket) {
+                        processStartServerPacket((StartServerPacket) wrapperPacket.getData());
+                    } else if (wrapperPacket.getData() instanceof ServerPacket) {
+                        processServerPacket((ServerPacket) wrapperPacket.getData());
+                    }
                 } catch (JsonSyntaxException | JsonIOException e) {
                     e.printStackTrace();
                 }
             }
+        }
+
+        public void send(Packet packet) {
+            WrapperPacket wrapperPacket = new WrapperPacket<>(packet);
+            System.out.println(gson.toJson(wrapperPacket));
+            gson.toJson(wrapperPacket, WrapperPacket.class, output);
+            try {
+                output.flush();
+            } catch (IOException e) {
+                System.err.println("couldn't send message");
+                e.printStackTrace();
+            }
+        }
+
+        private void processStartServerPacket(StartServerPacket packet) {
+            for (Player player : packet.getPlayerList()) {
+                System.out.println(player.getName());
+            }
+        }
+
+        private void processServerPacket(ServerPacket packet) {
+
         }
     }
 

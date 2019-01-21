@@ -1,4 +1,4 @@
-public class ClientPacket implements Packet{
+public class ClientPacket extends Packet{
     private double xPos;
     private double yPos;
     private double velocity;

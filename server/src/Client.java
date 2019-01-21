@@ -9,47 +9,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Wrapper;
 
 public class Client {
     private Socket socket;
     private ConnectionHandler connectionHandler;
     private boolean running;
-    private static Gson gson = new Gson();
-    private JsonReader input;
-    private JsonWriter output;
     private Player player;
-    OutputStreamWriter output2;
     private StartClientPacket startClientPacket;
-    StartServerPacket startServerPacketPacket;
     private Server server;
 
-    Client(Socket socket, Server server) {
-        this.socket = socket;
+    Client(Socket socket, Server server) throws JsonSyntaxException, IOException {
         this.server = server;
-        startClientPacket = new StartClientPacket("name", "place", "holder");
-        // initialize json readers/writers and attach them to the socket's input/output streams
-        try {
-            input = new JsonReader(new InputStreamReader(socket.getInputStream()));
-            output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
-        } catch (IOException e) {
-            System.err.println("problem making input reader/output writer");
-            e.printStackTrace();
-        }
-
-        // set up client
-        try {
-           // startClientPacket = gson.fromJson(input, StartClientPacket.class);
-            MapComponent[][] map = server.getServerGame().getMap();
-            player = new Player(
-                    startClientPacket.getName(),
-                    startClientPacket.getCharacterSprite(),
-                    startClientPacket.getCarSprite(),
-                    map
-                    );
-        } catch (JsonSyntaxException e) {
-            System.out.println("this isnt a json packet");
-            e.printStackTrace();
-        }
+        connectionHandler = new ConnectionHandler(socket);
     }
 
     public StartClientPacket getStartClientPacket() {
@@ -61,7 +33,6 @@ public class Client {
     }
 
     public void startThread() {
-        connectionHandler = new ConnectionHandler();
         Thread t = new Thread(connectionHandler);
         running = true;
         t.start();
@@ -73,8 +44,32 @@ public class Client {
     }
 
     private class ConnectionHandler implements Runnable{
-        private ConnectionHandler() {
+        private Socket socket;
+        private Gson gson = new Gson();
+        private JsonReader input;
+        private JsonWriter output;
 
+        private ConnectionHandler(Socket socket) throws JsonSyntaxException, IOException{
+            this.socket = socket;
+            this.socket.setSoTimeout(100200);
+            startClientPacket = new StartClientPacket("name", "place", "holder");
+            // initialize json readers/writers and attach them to the socket's input/output streams
+            input = new JsonReader(new InputStreamReader(socket.getInputStream()));
+            output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+            // set up client
+            WrapperPacket packet = gson.fromJson(input, WrapperPacket.class);
+            System.out.println("receive");
+            System.out.println(packet.getData());
+            startClientPacket = (StartClientPacket) packet.getData();
+
+            MapComponent[][] map = server.getServerGame().getMap();
+            player = new Player(
+                    startClientPacket.getName(),
+                    startClientPacket.getCharacterSprite(),
+                    startClientPacket.getCarSprite(),
+                    map
+            );
         }
 
         public void run() {
@@ -82,7 +77,8 @@ public class Client {
             while(running) {  // loop unit a message is received
                 try {
                     // adds message to messageBuffer
-                    ClientPacket clientPacket = gson.fromJson(input, ClientPacket.class);
+                    WrapperPacket wrapperPacket = gson.fromJson(input, WrapperPacket.class);
+                    ClientPacket packet = (ClientPacket) wrapperPacket.getData();
                     System.out.println("got message");
 
                 } catch (JsonIOException e) {
@@ -93,10 +89,16 @@ public class Client {
                     try {
                         if (e.getCause() instanceof SocketException) {
                             System.out.println("closing socket");
+                            server.removeClient(Client.this);
+                            input.close();
+                            output.close();
                             socket.close();
                             running = false;
                         } else {
                             System.err.println("problem with JSON syntax");
+                            server.removeClient(Client.this);
+                            input.close();
+                            output.close();
                             socket.close();
                             running = false;
                             e.printStackTrace();
@@ -111,15 +113,9 @@ public class Client {
 
         public void send(Packet packet) {
             System.out.println(packet.getClass());
-            gson.toJson(new WrapperPacket(packet), WrapperPacket.class, output);
+            gson.toJson(new WrapperPacket<>(packet), WrapperPacket.class, output);
             try {
-
-                //serializing object to send check api notes
-                output.beginObject();
-                gson.toJson(packet, packet.getClass(), output);
-                output.endObject();
                 output.flush();
-                output.close();
             } catch (IOException e) {
                 System.out.println("failed to send packet");
             }

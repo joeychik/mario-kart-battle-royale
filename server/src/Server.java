@@ -1,5 +1,9 @@
+import com.google.gson.JsonSyntaxException;
+
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,6 +46,15 @@ public class Server implements Runnable{
         return serverGame;
     }
 
+    public void removeClient(Client client) {
+        try {
+            clients.remove(client);
+            players.remove(client.getPlayer());
+        } catch (NullPointerException e) {
+            System.out.println("player not created yet");
+        }
+    }
+
     public void run() {
         System.out.println("Waiting for a client connection..");
 
@@ -52,14 +65,25 @@ public class Server implements Runnable{
             while(accepting) {  //this loops to accept multiple clients
                 s = serverSock.accept();  //wait for connection
                 System.out.println("Client connected");
-                Client c = new Client(s, this);
-                clients.add(c);
-                players.add(c.getPlayer());
 
-                c.startThread();
+                Client c = null;
+                try {
+                    c = new Client(s, this);
+                    clients.add(c);
+                    players.add(c.getPlayer());
+                    c.startThread();
 
-                for (Client client : clients) {
-                    client.send(new StartServerPacket(mapName, players));
+                    for (Client client : clients) {
+                        client.send(new StartServerPacket(mapName, players));
+                    }
+                } catch (JsonSyntaxException e) {
+                    System.err.println("client timed out");
+                    e.printStackTrace();
+                    removeClient(c);
+                    s.close();
+                } catch (IOException e) {
+                    System.err.println("couldnt connect to client");
+                    e.printStackTrace();
                 }
             }
         } catch (Exception e) {
@@ -68,7 +92,7 @@ public class Server implements Runnable{
             //close all and quit
             try {
                 s.close();
-            }catch (Exception e1) {
+            } catch (Exception e1) {
                 System.out.println("Failed to close socket");
             }
             System.exit(-1);
