@@ -53,8 +53,8 @@ public class GamePanel extends JPanel {
         int playerYPos = ((int) player.getyPos()) / 150;
         int playerXPos = ((int) player.getxPos()) / 150;
 
-        for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
-            for (int j = playerXPos - 3; j < playerXPos + 3; j++) {
+        for (int i = playerYPos - 4; i < playerYPos + 4; i++) {
+            for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
                     if (map[i][j] != null) {
                         g.setColor(Color.WHITE);
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel {
                             g.setColor(Color.BLUE);
                         }
 
-                        g.fillRect((j - playerXPos + 3) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 3) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
+                        g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
                     }
                 }
             }
@@ -75,19 +75,20 @@ public class GamePanel extends JPanel {
 
         BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
         Graphics comb = combined.getGraphics();
-        comb.drawImage(car, 0, 0, null);
-        comb.drawImage(image, 50, 100, null);
+        comb.drawImage(car, 0, 0, 40, 60, null);
+        comb.drawImage(image, 5, 15, 30, 30, null);
 
-        g.setColor(Color.RED);
-        g.drawRect(400,300,player.getDimensions(), player.getDimensions());
+//        g.setColor(Color.RED);
+//        g.drawRect(400,300,player.getDimensions(), player.getDimensions());
 
 
         Graphics2D g2d = (Graphics2D)g;
-        AffineTransform trans = AffineTransform.getTranslateInstance(400, car.getWidth(null)/2);
+        AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
-        trans.translate(100, 150);
+        trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
-        trans.translate(-100, -150);
+        trans.translate(-15, -15);
+        
 
         //trans.translate((int)player.getxPos()-250, 0);
 
@@ -97,11 +98,11 @@ public class GamePanel extends JPanel {
 
 
         // shows orientation
-        g.drawLine(400,300, (int) (player.getxPos() + 3000 * Math.cos(player.getOrientation())), (int) (300 + 3000 * Math.sin(player.getOrientation())));
+        //g.drawLine(400,300, (int) (player.getxPos() + 3000 * Math.cos(player.getOrientation())), (int) (300 + 3000 * Math.sin(player.getOrientation())));
 
         for (int i = 0; i < 10; i++ ) {
             if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
-                System.out.println(map[playerYPos][i]);
+                System.out.println(map[playerYPos - 1][i]);
                 System.out.println(player.getyPos());
             }
         }
