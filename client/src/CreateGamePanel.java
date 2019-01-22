@@ -27,15 +27,15 @@ public class CreateGamePanel extends JPanel {
         JPanel panel;
         String ip;
         CustomButton ready;
-        
+
         ArrayList<int[]> players = new ArrayList<int[]>();
 
         int characterNumber;
         int carNumber;
 
         CreateGamePanel(Game window) {
-        	
-        	
+
+
         	this.panel = this;
             this.window = window;
             this.addMouseListener(new MyMouseListener());
@@ -48,15 +48,15 @@ public class CreateGamePanel extends JPanel {
             } catch (IOException e) {
                 System.err.println("Error loading image");
             }
-            
+
 
 
             add(pane);
             pane.setVisible(true);
-            
-            
-            ready = new CustomButton("Ready", 650, 520, 150, 60);            
-            
+
+
+            ready = new CustomButton("Ready", 650, 520, 150, 60);
+
             this.setVisible(true);
 
         }
@@ -64,25 +64,25 @@ public class CreateGamePanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            
+
             characterNumber = window.characterPanel.getCharacterValue();
             carNumber = window.carPanel.getCarValue();
 //            g.setColor(Color.WHITE);
 //            g.fillRect(0, 0, 800, 600);
             g.drawImage(background, 0, 0, 800, 600, null);
-            
-            
+
+
             g.drawImage(Utilities.getCarImages()[carNumber], 100, 150, 200, 300, null);
             g.drawImage(Utilities.getCharacterSpriteImages()[characterNumber], 50 + 100, 100 + 150, 100, 100, null);
 
-            
+
            // g.fillRect(0, 0, 800, 600);
-            
-            
+
+
             ready.draw(g, panel);
             repaint();
         }
-        
+
         public class MyMouseListener implements MouseListener {
             public void mouseEntered(MouseEvent e) {
 

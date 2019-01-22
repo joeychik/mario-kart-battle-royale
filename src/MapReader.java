@@ -78,6 +78,7 @@ public class MapReader {
                     mapLayout[i][j] = new Marker(150, j * 150, i * 150, true, markerNum);
                     if (!marker) {
                         markerList.add(mapLayout[i][j]);
+                        marker = true;
                     }
 
                     //finish marker
@@ -93,12 +94,14 @@ public class MapReader {
 
         //adjusts hit boxes for markers to make it easier to detect intersections in the game
         for (MapComponent m : markerList) {
-            rightIndex = m.getxPosition() / 150;
-            while (!(mapLayout[(m.getyPosition()/150) - 1][rightIndex] instanceof Wall)) {
+            rightIndex = (m.getxPosition()/150) -  1;
+            while (!(mapLayout[(m.getyPosition()/150)][rightIndex] instanceof Wall)) {
                 rightIndex++;
             }
             m.getHitBox().setSize(rightIndex * 150, 150);
         }
+
+        System.out.println(mapLayout[5][3]);
 
     }
 
