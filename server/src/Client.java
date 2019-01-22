@@ -70,9 +70,7 @@ public class Client {
                     server.startGame();
                 }
                 while (running) {
-                    System.out.println("in game");
                     ClientPacket packet = gson.fromJson(input, ClientPacket.class);
-                    System.out.println("got packet");
                     player.setOrientation(packet.getOrientation());
                     player.setAccel(packet.getAccel());
                     player.setBrake(packet.isBrake());
