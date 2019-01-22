@@ -53,18 +53,30 @@ public class GamePanel extends JPanel {
         int playerYPos = ((int) player.getyPos()) / 150;
         int playerXPos = ((int) player.getxPos()) / 150;
 
+        String tileName = "";
+    	tileName = "road.jpg";
+
         for (int i = playerYPos - 4; i < playerYPos + 4; i++) {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
                     if (map[i][j] != null) {
                         g.setColor(Color.WHITE);
                         if (map[i][j] instanceof Road) {
+                        	tileName = "road.jpg";
                             g.setColor(Color.BLACK);
                         } else if (map[i][j] instanceof Wall) {
+                        	tileName = "grass.png";
                             g.setColor(Color.BLUE);
                         }
 
-                        g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
+                        if (!tileName.equals("")) {
+                        	g.drawImage(Utilities.getTileImages(tileName), (j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
+                        	tileName = "road.jpg";
+                        } 
+//                        else {
+//                            g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
+//                        }
+                        
                     }
                 }
             }

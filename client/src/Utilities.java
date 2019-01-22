@@ -44,4 +44,16 @@ public class Utilities {
 		}
 		return images;
 	}
+	
+	public static Image getTileImages(String name) {
+		Image im = null;
+		try {
+			 
+			 im = ImageIO.read(new File("res/" + name));
+		} catch (IOException e) {
+			System.err.println("Error loading image");
+		}
+		
+		return im;
+	}
 }
