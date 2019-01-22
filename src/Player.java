@@ -14,8 +14,8 @@ public class Player implements Comparable<Player> {
 
     private boolean movingBackwards = false;
     private String name;
-    private String characterSprite;
-    private String carSprite;
+    private int characterSprite;
+    private int carSprite;
     private transient Rectangle hitBox;
     private transient MapComponent[][] map;
     private transient ArrayList<MapComponent> markerList = new ArrayList<>();
@@ -23,8 +23,10 @@ public class Player implements Comparable<Player> {
     private int markersPassed;
     private int lapsCompleted;
     private boolean finishedRace;
+    
+    private static int TERMINAL_VELOCITY = 10;
 
-    Player(String name, String characterSprite, String carSprite) {
+    Player(String name, int characterSprite, int carSprite) {
         xPos = 250.0;
         yPos = 750.0;
         dimensions = 25;
@@ -45,8 +47,8 @@ public class Player implements Comparable<Player> {
     public void update() {
         velocity += accel;
 
-        if (velocity > 4) {
-            velocity = 4;
+        if (velocity > TERMINAL_VELOCITY) {
+            velocity = TERMINAL_VELOCITY;
         } else if (velocity < -0.6) {
             velocity = -0.6;
         }
@@ -157,19 +159,19 @@ public class Player implements Comparable<Player> {
         return movingBackwards;
     }
 
-    public String getCharacterSprite() {
+    public int getCharacterSprite() {
         return characterSprite;
     }
 
-    public void setCharacterSprite(String characterSprite) {
+    public void setCharacterSprite(int characterSprite) {
         this.characterSprite = characterSprite;
     }
 
-    public String getCarSprite() {
+    public int getCarSprite() {
         return carSprite;
     }
 
-    public void setCarSprite(String carSprite) {
+    public void setCarSprite(int carSprite) {
         this.carSprite = carSprite;
     }
 

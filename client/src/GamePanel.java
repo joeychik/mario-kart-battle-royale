@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
         int playerXPos = ((int) player.getxPos()) / 150;
 
         String tileName = "";
-    	tileName = "road.jpg";
+    	tileName = "road.png";
 
         for (int i = playerYPos - 4; i < playerYPos + 4; i++) {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel {
                     if (map[i][j] != null) {
                         g.setColor(Color.WHITE);
                         if (map[i][j] instanceof Road) {
-                        	tileName = "road.jpg";
+                        	tileName = "road.png";
                             g.setColor(Color.BLACK);
                         } else if (map[i][j] instanceof Wall) {
                         	tileName = "grass.png";
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
 
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), (j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
-                        	tileName = "road.jpg";
+                        	tileName = "road.png";
                         } 
 //                        else {
 //                            g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
@@ -97,6 +97,9 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
+        
+        ///System.out.println(window.getPlayerList().get(0).getxPos());
+        
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
         trans.translate(-15, -15);
@@ -114,10 +117,13 @@ public class GamePanel extends JPanel {
 
         for (int i = 0; i < 10; i++ ) {
             if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
-                System.out.println(map[playerYPos - 1][i]);
-                System.out.println(player.getyPos());
+//                System.out.println(map[playerYPos - 1][i]);
+//                System.out.println(player.getyPos());
             }
         }
+        
+        
+        
 //        for (int i = 0; i < map[0].length; i++) {
 //            if (map[playerYPos][i].getHitBox().intersects(player.getHitBox()) && !map[playerYPos][i].getDriveable() ) {
 //                System.out.println("hit");

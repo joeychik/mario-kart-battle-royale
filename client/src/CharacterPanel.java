@@ -54,7 +54,6 @@ public class CharacterPanel extends JPanel {
         
 
         add(selectCharacter);
-
         this.setVisible(true);
 
     }
