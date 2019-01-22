@@ -254,6 +254,8 @@ public class Game extends JFrame {
         }
 
         public synchronized void send(ClientPacket packet) {
+            System.out.println(packet.getAccel() + ", " + packet.getOrientation());
+
             gson.toJson(packet, ClientPacket.class, output);
             try {
                 output.flush();
@@ -280,7 +282,11 @@ public class Game extends JFrame {
             startRace();
             playerList = packet.getPlayerList();
             for (Player p : playerList) {
-                if (p.getPlayerID() == playerID) player = p;
+                if (p.getPlayerID() == playerID) {
+                    player.setVelocity(p.getVelocity());
+                    player.setxPos(p.getxPos());
+                    player.setyPos(p.getyPos());
+                }
             }
         }
     }
