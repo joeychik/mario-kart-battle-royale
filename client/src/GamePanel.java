@@ -98,7 +98,7 @@ public class GamePanel extends JPanel {
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         
-        System.out.println(window.getPlayerList().get(0).getxPos());
+        ///System.out.println(window.getPlayerList().get(0).getxPos());
         
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
