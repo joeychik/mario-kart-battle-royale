@@ -39,7 +39,9 @@ public class Server implements Runnable{
         clients = new ArrayList<>();
         players = new ArrayList<>();
         serverGame = new ServerGame();
-        run();
+
+        Thread thread = new Thread(this);
+        thread.start();
     }
 
     /**
