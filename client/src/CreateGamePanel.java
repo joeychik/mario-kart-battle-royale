@@ -1,41 +1,46 @@
+/**
+* [CreateGamePanel.java]
+* 
+* Panel that acts as the lobby before joining game
+* 
+* @author  Yash Arora
+* @since   2019-01-22
+*/
+
+// Imports
 import javax.imageio.ImageIO; 
 import javax.swing.*;
-
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
 
 public class CreateGamePanel extends JPanel {
+	
+		// Important variables
         private Game window;
         private JLayeredPane pane;
-        Action action;
+        private Action action;
+        private Image background;
+        private JPanel panel;
+        private String ip;
+        private CustomButton ready;
+        private ArrayList<int[]> players = new ArrayList<int[]>();
+        private int characterNumber;
+        private int carNumber;
 
-        Image background;
-        JPanel panel;
-        String ip;
-        CustomButton ready;
-
-        ArrayList<int[]> players = new ArrayList<int[]>();
-
-        int characterNumber;
-        int carNumber;
-
+        /**
+         * Contructor that creates lobby screen
+         * @param window
+         */
         CreateGamePanel(Game window) {
 
-
+        	// Important variables
         	this.panel = this;
             this.window = window;
             this.addMouseListener(new MyMouseListener());
@@ -43,20 +48,20 @@ public class CreateGamePanel extends JPanel {
             pane = new JLayeredPane();
             pane.setBounds(0, 0, 800, 600);
 
+            // Load images
             try {
                 background = ImageIO.read(new File("res/lobbyScreen.png"));
             } catch (IOException e) {
                 System.err.println("Error loading image");
             }
-
-
-
+            
             add(pane);
             pane.setVisible(true);
 
-
+            // ready button
             ready = new CustomButton("Ready", 650, 520, 150, 60);
 
+            // Make visible
             this.setVisible(true);
 
         }
@@ -65,21 +70,21 @@ public class CreateGamePanel extends JPanel {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            characterNumber = window.characterPanel.getCharacterValue();
-            carNumber = window.carPanel.getCarValue();
-//            g.setColor(Color.WHITE);
-//            g.fillRect(0, 0, 800, 600);
+            // Car and character ids
+            characterNumber = window.getCharacterPanel().getCharacterValue();
+            carNumber = window.getCarPanel().getCarValue();
+
+            // Background
             g.drawImage(background, 0, 0, 800, 600, null);
 
-
+            // Draw custom character
             g.drawImage(Utilities.getCarImages()[carNumber], 100, 150, 200, 300, null);
             g.drawImage(Utilities.getCharacterSpriteImages()[characterNumber], 50 + 100, 100 + 150, 100, 100, null);
 
-
-           // g.fillRect(0, 0, 800, 600);
-
-
+            // Draw ready button
             ready.draw(g, panel);
+            
+            // Call again
             repaint();
         }
 
@@ -95,14 +100,10 @@ public class CreateGamePanel extends JPanel {
              */
             public void mouseClicked(MouseEvent e) {
             	if (ready.isMouseOnButton(panel)) {
-            	   
-//            		window.startServer();
-//            	    try {
-//                        Thread.sleep(50);
-//                    } catch (InterruptedException e1) {}
 
                     window.ready();
 
+                    // Change to the actual game screen
             		window.changeState(7);
             	}
             }
