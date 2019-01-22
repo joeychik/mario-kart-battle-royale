@@ -58,7 +58,7 @@ public class Client {
             // set up client
             startClientPacket = gson.fromJson(input, StartClientPacket.class);
 
-            MapComponent[][] map = server.getServerGame().getMap();
+            //MapComponent[][] map = server.getServerGame().getMap();
             player = startClientPacket.getPlayer();
         }
 

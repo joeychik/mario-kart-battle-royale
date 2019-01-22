@@ -42,11 +42,12 @@ public class Game extends JFrame {
     ArrayList<Player> playerList = new ArrayList<Player>();
     int playerID = -1;
 
-    
+
     private Player player;
     private Server server = null;
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
+    private boolean inRace = false;
 
     //Main
     public static void main(String[] args) {
@@ -57,7 +58,8 @@ public class Game extends JFrame {
     //Constructor - this runs first
     Game() {
         super("MarioKart");
-        player = new Player("asdf", "", "");
+
+        player = new Player("asdf", 0, 0);
 
         this.setLocation(0, 0);
         this.setSize(new Dimension(800, 600));
@@ -71,7 +73,7 @@ public class Game extends JFrame {
         this.controlPanel = new ControlPanel(this);
         this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
         this.joinGamePanel = new JoinGamePanel(this);
-        this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"), this);
+        this.gamePanel = new GamePanel("MapOne.txt", player, this);
 
         changeState(0);
 
@@ -147,7 +149,7 @@ public class Game extends JFrame {
                 throw new IndexOutOfBoundsException();
         }
     }
-    
+
     public ArrayList<Player> getPlayerList() {
     	return playerList;
     }
@@ -253,48 +255,18 @@ public class Game extends JFrame {
         }
 
         private void processStartServerPacket(ServerPacket packet) {
+
         	playerList = packet.getPlayerList();
         	if (playerID == -1) {
         	    playerID = packet.getPlayerList().size();
+              inRace = false;
             }
         }
 
         private void processServerPacket(ServerPacket packet) {
-        	playerList = packet.getPlayerList();
+            inRace = true;
+            playerList = packet.getPlayerList();
         }
     }
-
-    // -----------  Inner class for the keyboard listener - this detects key presses and runs the corresponding code
-    private class MyKeyListener implements KeyListener {
-        public void keyTyped(KeyEvent e) {
-            if (e.getKeyChar() == 'w') {
-                player.setBrake(false);
-                player.setAccel(0.45);
-            }
-
-            if (e.getKeyChar() == 's') {
-                player.setBrake(false);
-                player.setAccel(-0.1);
-            }
-
-            if (e.getKeyChar() == 'd') {
-                player.setOrientation(player.getOrientation() + 0.1);
-            }
-
-            if (e.getKeyChar() == 'a') {
-                player.setOrientation(player.getOrientation() - 0.1);
-            }
-
-        }
-
-        public void keyPressed(KeyEvent e) { }
-
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyChar() == 'w' || e.getKeyChar() == 's')
-            player.setBrake(true);
-        }
-    } //end of keyboard listener
-
-
 
 }
