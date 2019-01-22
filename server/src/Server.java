@@ -49,12 +49,14 @@ public class Server implements Runnable{
      * begins game, stops accepting new players
      */
     public void startGame() {
+        System.out.println("attempt to start");
         boolean start = false;
         for (Player p : players) {
             start = p.isReady();
         }
 
         if (start) {
+            System.out.println("start");
             accepting = false;
             serverGame.start();
         }
@@ -126,7 +128,7 @@ public class Server implements Runnable{
         int yMapPosition = 0;
         int xMapPosition = 0;
         int playersFinished = 0;
-        private final int FRAMERATE = 60;
+        private final int FRAMERATE = 30;
         private ArrayList<MapComponent> masterMarkerList = new ArrayList<>();
         private boolean inGame = false;
 
@@ -192,16 +194,16 @@ public class Server implements Runnable{
                         if (map[yMapPosition][xMapPosition] instanceof Marker) {
 
                             //checks if the player is currently intersecting any remaining markers
-                            for (MapComponent check: p.getMarkerList()) {
-
-                                //if they are, player's markersPassed increments by one
-                                if (p.getHitBox().intersects(check.getHitBox())) {
-                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
-
-                                    //removes intersecting marker from arraylist of remaining markers
-                                    p.getMarkerList().remove(check);
-                                }
-                            }
+//                            for (MapComponent check: p.getMarkerList()) {
+//
+//                                //if they are, player's markersPassed increments by one
+//                                if (p.getHitBox().intersects(check.getHitBox())) {
+//                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
+//
+//                                    //removes intersecting marker from arraylist of remaining markers
+//                                    p.getMarkerList().remove(check);
+//                                }
+//                            }
                             //checks if player is over a finish line
                         } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
                             //increase laps completed by one
@@ -226,6 +228,7 @@ public class Server implements Runnable{
                     //sends packet
                     for (Client client : clients) {
                         client.send(packet);
+                        System.out.println("send serverpacket");
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate

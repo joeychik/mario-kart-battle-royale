@@ -65,10 +65,12 @@ public class Client {
             try {
                 while (!server.getServerGame().isInGame()) {
                     gson.fromJson(input, ClientPacket.class);
+                    System.out.println("ready");
                     player.setReady(true);
                     server.startGame();
                 }
                 while (running) {
+                    System.out.println("in game");
                     ClientPacket packet = gson.fromJson(input, ClientPacket.class);
                     System.out.println("got packet");
                     player.setOrientation(packet.getOrientation());
@@ -105,7 +107,7 @@ public class Client {
             }
         }
 
-        public void send(ServerPacket packet) {
+        public synchronized void send(ServerPacket packet) {
             gson.toJson(packet, ServerPacket.class, output);
             try {
                 output.flush();

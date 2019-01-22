@@ -89,7 +89,8 @@ public class Player implements Comparable<Player> {
 
         relativeYPosition = ((int) yPos) % 150;
         relativeXPosition = ((int) xPos) % 150;
-        hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
+        System.out.println(dimensions);
+        //hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
     }
 
     public boolean isReady() {

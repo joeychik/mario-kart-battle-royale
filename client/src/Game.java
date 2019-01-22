@@ -28,7 +28,7 @@ import java.util.TimerTask;
 //Util
 
 public class Game extends JFrame {
-    private final int UPDATE_RATE = 60; // times the server is updated per second
+    private final int UPDATE_RATE = 30; // times the server is updated per second
 
     //class variables
     JPanel menuPanel;
@@ -244,11 +244,12 @@ public class Game extends JFrame {
                     }
                 } catch (JsonSyntaxException | JsonIOException e) {
                     e.printStackTrace();
+                    System.exit(-1);
                 }
             }
         }
 
-        public void send(ClientPacket packet) {
+        public synchronized void send(ClientPacket packet) {
             gson.toJson(packet, ClientPacket.class, output);
             try {
                 output.flush();
@@ -268,7 +269,9 @@ public class Game extends JFrame {
         }
 
         private void processServerPacket(ServerPacket packet) {
+            System.out.println("packet");
             inRace = true;
+            startRace();
             playerList = packet.getPlayerList();
         }
     }
