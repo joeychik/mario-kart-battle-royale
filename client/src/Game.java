@@ -157,6 +157,10 @@ public class Game extends JFrame {
     public ArrayList<Player> getPlayerList() {
     	return playerList;
     }
+    
+    public Player getPlayer() {
+    	return player;
+    }
 
     private void switchPanel(JPanel newPanel) {
         getContentPane().removeAll();
@@ -280,7 +284,9 @@ public class Game extends JFrame {
             startRace();
             playerList = packet.getPlayerList();
             for (Player p : playerList) {
-                if (p.getPlayerID() == playerID) player = p;
+                if (p.getPlayerID() == playerID) {
+                	p = player;
+                }
             }
         }
     }
