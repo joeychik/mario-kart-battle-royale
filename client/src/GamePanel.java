@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
         this.addKeyListener(new MyKeyListener());
 
         //get rid of this after
-        player.setxPos(600);
+        player.setxPos(700);
 
 
         //replace placeholders
@@ -50,8 +50,8 @@ public class GamePanel extends JPanel {
 
 
 
-        int playerYPos = ((int) player.getyPos()) / 150;
-        int playerXPos = ((int) player.getxPos()) / 150;
+        int playerYPos =  (int)(player.getyPos() / 150);
+        int playerXPos =  (int)(player.getxPos() / 150);
 
         String tileName = "";
     	tileName = "road.png";
@@ -68,19 +68,23 @@ public class GamePanel extends JPanel {
                         	tileName = "grass.png";
                             g.setColor(Color.BLUE);
                         }
-
                         if (!tileName.equals("")) {
-                        	g.drawImage(Utilities.getTileImages(tileName), (j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
+                        	g.drawImage(Utilities.getTileImages(tileName), 
+                        			
+                        			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150,
+                        		   ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
+                        		   (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
                         	tileName = "road.png";
                         } 
-//                        else {
-//                            g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());
-//                        }
+                        
+                       	g.setColor(Color.red);
                         
                     }
                 }
             }
         }
+        
+	      
 
         image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
         car = Utilities.getCarImages()[window.carPanel.getCarValue()];
@@ -89,10 +93,6 @@ public class GamePanel extends JPanel {
         Graphics comb = combined.getGraphics();
         comb.drawImage(car, 0, 0, 40, 60, null);
         comb.drawImage(image, 5, 15, 30, 30, null);
-
-//        g.setColor(Color.RED);
-//        g.drawRect(400,300,player.getDimensions(), player.getDimensions());
-
 
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
@@ -104,10 +104,12 @@ public class GamePanel extends JPanel {
         trans.rotate(player.getOrientation() + Math.PI/2);
         trans.translate(-15, -15);
 
-
-        //trans.translate((int)player.getxPos()-250, 0);
-
         g2d.drawImage(combined, trans, this);
+        
+        
+        //g.fillRect(player.getHitBox().x, player.getHitBox().y, player.getHitBox().width, player.getHitBox().height);
+        
+
 
         //g.drawImage(Utilities.getCharacterSpriteImages()[window.carPanel.getCarValue()], 50 + 100, 100 + 150, 100, 100, null);
 
@@ -115,33 +117,23 @@ public class GamePanel extends JPanel {
         // shows orientation
         //g.drawLine(400,300, (int) (player.getxPos() + 3000 * Math.cos(player.getOrientation())), (int) (300 + 3000 * Math.sin(player.getOrientation())));
 
-        for (int i = 0; i < 10; i++ ) {
-            if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
+//        for (int i = 0; i < 10; i++ ) {
+//            if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
 //                System.out.println(map[playerYPos - 1][i]);
 //                System.out.println(player.getyPos());
-            }
-        }
-        
-        
-        
-//        for (int i = 0; i < map[0].length; i++) {
-//            if (map[playerYPos][i].getHitBox().intersects(player.getHitBox()) && !map[playerYPos][i].getDriveable() ) {
-//                System.out.println("hit");
-//                if (player.getxPos() > map[playerYPos][i].getxPosition()) {
-//                    System.out.println("right");
-//                    player.setxPos(map[playerYPos][i].getxPosition() + 151);
-//                    player.setOrientation(Math.PI - player.getOrientation());
-//                    player.setAccel(-0.1);
-//                } else if (player.getxPos() < map[playerYPos][i].getxPosition() + 150) {
-//                    System.out.println("left");
-//                    player.setxPos(map[playerYPos][i].getxPosition() - 1);
-//                    player.setOrientation(Math.PI - player.getOrientation());
-//                    player.setAccel(-0.1);
-//                }
-//                //player.setxPos(map[playerYPos][i].getxPosition());
-//                //player.setyPos(map[playerYPos][i].getHitBox().getY() + (player.getyPos() % 150) + 1);
 //            }
 //        }
+        
+        g.fillRect(400, 300, 5, 5);
+        
+//        if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
+//          System.out.println("GANG");
+//        }
+        
+        
+        System.out.println(map[playerYPos-1][playerXPos-1]);
+        
+        
         repaint();
         try {
             Thread.sleep(5);
