@@ -76,20 +76,6 @@ public class GamePanel extends JPanel {
         g2d.drawImage(combined, trans, this);
         
         g.setColor(Color.red);
-        
-        System.out.println(player.getxPos());
-        System.out.println(player.getxPos());
-        System.out.println(player.getxPos());
-        System.out.println(player.getxPos());
-        System.out.println(player.getxPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
-        System.out.println(player.getyPos());
 
 
         //g.fillRect((int)(600 + 400 - player.getxPos()), (int)(600 + 400 - player.getyPos()), 50, 50);
