@@ -94,6 +94,7 @@ public class Server implements Runnable{
                     c.getPlayer().setPlayerID(players.size());
                     c.startThread();
 
+                    // sends a ServerPacket to notify all clients of a new client joining
                     for (Client client : clients) {
                         client.send(new ServerPacket(mapName, players));
                     }
@@ -120,6 +121,10 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * ServerGame.java
+     * representation of game in the server. handles leaderboard, collisions between players, etc
+     */
     public class ServerGame {
         MapReader mapInfo;
         ServerPacket packet;

@@ -31,15 +31,15 @@ public class Game extends JFrame {
     private final int UPDATE_RATE = 30; // times the server is updated per second
 
     //class variables
-    JPanel menuPanel;
-    JPanel joinGamePanel;
-    CharacterPanel characterPanel;
-    JPanel serverPanel;
-    JPanel controlPanel;
-    CarPanel carPanel;
-    JPanel createGamePanel;
-    GamePanel gamePanel;
-    ArrayList<Player> playerList = new ArrayList<Player>();
+    private JPanel menuPanel;
+    private JPanel joinGamePanel;
+    private CharacterPanel characterPanel;
+    private JPanel serverPanel;
+    private JPanel controlPanel;
+    private CarPanel carPanel;
+    private JPanel createGamePanel;
+    private GamePanel gamePanel;
+    private ArrayList<Player> playerList = new ArrayList<Player>();
     int playerID = -1;
 
 
@@ -103,6 +103,10 @@ public class Game extends JFrame {
         this.setVisible(true);
     } //End of Constructor
 
+    /**
+     * startRace()
+     * starts the race, sends info to server
+     */
     public void startRace() {
         gameLoopTimer = new Timer();
         gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
@@ -122,19 +126,47 @@ public class Game extends JFrame {
         return server;
     }
 
+    /**
+     * ready()
+     * communicates ready status to server. when all the players in the lobby are ready, the server starts the game
+     */
     public void ready() {
         serverConnection.send(new ClientPacket(0, 0, 0.5 * Math.PI, true));
     }
 
+    /**
+     * startServer()
+     * starts a new server
+     * @return the server created
+     */
     public Server startServer() {
         server = new Server("MapOne.txt", 3, null, 3);
         return server;
     }
 
+    /**
+     * connectToGame()
+     * connects to an existing server
+     * @param serverIP ip address of the server
+     * @param port port number of the server
+     */
     public void connectToGame(String serverIP, int port) {
         serverConnection = new ServerConnection(serverIP, port);
     }
 
+    /**
+     * changeState()
+     * changes the state of the JFrame
+     * 0 is menuPanel
+     * 1 is controlPanel
+     * 2 joinGamePanel
+     * 3 serverPanel
+     * 4 characterPanel
+     * 5 carPanel
+     * 6 createGamePanel
+     * 7 gamePanel
+     * @param state which panel to switch to
+     */
     public void changeState(int state) {
         switch (state) {
             case 0:
@@ -166,14 +198,26 @@ public class Game extends JFrame {
         }
     }
 
+    /**
+     * returns the playerList
+     * @return the list of players in the game
+     */
     public ArrayList<Player> getPlayerList() {
     	return playerList;
     }
-    
+
+    /**
+     * returns the player for this game
+     * @return player
+     */
     public Player getPlayer() {
     	return player;
     }
 
+    /**
+     * switches the Jpanel on the JFrame
+     * @param newPanel
+     */
     private void switchPanel(JPanel newPanel) {
         getContentPane().removeAll();
         newPanel.setPreferredSize(new Dimension(800, 600));
@@ -227,7 +271,7 @@ public class Game extends JFrame {
         public ServerConnection(String serverIP, int port) {
             this.serverIP = serverIP;
             this.port = port;
-            this.gson = new Gson();
+            this.gson = new Gson(); // used to serialize/deserialize json objects to/from java objects
 
             try {
                 socket = new Socket(serverIP, port);
@@ -235,6 +279,7 @@ public class Game extends JFrame {
                 output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                 System.out.println("connected");
+                // send setup packet to server
                 StartClientPacket packet = new StartClientPacket(player);
                 gson.toJson(packet, StartClientPacket.class, output);
                 try {
@@ -245,7 +290,7 @@ public class Game extends JFrame {
                 }
 
                 Thread thread = new Thread(this);
-                thread.start();
+                thread.start(); // starts the thread that receives packets from the server
             } catch (Exception e) {
                 System.err.println("problem connecting to server");
                 e.printStackTrace();
@@ -253,7 +298,7 @@ public class Game extends JFrame {
         }
 
         @Override
-        public void run() {
+        public void run() { // receives the packets from server
             while (receiving) {
                 try {
                     ServerPacket packet = gson.fromJson(input, ServerPacket.class);
@@ -269,7 +314,8 @@ public class Game extends JFrame {
             }
         }
 
-        public synchronized void send(ClientPacket packet) {
+        // send packet to server
+        public synchronized void send(ClientPacket packet) { // synchronized to prevent overlapping timer tasks
            // System.out.println(packet.getAccel() + ", " + packet.getOrientation());
 
             gson.toJson(packet, ClientPacket.class, output);

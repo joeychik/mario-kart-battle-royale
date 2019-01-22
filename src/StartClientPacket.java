@@ -1,3 +1,8 @@
+/**
+ * [StartClientPacket.java]
+ * packet sent by client to server to set up client on server
+ */
+
 public class StartClientPacket extends Packet{
     private Player player;
 

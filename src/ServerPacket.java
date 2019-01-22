@@ -1,12 +1,17 @@
 import java.util.ArrayList;
 
+/**
+ * [ServerPacket.java]
+ * communicates information from server to client
+ */
+
 public class ServerPacket extends Packet{
     public static final int START_PACKET = 0;
     public static final int GAME_PACKET = 1;
 
     private int packetType;
     private String map = null;
-    private ArrayList<Player> playerList;
+    private ArrayList<Player> playerList; // list of all players
 
     ServerPacket(String map, ArrayList<Player> playerList) {
         packetType = START_PACKET;
