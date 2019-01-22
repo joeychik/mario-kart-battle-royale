@@ -99,6 +99,7 @@ public class GamePanel extends JPanel {
                     if (player.getHitBox().intersects(check.getHitBox())) {
                         player.setMarkersPassed(player.getMarkersPassed() + 1);
 
+                        //buffer to get rid of concurrent modification error
                         bufferMarker = check;
                         //removes intersecting marker from arraylist of remaining markers
 
