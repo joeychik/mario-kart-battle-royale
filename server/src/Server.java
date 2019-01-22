@@ -131,6 +131,8 @@ public class Server implements Runnable{
             gameLoopTimer = new Timer();
         }
 
+
+
         /**
          * start
          * infinite loop of game calculations
@@ -210,7 +212,7 @@ public class Server implements Runnable{
 
                     //sends packet
                     for (Client client : clients) {
-                        //    client.send(new ServerPacket(players));
+                        client.send(packet);
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate

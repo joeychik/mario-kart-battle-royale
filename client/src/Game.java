@@ -44,6 +44,7 @@ public class Game extends JFrame {
     private Server server = null;
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
+    private boolean inRace = false;
 
     //Main
     public static void main(String[] args) {
@@ -246,13 +247,14 @@ public class Game extends JFrame {
         }
 
         private void processStartServerPacket(ServerPacket packet) {
+            inRace = false;
             for (Player player : packet.getPlayerList()) {
                 System.out.println(player.getName());
             }
         }
 
         private void processServerPacket(ServerPacket packet) {
-
+            inRace = true;
         }
     }
 
