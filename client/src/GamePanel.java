@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
         this.addKeyListener(new MyKeyListener());
 
         //get rid of this after
-        window.getPlayer().setxPos(700);
+        player.setxPos(700);
 
         image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
         car = Utilities.getCarImages()[window.carPanel.getCarValue()];
@@ -60,18 +60,18 @@ public class GamePanel extends JPanel {
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         // Update player position, velocity, etc.
-        window.getPlayer().update();
+        //player.update();
         
         // Draw the entire map in desired location
         drawMap(g);
         
 
-        for(Player p: window.getPlayerList()) {    	
-        	if (p.getPlayerID() == window.getGameId()) {
-        		System.out.println(p.getxPos());
-        		System.out.println(p.getyPos());
-        	}
-        }
+//        for(Player p: window.getPlayerList()) {    	
+//        	if (p.getPlayerID() == window.getGameId()) {
+//        		System.out.println(p.getxPos());
+//        		System.out.println(p.getyPos());
+//        	}
+//        }
         
 
         // Required to rotate sprites in place
@@ -84,21 +84,13 @@ public class GamePanel extends JPanel {
         g2d.drawImage(combined, trans, this);
         
         g.setColor(Color.red);
-        
-        for(Player p: window.getPlayerList()) {    	
-        	if (p.getPlayerID() == window.getGameId()) {
-        		System.out.println(p.getxPos());
-        		System.out.println(p.getyPos());
-                g.fillRect((int)((p.getxPos()) - window.getPlayer().getxPos()), (int)(p.getyPos() - window.getPlayer().getyPos()), 50, 50);
-        	}
-        }
-        
+
 
 
 
             //player position corresponding to an index in the array
-            yArrayPosition = ((int)window.getPlayer().getyPos() /150) - 1;
-            xArrayPosition = ((int)window.getPlayer().getxPos()/150) - 1;
+            yArrayPosition = ((int)player.getyPos() /150) - 1;
+            xArrayPosition = ((int)player.getxPos()/150) - 1;
 
             //markers are used to determine how far the player has travelled
             //the number of markers passed is used to determine a player's position in the leaderboard
@@ -106,11 +98,11 @@ public class GamePanel extends JPanel {
             // checks if the player is over a marker
             if (map[yArrayPosition][xArrayPosition] instanceof Marker) {
                 //checks if the player is currently intersecting any remaining markers
-                for (MapComponent check: window.getPlayer().getMarkerList()) {
+                for (MapComponent check: player.getMarkerList()) {
 
                     //if they are, player's markersPassed increments by one
-                    if (window.getPlayer().getHitBox().intersects(check.getHitBox())) {
-                    	window.getPlayer().setMarkersPassed(player.getMarkersPassed() + 1);
+                    if (player.getHitBox().intersects(check.getHitBox())) {
+                        player.setMarkersPassed(player.getMarkersPassed() + 1);
 
                         //buffer to get rid of concurrent modification error
                         bufferMarker = check;
@@ -121,18 +113,18 @@ public class GamePanel extends JPanel {
                 //checks if player is over a finish line
             } else if (map[yArrayPosition][xArrayPosition] instanceof FinishMarker) {
                 //increase laps completed by one
-            	window.getPlayer().setLapsCompleted(player.getLapsCompleted() + 1);
-                if (window.getPlayer().getLapsCompleted() == 3) {
-                	window.getPlayer().setFinishedRace(true);
+                player.setLapsCompleted(player.getLapsCompleted() + 1);
+                if (player.getLapsCompleted() == 3) {
+                    player.setFinishedRace(true);
                 }
                 //re initializes player's arraylist of markers
                 for (MapComponent marker: mapInfo.getMarkerList()) {
-                	window.getPlayer().getMarkerList().add(marker);
+                    player.getMarkerList().add(marker);
                 }
             }
 
         if (bufferMarker != null) {
-        	window.getPlayer().getMarkerList().remove(bufferMarker);
+            player.getMarkerList().remove(bufferMarker);
         }
         // Call again
         repaint();
@@ -154,15 +146,15 @@ public class GamePanel extends JPanel {
 
 	private void drawMap(Graphics g) {
     	
-        int playerYPos =  (int)(window.getPlayer().getyPos() / 150);
-        int playerXPos =  (int)(window.getPlayer().getxPos() / 150);
+        int playerYPos =  (int)(player.getyPos() / 150);
+        int playerXPos =  (int)(player.getxPos() / 150);
     	
-//        for(Player p: window.getPlayerList()) {    	
-//        	if (p.getPlayerID() == window.getGameId()) {
-//                playerYPos =  (int)(p.getyPos() / 150);
-//                playerXPos =  (int)(p.getxPos() / 150);
-//        	}
-//        }
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+                playerYPos =  (int)(p.getyPos() / 150);
+                playerXPos =  (int)(p.getxPos() / 150);
+        	}
+        }
         
 
         
@@ -197,7 +189,7 @@ public class GamePanel extends JPanel {
         }
         
         if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
-        	window.getPlayer().setVelocity(0);
+        	player.setVelocity(0);
         }
 	}
 
@@ -205,21 +197,21 @@ public class GamePanel extends JPanel {
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == 'w') {
 
-            	window.getPlayer().setBrake(false);
-                window.getPlayer().setAccel(0.3);
+                player.setBrake(false);
+                player.setAccel(0.3);
             }
 
             if (e.getKeyChar() == 's') {
-            	window.getPlayer().setBrake(false);
-                window.getPlayer().setAccel(-0.1);
+                player.setBrake(false);
+                player.setAccel(-0.1);
             }
 
             if (e.getKeyChar() == 'd') {
-            	window.getPlayer().setOrientation(player.getOrientation() + 0.2);
+                player.setOrientation(player.getOrientation() + 0.2);
             }
 
             if (e.getKeyChar() == 'a') {
-                window.getPlayer().setOrientation(player.getOrientation() - 0.2);
+                player.setOrientation(player.getOrientation() - 0.2);
             }
 
         }
@@ -228,7 +220,7 @@ public class GamePanel extends JPanel {
 
         public void keyReleased(KeyEvent e) {
             if (e.getKeyChar() == 'w' || e.getKeyChar() == 's')
-            	window.getPlayer().setBrake(true);
+            player.setBrake(true);
         }
     } //end of keyboard listener
 
