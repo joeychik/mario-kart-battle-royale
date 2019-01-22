@@ -275,6 +275,9 @@ public class Game extends JFrame {
             }
             startRace();
             playerList = packet.getPlayerList();
+            for (Player p : playerList) {
+                if (p.getPlayerID() == playerID) player = p;
+            }
         }
     }
 

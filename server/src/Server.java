@@ -156,8 +156,6 @@ public class Server implements Runnable{
             gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("timer run");
-
                     if (playersFinished == players.size()) {
                         //finished game code
                         gameLoopTimer.cancel();
@@ -180,6 +178,9 @@ public class Server implements Runnable{
                     for (Player player : players) {
                         player.update();
                     }
+
+                    // used to check if all players finished
+                    boolean gameFinished = true;
 
                     //position and leaderboard calculations
                     for (Player p : players) {
@@ -219,6 +220,14 @@ public class Server implements Runnable{
 //                                p.getMarkerList().add(marker);
                             }
                         }
+
+                        // check if all players are finished
+                        if (p.getLapsCompleted() < lapCount) gameFinished = false;
+                    }
+
+                    // if all players finished, exit game
+                    if (gameFinished) {
+                        gameLoopTimer.cancel();
                     }
 
                     //sorts players in array by number of markers passed
@@ -230,7 +239,6 @@ public class Server implements Runnable{
                     //sends packet
                     for (Client client : clients) {
                         client.send(packet);
-                        System.out.println("send serverpacket");
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate
@@ -243,10 +251,5 @@ public class Server implements Runnable{
         public MapComponent[][] getMap() {
             return map;
         }
-
-        // why does this exist
-//        public void startGame(ArrayList<Player> players) {
-//            // TODO draft protocol
-//        }
     }
 }

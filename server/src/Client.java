@@ -65,7 +65,6 @@ public class Client {
             try {
                 while (!server.getServerGame().isInGame()) {
                     gson.fromJson(input, ClientPacket.class);
-                    System.out.println("ready");
                     player.setReady(true);
                     server.startGame();
                 }
