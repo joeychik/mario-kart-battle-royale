@@ -95,6 +95,9 @@ public class CreateGamePanel extends JPanel {
              */
             public void mouseClicked(MouseEvent e) {
             	if (ready.isMouseOnButton(panel)) {
+            		
+            		//START SERVER
+            		
             		window.changeState(7);
             	}
             }

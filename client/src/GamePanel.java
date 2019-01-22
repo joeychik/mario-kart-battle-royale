@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
     private int yMapPosition = 0;
     private Player player;
     private Game2 window;
-    
+
     private Image image;
     private Image car;
 
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
 
         //get rid of this after
         player.setxPos(600);
-        
+
 
         //replace placeholders
     }
@@ -40,13 +40,13 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g); //required
         setDoubleBuffered(true);
-        
+
         this.setFocusable(true);
         this.requestFocus(true);
         this.requestFocusInWindow(true);
 
         player.update();
-        
+
 
 
         int playerYPos = ((int) player.getyPos()) / 150;
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
 
         image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
         car = Utilities.getCarImages()[window.carPanel.getCarValue()];
-        
+
         BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
         Graphics comb = combined.getGraphics();
         comb.drawImage(car, 0, 0, null);
@@ -79,8 +79,8 @@ public class GamePanel extends JPanel {
 
         g.setColor(Color.RED);
         g.drawRect(400,300,player.getDimensions(), player.getDimensions());
-        
-        
+
+
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = AffineTransform.getTranslateInstance(400, car.getWidth(null)/2);
 
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
             System.out.println("idk thread interruption");
         }
     }
-    
+
     private class MyKeyListener implements KeyListener {
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == 'w') {

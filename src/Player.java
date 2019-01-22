@@ -9,7 +9,9 @@ public class Player implements Comparable<Player> {
     private double accel;
     private boolean brake;
     private double orientation;
-    private int relativePosition = 0;
+    private int relativeYPosition = 0;
+    private int relativeXPosition = 0;
+
     private boolean movingBackwards = false;
     private String name;
     private String characterSprite;
@@ -82,7 +84,8 @@ public class Player implements Comparable<Player> {
         xPos += velocity * Math.cos(orientation);
         yPos += velocity * Math.sin(orientation);
 
-        relativePosition = ((int) yPos) % 150;
+        relativeYPosition = ((int) yPos) % 150;
+        relativeXPosition = ((int) xPos) % 150;
         hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
     }
 
@@ -134,12 +137,20 @@ public class Player implements Comparable<Player> {
         this.orientation = orientation;
     }
 
-    public int getRelativePosition() {
-        return relativePosition;
+    public int getRelativeYPosition() {
+        return relativeYPosition;
     }
 
-    public void setRelativePosition(int relativePosition) {
-        this.relativePosition = relativePosition;
+    public void setRelativeYPosition(int relativeYPosition) {
+        this.relativeYPosition = relativeYPosition;
+    }
+    
+    public int getRelativeXPosition() {
+        return relativeXPosition;
+    }
+
+    public void setRelativeXPosition(int relativeXPosition) {
+        this.relativeXPosition = relativeXPosition;
     }
 
     public boolean isMovingBackwards() {
