@@ -41,11 +41,12 @@ public class Game extends JFrame {
     GamePanel gamePanel;
     ArrayList<Player> playerList = new ArrayList<Player>();
 
-    
+
     private Player player;
     private Server server = null;
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
+    private boolean inRace = false;
 
     //Main
     public static void main(String[] args) {
@@ -56,7 +57,7 @@ public class Game extends JFrame {
     //Constructor - this runs first
     Game() {
         super("MarioKart");
-        
+
         player = new Player("asdf", 0, 0);
 
         this.setLocation(0, 0);
@@ -147,7 +148,7 @@ public class Game extends JFrame {
                 throw new IndexOutOfBoundsException();
         }
     }
-    
+
     public ArrayList<Player> getPlayerList() {
     	return playerList;
     }
@@ -253,18 +254,16 @@ public class Game extends JFrame {
         }
 
         private void processStartServerPacket(ServerPacket packet) {
-        	playerList = packet.getPlayerList();
-
-//            for (Player player : packet.getPlayerList()) {
-//            	
-//                System.out.println(player.getName());
-//                
-//
-//            }
+            inRace = false;
+            playerList = packet.getPlayerList();
+            for (Player player : packet.getPlayerList()) {
+                System.out.println(player.getName());
+            }
         }
 
         private void processServerPacket(ServerPacket packet) {
-        	playerList = packet.getPlayerList();
+            inRace = true;
+            playerList = packet.getPlayerList();
         }
     }
 
