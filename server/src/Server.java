@@ -175,17 +175,17 @@ public class Server implements Runnable{
                         if (map[yMapPosition][xMapPosition] instanceof Marker) {
 
                             //checks if the player is currently intersecting any remaining markers
-                                for (MapComponent check: p.getMarkerList()) {
+                            for (MapComponent check: p.getMarkerList()) {
 
-                                    //if they are, player's markersPassed increments by one
-                                    if (p.getHitBox().intersects(check.getHitBox())) {
-                                        p.setMarkersPassed(p.getMarkersPassed() + 1);
+                                //if they are, player's markersPassed increments by one
+                                if (p.getHitBox().intersects(check.getHitBox())) {
+                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
 
-                                        //removes intersecting marker from arraylist of remaining markers
-                                        p.getMarkerList().remove(check);
-                                    }
+                                    //removes intersecting marker from arraylist of remaining markers
+                                    p.getMarkerList().remove(check);
+                                }
                             }
-                        //checks if player is over a finish line
+                            //checks if player is over a finish line
                         } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
                             //increase laps completed by one
                             p.setLapsCompleted(p.getLapsCompleted() + 1);
@@ -208,7 +208,7 @@ public class Server implements Runnable{
 
                     //sends packet
                     for (Client client : clients) {
-                    //    client.send(new ServerPacket(players));
+                        //    client.send(new ServerPacket(players));
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate
