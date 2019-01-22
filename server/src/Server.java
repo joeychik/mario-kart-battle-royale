@@ -82,6 +82,7 @@ public class Server implements Runnable{
                     c = new Client(s, this);
                     clients.add(c);
                     players.add(c.getPlayer());
+                    c.getPlayer().setPlayerID(players.size());
                     c.startThread();
 
                     for (Client client : clients) {

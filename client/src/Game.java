@@ -40,6 +40,7 @@ public class Game extends JFrame {
     JPanel createGamePanel;
     GamePanel gamePanel;
     ArrayList<Player> playerList = new ArrayList<Player>();
+    int playerID = -1;
 
     
     private Player player;
@@ -253,13 +254,9 @@ public class Game extends JFrame {
 
         private void processStartServerPacket(ServerPacket packet) {
         	playerList = packet.getPlayerList();
-
-//            for (Player player : packet.getPlayerList()) {
-//            	
-//                System.out.println(player.getName());
-//                
-//
-//            }
+        	if (playerID == -1) {
+        	    playerID = packet.getPlayerList().size();
+            }
         }
 
         private void processServerPacket(ServerPacket packet) {

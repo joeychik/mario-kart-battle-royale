@@ -11,7 +11,7 @@ public class Player implements Comparable<Player> {
     private double orientation;
     private int relativeYPosition = 0;
     private int relativeXPosition = 0;
-
+    private int playerID;
     private boolean movingBackwards = false;
     private String name;
     private String characterSprite;
@@ -233,6 +233,14 @@ public class Player implements Comparable<Player> {
 
     public void setFinishedRace(boolean finishedRace) {
         this.finishedRace = finishedRace;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 
     @Override
