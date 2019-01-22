@@ -1,13 +1,13 @@
 /**
- * [CustomButton.java] 
+ * [CustomButton.java]  
  * the custom class button that can be selected
  * BEST OF ALL IT LOOKS SO MUCH BETTER THAN JAVA BUTTONS
  * @author Yash Arora
- * December 2 2018
+ * @since 2019-01-22
  */
  
-
-import javax.swing.JPanel;
+// Imports
+import javax.swing.JPanel; 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
@@ -171,6 +171,13 @@ public class CustomButton {
 		appearSelected = selected;
 	}
 	
+	/**
+	 * getFont
+	 * returns the font based on variables
+	 * @param fileName of the font
+	 * @param size of the dont
+	 * @return Font object to be drawn
+	 */
 	public static Font getFont(String fileName, float size) {
 		Font font;
 		try {
