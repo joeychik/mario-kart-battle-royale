@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
 
     AffineTransform identity = new AffineTransform(0, 0, 0, 0, 0, 0);
 
+    BufferedImage combined;
 
 
     GamePanel(String mapName, Player player, Game window) {
@@ -34,28 +35,70 @@ public class GamePanel extends JPanel {
         //get rid of this after
         player.setxPos(700);
 
+        image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
+        car = Utilities.getCarImages()[window.carPanel.getCarValue()];
+        combined = combineSprites(image, car);
 
         //replace placeholders
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g); //required
+    	
+    	// Required paintComponent methods
+        super.paintComponent(g);
         setDoubleBuffered(true);
-
         this.setFocusable(true);
         this.requestFocus(true);
         this.requestFocusInWindow(true);
+        
+        // Required for rotation of sprites
+        Graphics2D g2d = (Graphics2D)g;
+        AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
+        // Update player position, velocity, etc.
         player.update();
+        
+        // Draw the entire map in desired location
+        drawMap(g);
 
+        System.out.println(window.getPlayerList().get(0).getxPos());
+        
+        
+        // Required to rotate sprites in place
+        trans.translate(15, 15);
+        trans.rotate(player.getOrientation() + Math.PI/2);
+        trans.translate(-15, -15);
 
+        
+        // Draw the actual combined sprites
+        g2d.drawImage(combined, trans, this);
 
+        
+        // Call again
+        repaint();
+        
+//        try {
+//            Thread.sleep(1);
+//        } catch (Exception e) {
+//            System.out.println("idk thread interruption");
+//        }
+    }
+
+    private BufferedImage combineSprites(Image image2, Image car2) {
+        BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics comb = combined.getGraphics();
+        comb.drawImage(car, 0, 0, 40, 60, null);
+        comb.drawImage(image, 5, 15, 30, 30, null);
+        return combined;
+	}
+
+	private void drawMap(Graphics g) {
+    	
         int playerYPos =  (int)(player.getyPos() / 150);
         int playerXPos =  (int)(player.getxPos() / 150);
-
+    	
         String tileName = "";
     	tileName = "road.png";
-
         for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
@@ -84,67 +127,12 @@ public class GamePanel extends JPanel {
             }
         }
         
-	      
-
-        image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
-        car = Utilities.getCarImages()[window.carPanel.getCarValue()];
-
-        BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
-        Graphics comb = combined.getGraphics();
-        comb.drawImage(car, 0, 0, 40, 60, null);
-        comb.drawImage(image, 5, 15, 30, 30, null);
-
-        Graphics2D g2d = (Graphics2D)g;
-        AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
-
-        
-        ///System.out.println(window.getPlayerList().get(0).getxPos());
-        
-        trans.translate(15, 15);
-        trans.rotate(player.getOrientation() + Math.PI/2);
-        trans.translate(-15, -15);
-
-        g2d.drawImage(combined, trans, this);
-        
-        
-        //g.fillRect(player.getHitBox().x, player.getHitBox().y, player.getHitBox().width, player.getHitBox().height);
-        
-
-
-        //g.drawImage(Utilities.getCharacterSpriteImages()[window.carPanel.getCarValue()], 50 + 100, 100 + 150, 100, 100, null);
-
-
-        // shows orientation
-        //g.drawLine(400,300, (int) (player.getxPos() + 3000 * Math.cos(player.getOrientation())), (int) (300 + 3000 * Math.sin(player.getOrientation())));
-
-//        for (int i = 0; i < 10; i++ ) {
-//            if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
-//                System.out.println(map[playerYPos - 1][i]);
-//                System.out.println(player.getyPos());
-//            }
-//        }
-        
-        g.fillRect(400, 300, 5, 5);
-        
         if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
-        	//player.setVelocity(0);
         	player.setVelocity(0);
-        	
         }
-        
-        
-        //System.out.println(map[playerYPos-1][playerXPos-1]);
-        
-        
-        repaint();
-        try {
-            Thread.sleep(5);
-        } catch (Exception e) {
-            System.out.println("idk thread interruption");
-        }
-    }
+	}
 
-    private class MyKeyListener implements KeyListener {
+	private class MyKeyListener implements KeyListener {
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == 'w') {
 
