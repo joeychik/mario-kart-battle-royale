@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
         this.addKeyListener(new MyKeyListener());
 
         //get rid of this after
-        player.setxPos(600);
+        player.setxPos(700);
 
 
         //replace placeholders
@@ -50,8 +50,8 @@ public class GamePanel extends JPanel {
 
 
 
-        int playerYPos = ((int) player.getyPos()) / 150;
-        int playerXPos = ((int) player.getxPos()) / 150;
+        int playerYPos =  (int)(player.getyPos() / 150);
+        int playerXPos =  (int)(player.getxPos() / 150);
 
         String tileName = "";
     	tileName = "road.png";
@@ -71,8 +71,8 @@ public class GamePanel extends JPanel {
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), 
                         			
-                        			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150 - 50, 
-                        		   ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150 - 150), 
+                        			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150,
+                        		   ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
                         		   (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
                         	tileName = "road.png";
                         } 
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel {
 //        }
         
         
-        System.out.println(map[playerXPos-1][playerYPos-1]);
+        System.out.println(map[playerYPos-1][playerXPos-1]);
         
         
         repaint();
