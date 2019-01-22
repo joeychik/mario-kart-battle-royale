@@ -78,32 +78,7 @@ public class GamePanel extends JPanel {
 		}
 		// REDO THIS AND FIGURE OUT HOW
 
-		image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
-		car = Utilities.getCarImages()[window.carPanel.getCarValue()];
 
-		BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
-		Graphics comb = combined.getGraphics();
-		comb.drawImage(car, 0, 0, null);
-		comb.drawImage(image, 50, 100, null);
-
-		g.setColor(Color.RED);
-		g.fillRect(300, 750, player.getDimensions() * 10, player.getDimensions() * 10);
-
-		Graphics2D g2d = (Graphics2D) g;
-		AffineTransform trans = AffineTransform
-				.getTranslateInstance(car.getWidth(null) / 2 + (int) player.getxPos() - 200, car.getWidth(null) / 2);
-
-		trans.translate(100, 150);
-		trans.rotate(player.getOrientation() + Math.PI / 2);
-		trans.translate(-100, -150);
-		
-		System.out.println(player.getxPos());
-		System.out.println(player.getyPos());
-
-
-		// trans.translate((int)player.getxPos()-250, 0);
-
-		g2d.drawImage(combined, trans, this);
 
 		// g.drawImage(Utilities.getCharacterSpriteImages()[window.carPanel.getCarValue()],
 		// 50 + 100, 100 + 150, 100, 100, null);
