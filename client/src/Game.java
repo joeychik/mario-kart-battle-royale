@@ -299,11 +299,17 @@ public class Game extends JFrame {
             playerList = packet.getPlayerList();
             for (Player p : playerList) {
                 if (p.getPlayerID() == playerID) {
+                	
+
+                	
                     player.setVelocity(p.getVelocity());
                     player.setxPos(p.getxPos());
                     player.setyPos(p.getyPos());
                     player.setRelativeXPosition(p.getRelativeXPosition());
                     player.setRelativeYPosition(p.getRelativeYPosition());
+                    
+                    
+                    
                 }
             }
         }

@@ -80,7 +80,7 @@ public class GamePanel extends JPanel {
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         // Update player position, velocity, etc.
-        //player.update();
+        player.update();
         
         // Draw the entire map in desired location
         drawMap(g);
@@ -216,7 +216,9 @@ public class GamePanel extends JPanel {
                         } else if (map[i][j] instanceof FinishMarker) {
                         	tileName = "finish.png";
                         }
-                    	                    	
+                    	
+//                    	System.out.println(tileName);
+                    	
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), 
                         			
