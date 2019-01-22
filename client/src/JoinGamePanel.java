@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class JoinGamePanel extends JPanel {
-        private Game2 window;
+        private Game window;
         private JLayeredPane pane;
         Action action;
 
@@ -30,7 +30,7 @@ public class JoinGamePanel extends JPanel {
         CustomButton back;
 
 
-        JoinGamePanel(Game2 window) {
+        JoinGamePanel(Game window) {
         	
         	this.panel = this;
             this.window = window;

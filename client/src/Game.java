@@ -41,6 +41,7 @@ public class Game extends JFrame {
     
     
     private Player player;
+    private Server server = null;
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
 
@@ -61,13 +62,13 @@ public class Game extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
-//        this.menuPanel = new MenuPanel(this);
-//        this.characterPanel = new CharacterPanel(this);
-//        this.carPanel = new CarPanel(this);
-//        this.controlPanel = new ControlPanel(this);
-//        this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
-//        this.joinGamePanel = new JoinGamePanel(this);
-//        this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"));
+        this.menuPanel = new MenuPanel(this);
+        this.characterPanel = new CharacterPanel(this);
+        this.carPanel = new CarPanel(this);
+        this.controlPanel = new ControlPanel(this);
+        this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
+        this.joinGamePanel = new JoinGamePanel(this);
+        this.gamePanel = new GamePanel("MapOne.txt", new Player("placeholder", "placeholder", "placeholder"), this);
 
         changeState(0);
 
@@ -98,6 +99,15 @@ public class Game extends JFrame {
                 ));
             }
         }, 0, 1000 / UPDATE_RATE);
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public Server startServer() {
+        server = new Server("MapOne.txt", 3, null, 3);
+        return server;
     }
 
     public void connectToGame(String serverIP, int port) {

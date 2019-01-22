@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class CarPanel extends JPanel {
 
-    private Game2 window;
+    private Game window;
     private JLayeredPane pane;
     Action action;
 
@@ -31,7 +31,7 @@ public class CarPanel extends JPanel {
     String[] characters = new String[] {"Car1", "Car2", "Car3"};
     Image[] images = new Image[3];
  
-    CarPanel(Game2 window) {
+    CarPanel(Game window) {
         this.window = window;
 
         this.setLayout(new BorderLayout());

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ControlPanel extends JPanel {
-    private Game2 window;
+    private Game window;
     private JLayeredPane pane;
     Action action;
     BufferedImage menuIcon;
@@ -25,7 +25,7 @@ public class ControlPanel extends JPanel {
     Image background;
 
 
-    ControlPanel(Game2 window) {
+    ControlPanel(Game window) {
         this.window = window;
 
         this.setLayout(new BorderLayout());

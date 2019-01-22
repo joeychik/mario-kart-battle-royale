@@ -38,7 +38,7 @@ public class MapReader {
      * Constructs a 2D array out of a text file
      * @throws Exception
      */
-    void readMap() throws Exception{
+    void readMap() {
         String line;
         ArrayList<String> mapChar = new ArrayList<>();
         int length = 0;

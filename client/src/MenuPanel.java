@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MenuPanel extends JPanel {
-        private Game2 window;
+        private Game window;
         private JLayeredPane pane;
         Action action;
 
@@ -33,7 +33,7 @@ public class MenuPanel extends JPanel {
         JPanel panel;
 
 
-        MenuPanel(Game2 window) {
+        MenuPanel(Game window) {
         	
         	this.panel = this;
             this.window = window;
