@@ -84,7 +84,22 @@ public class GamePanel extends JPanel {
         g2d.drawImage(combined, trans, this);
         
         g.setColor(Color.red);
+        
+        System.out.println(window.getPlayerList());
 
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+        		
+        		
+                
+                
+                
+        	}
+            g.fillRect((int)(p.getxPos() - player.getxPos()), (int)(p.getyPos() - player.getyPos()), 50, 50);
+
+        }
+        
+        
 
 
 

@@ -25,7 +25,7 @@ public class Player implements Comparable<Player> {
     private int lapsCompleted;
     private boolean finishedRace;
 
-    private static int TERMINAL_VELOCITY = 10;
+    private static int TERMINAL_VELOCITY = 3;
 
     Player(String name, int characterSprite, int carSprite) {
         xPos = 250.0;

@@ -38,7 +38,7 @@ public class Client {
     }
 
     public void send(ServerPacket packet) {
-        System.out.println(packet);
+        //System.out.println(packet);
         connectionHandler.send(packet);
     }
 

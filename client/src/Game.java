@@ -258,7 +258,7 @@ public class Game extends JFrame {
         }
 
         public synchronized void send(ClientPacket packet) {
-            System.out.println(packet.getAccel() + ", " + packet.getOrientation());
+           // System.out.println(packet.getAccel() + ", " + packet.getOrientation());
 
             gson.toJson(packet, ClientPacket.class, output);
             try {
