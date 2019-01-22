@@ -78,6 +78,7 @@ public class CarPanel extends JPanel {
 
 	public void setCarValue(int carValue) {
 		this.carValue = carValue;
+		window.setCarVal(carValue);
 	}
 
 	private class Action implements ActionListener {

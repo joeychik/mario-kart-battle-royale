@@ -82,6 +82,7 @@ public class CharacterPanel extends JPanel {
 
 	public void setCharacterValue(int characterValue) {
 		this.characterValue = characterValue;
+		window.setCharVal(characterValue);
 	}
 
 	private class Action implements ActionListener {

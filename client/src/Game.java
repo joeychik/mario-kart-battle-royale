@@ -48,6 +48,18 @@ public class Game extends JFrame {
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
     private boolean inRace = false;
+    
+    private int charVal = -1;
+	private int carVal = -1;
+
+    public int getCharVal() {
+		return charVal;
+	}
+
+	public int getCarVal() {
+		return carVal;
+	}
+
 
     //Main
     public static void main(String[] args) {
@@ -287,14 +299,28 @@ public class Game extends JFrame {
             playerList = packet.getPlayerList();
             for (Player p : playerList) {
                 if (p.getPlayerID() == playerID) {
+                	
+
+                	
                     player.setVelocity(p.getVelocity());
                     player.setxPos(p.getxPos());
                     player.setyPos(p.getyPos());
                     player.setRelativeXPosition(p.getRelativeXPosition());
                     player.setRelativeYPosition(p.getRelativeYPosition());
+                    
+                    
+                    
                 }
             }
         }
     }
+
+	public void setCharVal(int characterValue) {
+		charVal = characterValue;
+	}
+
+	public void setCarVal(int carValue) {
+		
+	}
 
 }

@@ -76,4 +76,16 @@ public class Utilities {
 		
 		return im;
 	}
+	
+	public static Image getIcon(String name) {
+		Image im = null;
+		try {
+			 
+			 im = ImageIO.read(new File("res/" + name));
+		} catch (IOException e) {
+			System.err.println("Error loading image");
+		}
+		
+		return im;
+	}
 }

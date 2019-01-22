@@ -36,12 +36,19 @@ public class GamePanel extends JPanel {
         map = mapInfo.getMap();
         this.addKeyListener(new MyKeyListener());
 
+        player.update();
+        
         //get rid of this after
         player.setxPos(700);
 
-        image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
-        car = Utilities.getCarImages()[window.carPanel.getCarValue()];
-        combined = combineSprites(image, car);
+
+        
+        
+        
+        
+        for (MapComponent marker: mapInfo.getMarkerList()) {
+            player.getMarkerList().add(marker);
+        }
 
         //replace placeholders
     }
@@ -50,17 +57,30 @@ public class GamePanel extends JPanel {
     	
     	// Required paintComponent methods
         super.paintComponent(g);
-        setDoubleBuffered(true);
+        this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.requestFocus(true);
         this.requestFocusInWindow(true);
+        
+//        if (window.getCharVal() != -1 && window.getCarVal() != -1) {
+//            image = Utilities.getCharacterSpriteImages()[window.getCharVal()];
+//            car = Utilities.getCarImages()[window.getCarVal()];
+//            combined = combineSprites(image, car);
+//        }
+        
+        if (window.characterPanel.getCharacterValue() != -1 && window.carPanel.getCarValue() != -1) {
+            image = Utilities.getCharacterSpriteImages()[window.characterPanel.getCharacterValue()];
+            car = Utilities.getCarImages()[window.carPanel.getCarValue()];
+            combined = combineSprites(image, car);
+        }
+        
         
         // Required for rotation of sprites
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         // Update player position, velocity, etc.
-        //player.update();
+        player.update();
         
         // Draw the entire map in desired location
         drawMap(g);
@@ -78,69 +98,33 @@ public class GamePanel extends JPanel {
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
         trans.translate(-15, -15);
+        trans.translate(-5, 0);
 
         
         // Draw the actual combined sprites
         g2d.drawImage(combined, trans, this);
+                
         
-        g.setColor(Color.red);
         
-        System.out.println(window.getPlayerList());
+//        System.out.println(window.getPlayerList().get(0).compareTo(window.getPlayerList().get(1)));
 
         for(Player p: window.getPlayerList()) {    	
-        	if (p.getPlayerID() == window.getGameId()) {
-        		
-        		
-                
-                
-                
+
+        	if (window.getGameId() != p.getPlayerID()) {
+
+                g.drawImage(Utilities.getIcon("fireflower.png"), (int)(p.getxPos() - player.getxPos()) + 400 - 5, (int)(p.getyPos() - player.getyPos()) + 300 - 15, 30, 30, null);
+
+        		//g.drawImage(Utilities.getIcon("fireflower.png"), (int)(p.getxPos() - player.getxPos()) + 400, (int)(p.getyPos() - player.getyPos()) + 300, 200, 300, null);
         	}
-            g.fillRect((int)(p.getxPos() - player.getxPos()), (int)(p.getyPos() - player.getyPos()), 50, 50);
-
+            //g.drawRect((int)(p.getxPos() - player.getxPos()) + 400, (int)(p.getyPos() - player.getyPos()) + 300, 40, 60);
         }
         
+        collide();
         
 
 
 
-            //player position corresponding to an index in the array
-            yArrayPosition = ((int)player.getyPos() /150) - 1;
-            xArrayPosition = ((int)player.getxPos()/150) - 1;
-
-            //markers are used to determine how far the player has travelled
-            //the number of markers passed is used to determine a player's position in the leaderboard
-
-            // checks if the player is over a marker
-            if (map[yArrayPosition][xArrayPosition] instanceof Marker) {
-                //checks if the player is currently intersecting any remaining markers
-                for (MapComponent check: player.getMarkerList()) {
-
-                    //if they are, player's markersPassed increments by one
-                    if (player.getHitBox().intersects(check.getHitBox())) {
-                        player.setMarkersPassed(player.getMarkersPassed() + 1);
-
-                        //buffer to get rid of concurrent modification error
-                        bufferMarker = check;
-                        //removes intersecting marker from arraylist of remaining markers
-
-                    }
-                }
-                //checks if player is over a finish line
-            } else if (map[yArrayPosition][xArrayPosition] instanceof FinishMarker) {
-                //increase laps completed by one
-                player.setLapsCompleted(player.getLapsCompleted() + 1);
-                if (player.getLapsCompleted() == 3) {
-                    player.setFinishedRace(true);
-                }
-                //re initializes player's arraylist of markers
-                for (MapComponent marker: mapInfo.getMarkerList()) {
-                    player.getMarkerList().add(marker);
-                }
-            }
-
-        if (bufferMarker != null) {
-            player.getMarkerList().remove(bufferMarker);
-        }
+            
         // Call again
         repaint();
         
@@ -151,7 +135,50 @@ public class GamePanel extends JPanel {
 //        }
     }
 
-    private BufferedImage combineSprites(Image image2, Image car2) {
+    private void collide() {
+    	//player position corresponding to an index in the array
+        yArrayPosition = ((int)player.getyPos() /150) - 1;
+        xArrayPosition = ((int)player.getxPos()/150) - 1;
+
+        //markers are used to determine how far the player has travelled
+        //the number of markers passed is used to determine a player's position in the leaderboard
+
+        // checks if the player is over a marker
+        if (map[yArrayPosition][xArrayPosition] instanceof Marker) {
+            //checks if the player is currently intersecting any remaining markers
+            for (MapComponent check: player.getMarkerList()) {
+
+                //if they are, player's markersPassed increments by one
+                if (player.getHitBox().intersects(check.getHitBox())) {
+              
+                    player.setMarkersPassed(player.getMarkersPassed() + 1);
+
+                    //buffer to get rid of concurrent modification error
+                    bufferMarker = check;
+                    //removes intersecting marker from arraylist of remaining markers
+
+                }
+            }
+            //checks if player is over a finish line
+        } else if (map[yArrayPosition][xArrayPosition] instanceof FinishMarker) {
+            //increase laps completed by one
+            player.setLapsCompleted(player.getLapsCompleted() + 1);
+            if (player.getLapsCompleted() == 3) {
+                player.setFinishedRace(true);
+            }
+            //re initializes player's arraylist of markers
+            for (MapComponent marker: mapInfo.getMarkerList()) {
+            	player.setMarkersPassed(player.getMarkersPassed()+1);
+                player.getMarkerList().add(marker);
+            }
+        }
+
+    if (bufferMarker != null) {
+        player.getMarkerList().remove(bufferMarker);
+    }		
+	}
+
+	private BufferedImage combineSprites(Image image2, Image car2) {
         BufferedImage combined = new BufferedImage(200, 300, BufferedImage.TYPE_INT_ARGB);
         Graphics comb = combined.getGraphics();
         comb.drawImage(car, 0, 0, 40, 60, null);
@@ -161,15 +188,15 @@ public class GamePanel extends JPanel {
 
 	private void drawMap(Graphics g) {
     	
-        int playerYPos =  (int)(player.getyPos() / 150);
-        int playerXPos =  (int)(player.getxPos() / 150);
+        int playerYPos =  (int)(window.getPlayer().getyPos() / 150);
+        int playerXPos =  (int)(window.getPlayer().getxPos() / 150);
     	
-        for(Player p: window.getPlayerList()) {    	
-        	if (p.getPlayerID() == window.getGameId()) {
-                playerYPos =  (int)(p.getyPos() / 150);
-                playerXPos =  (int)(p.getxPos() / 150);
-        	}
-        }
+//        for(Player p: window.getPlayerList()) {    	
+//        	if (p.getPlayerID() == window.getGameId()) {
+//                playerYPos =  (int)(p.getyPos() / 150);
+//                playerXPos =  (int)(p.getxPos() / 150);
+//        	}
+//        }
         
 
         
@@ -179,21 +206,26 @@ public class GamePanel extends JPanel {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
                     if (map[i][j] != null) {
-                        g.setColor(Color.WHITE);
-                        if (map[i][j] instanceof Road) {
+
+                    	if (map[i][j] instanceof Road) {
                         	tileName = "road.png";
-                            g.setColor(Color.BLACK);
                         } else if (map[i][j] instanceof Wall) {
                         	tileName = "grass.png";
-                            g.setColor(Color.BLUE);
+                        } else if (map[i][j] instanceof Marker) {
+                        	tileName = "road.png";
+                        } else if (map[i][j] instanceof FinishMarker) {
+                        	tileName = "finish.png";
                         }
+                    	
+//                    	System.out.println(tileName);
+                    	
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), 
                         			
                         			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150 - 50,
                         		   ((i - playerYPos + 3) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
                         		   (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
-                        	tileName = "road.png";
+                        	tileName = "finish.png";
                         } 
                         
                        	g.setColor(Color.red);
@@ -205,6 +237,7 @@ public class GamePanel extends JPanel {
         
         if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
         	player.setVelocity(0);
+        	player.setAccel(0);
         }
 	}
 
@@ -214,20 +247,19 @@ public class GamePanel extends JPanel {
 
                 player.setBrake(false);
                 player.setAccel(0.3);
-            }
-
-            if (e.getKeyChar() == 's') {
+            }else if (e.getKeyChar() == 's') {
                 player.setBrake(false);
-                player.setAccel(-0.1);
-            }
-
-            if (e.getKeyChar() == 'd') {
+                player.setAccel(-0.2);
+            }else if (e.getKeyChar() == 'd') {
                 player.setOrientation(player.getOrientation() + 0.2);
-            }
-
-            if (e.getKeyChar() == 'a') {
+            } else if (e.getKeyChar() == 'a') {
                 player.setOrientation(player.getOrientation() - 0.2);
+            } else {
+                player.setAccel(-0.1);
+
             }
+            
+            
 
         }
 
