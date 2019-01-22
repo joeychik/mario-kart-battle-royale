@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +39,8 @@ public class Game extends JFrame {
     CarPanel carPanel;
     JPanel createGamePanel;
     GamePanel gamePanel;
-    
+    ArrayList<Player> playerList = new ArrayList<Player>();
+
     
     private Player player;
     private Server server = null;
@@ -144,6 +146,10 @@ public class Game extends JFrame {
                 throw new IndexOutOfBoundsException();
         }
     }
+    
+    public ArrayList<Player> getPlayerList() {
+    	return playerList;
+    }
 
     private void switchPanel(JPanel newPanel) {
         getContentPane().removeAll();
@@ -246,8 +252,14 @@ public class Game extends JFrame {
         }
 
         private void processStartServerPacket(ServerPacket packet) {
+        	playerList = packet.getPlayerList();
+
             for (Player player : packet.getPlayerList()) {
+            	
                 System.out.println(player.getName());
+                
+                
+                
             }
         }
 
