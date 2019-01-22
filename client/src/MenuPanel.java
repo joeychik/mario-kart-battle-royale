@@ -20,21 +20,26 @@ import javax.swing.JTextField;
 public class MenuPanel extends JPanel {
         private Game window;
         private JLayeredPane pane;
-        Action action;
+        private Action action;
 
-        CustomButton controls;
-        CustomButton joinGame;
-        CustomButton createGame;
-        Image background;
-        BufferedImage createGameIcon;
-        BufferedImage joinGameIcon;
-        BufferedImage controlsIcon;
+        private CustomButton controls;
+        private CustomButton joinGame;
+        private CustomButton createGame;
+        private Image background;
+        private BufferedImage createGameIcon;
+        private BufferedImage joinGameIcon;
+        private BufferedImage controlsIcon;
 
-        JPanel panel;
+        private JPanel panel;
 
 
-        MenuPanel(Game window) {
+    /**
+     * constructor
+     * @param window
+     */
+    MenuPanel(Game window) {
 
+        //jpanel layout stuff
         	this.panel = this;
             this.window = window;
             this.addMouseListener(new MyMouseListener());
@@ -43,16 +48,19 @@ public class MenuPanel extends JPanel {
             pane.setBounds(0, 0, 800, 600);
 
             try {
+                //loads background image
                 background = ImageIO.read(new File("res/menubackground.png"));
             } catch (IOException e) {
                 System.err.println("Error loading image");
             }
 
+            //buttons
             joinGame = new CustomButton("Join Game", 350, 300, 200, 50, Color.black);
             createGame = new CustomButton("Create Game", 400, 400, 250, 50, Color.black);
             controls = new CustomButton("", 750, 0, 50, 50, null);
 
 
+            //add everything to pane
             add(pane);
             pane.setVisible(true);
 
@@ -65,6 +73,7 @@ public class MenuPanel extends JPanel {
             super.paintComponent(g);
             g.drawImage(background, 0,0, 800, 600, null);
 
+            //draw buttons
             joinGame.draw(g, this);
             createGame.draw(g, this);
             controls.draw(g, this);
@@ -80,12 +89,13 @@ public class MenuPanel extends JPanel {
             }
 
             /**
+             * mouseClicked
              * Checks which button was clicked and acts accordingly
-             *
              * @param e mouse event which occurred
              */
             public void mouseClicked(MouseEvent e) {
 
+                //change states
                 if (controls.isMouseOnButton(panel)) { // back button returns to teacher dashboard
                 	window.changeState(1);
                 } else if (joinGame.isMouseOnButton(panel)) {
@@ -99,10 +109,10 @@ public class MenuPanel extends JPanel {
                 	window.changeState(4); // go to character
 
 
+                    //start up the server
                 	window.startServer();
                     window.connectToGame("127.0.0.1", 5000);
 
-                } else {
                 }
             }
 
