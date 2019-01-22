@@ -110,6 +110,10 @@ public class Game extends JFrame {
         return server;
     }
 
+    public void ready() {
+        serverConnection.send(new ClientPacket(0, 0, 0.5 * Math.PI, true));
+    }
+
     public Server startServer() {
         server = new Server("MapOne.txt", 3, null, 3);
         return server;
@@ -259,7 +263,7 @@ public class Game extends JFrame {
         	playerList = packet.getPlayerList();
         	if (playerID == -1) {
         	    playerID = packet.getPlayerList().size();
-              inRace = false;
+                inRace = false;
             }
         }
 

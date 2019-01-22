@@ -101,7 +101,6 @@ public class MenuPanel extends JPanel {
                 	
                 	window.startServer();
                 	
-            	    window.connectToGame("127.0.0.1", 5000);
 
 
                 } else {

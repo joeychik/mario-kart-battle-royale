@@ -11,6 +11,7 @@ public class Player implements Comparable<Player> {
     private double orientation;
     private int relativeYPosition = 0;
     private int relativeXPosition = 0;
+    private transient boolean ready = false;
     private int playerID;
     private boolean movingBackwards = false;
     private String name;
@@ -23,7 +24,7 @@ public class Player implements Comparable<Player> {
     private int markersPassed;
     private int lapsCompleted;
     private boolean finishedRace;
-    
+
     private static int TERMINAL_VELOCITY = 10;
 
     Player(String name, int characterSprite, int carSprite) {
@@ -91,6 +92,14 @@ public class Player implements Comparable<Player> {
         hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
     }
 
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
     public double getxPos() {
         return xPos;
     }
@@ -146,7 +155,7 @@ public class Player implements Comparable<Player> {
     public void setRelativeYPosition(int relativeYPosition) {
         this.relativeYPosition = relativeYPosition;
     }
-    
+
     public int getRelativeXPosition() {
         return relativeXPosition;
     }
