@@ -56,7 +56,7 @@ public class GamePanel extends JPanel {
         String tileName = "";
     	tileName = "road.png";
 
-        for (int i = playerYPos - 4; i < playerYPos + 4; i++) {
+        for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
                     if (map[i][j] != null) {
@@ -71,8 +71,8 @@ public class GamePanel extends JPanel {
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), 
                         			
-                        			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150,
-                        		   ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
+                        			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150 - 50,
+                        		   ((i - playerYPos + 3) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
                         		   (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
                         	tileName = "road.png";
                         } 
@@ -126,12 +126,14 @@ public class GamePanel extends JPanel {
         
         g.fillRect(400, 300, 5, 5);
         
-//        if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
-//          System.out.println("GANG");
-//        }
+        if (map[playerYPos - 1][playerXPos - 1] instanceof Wall) {
+        	//player.setVelocity(0);
+        	player.setVelocity(0);
+        	
+        }
         
         
-        System.out.println(map[playerYPos-1][playerXPos-1]);
+        //System.out.println(map[playerYPos-1][playerXPos-1]);
         
         
         repaint();
@@ -147,7 +149,7 @@ public class GamePanel extends JPanel {
             if (e.getKeyChar() == 'w') {
 
                 player.setBrake(false);
-                player.setAccel(0.15);
+                player.setAccel(0.3);
             }
 
             if (e.getKeyChar() == 's') {
@@ -156,11 +158,11 @@ public class GamePanel extends JPanel {
             }
 
             if (e.getKeyChar() == 'd') {
-                player.setOrientation(player.getOrientation() + 0.1);
+                player.setOrientation(player.getOrientation() + 0.2);
             }
 
             if (e.getKeyChar() == 'a') {
-                player.setOrientation(player.getOrientation() - 0.1);
+                player.setOrientation(player.getOrientation() - 0.2);
             }
 
         }
