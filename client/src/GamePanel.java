@@ -15,6 +15,9 @@ public class GamePanel extends JPanel {
     private int yMapPosition = 0;
     private Player player;
     private Game window;
+    private int xArrayPosition;
+    private int yArrayPosition;
+    private MapComponent bufferMarker = null;
 
     private Image image;
     private Image car;
@@ -80,8 +83,43 @@ public class GamePanel extends JPanel {
 
         //g.fillRect((int)(600 + 400 - player.getxPos()), (int)(600 + 400 - player.getyPos()), 50, 50);
 
+            //player position corresponding to an index in the array
+            yArrayPosition = ((int)player.getyPos() /150) - 1;
+            xArrayPosition = ((int)player.getxPos()/150) - 1;
 
-        
+            //markers are used to determine how far the player has travelled
+            //the number of markers passed is used to determine a player's position in the leaderboard
+
+            // checks if the player is over a marker
+            if (map[yArrayPosition][xArrayPosition] instanceof Marker) {
+                //checks if the player is currently intersecting any remaining markers
+                for (MapComponent check: player.getMarkerList()) {
+
+                    //if they are, player's markersPassed increments by one
+                    if (player.getHitBox().intersects(check.getHitBox())) {
+                        player.setMarkersPassed(player.getMarkersPassed() + 1);
+
+                        bufferMarker = check;
+                        //removes intersecting marker from arraylist of remaining markers
+
+                    }
+                }
+                //checks if player is over a finish line
+            } else if (map[yArrayPosition][xArrayPosition] instanceof FinishMarker) {
+                //increase laps completed by one
+                player.setLapsCompleted(player.getLapsCompleted() + 1);
+                if (player.getLapsCompleted() == 3) {
+                    player.setFinishedRace(true);
+                }
+                //re initializes player's arraylist of markers
+                for (MapComponent marker: mapInfo.getMarkerList()) {
+                    player.getMarkerList().add(marker);
+                }
+            }
+
+        if (bufferMarker != null) {
+            player.getMarkerList().remove(bufferMarker);
+        }
         // Call again
         repaint();
         
