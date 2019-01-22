@@ -50,7 +50,6 @@ public class Client {
 
         private ConnectionHandler(Socket socket) throws JsonSyntaxException, IOException{
             this.socket = socket;
-            this.socket.setSoTimeout(100200);
             // initialize json readers/writers and attach them to the socket's input/output streams
             input = new JsonReader(new InputStreamReader(socket.getInputStream()));
             output = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -63,40 +62,45 @@ public class Client {
         }
 
         public void run() {
-            while(running) {
-                try {
+            try {
+                while (!server.getServerGame().isInGame()) {
+                    gson.fromJson(input, ClientPacket.class);
+                    player.setReady(true);
+                    server.startGame();
+                }
+                while (running) {
                     ClientPacket packet = gson.fromJson(input, ClientPacket.class);
                     System.out.println("got packet");
                     player.setOrientation(packet.getOrientation());
                     player.setAccel(packet.getAccel());
                     player.setBrake(packet.isBrake());
                     player.setVelocity(packet.getVelocity());
-                } catch (JsonIOException e) {
-                    System.err.println("Failed to receive packet from the socket");
-                    e.printStackTrace();
-                } catch (JsonSyntaxException e) {
-                    // check if socket is disconnected
-                    try {
-                        if (e.getCause() instanceof SocketException) {
-                            System.out.println("closing socket");
-                            server.removeClient(Client.this);
-                            input.close();
-                            output.close();
-                            socket.close();
-                            running = false;
-                        } else {
-                            System.err.println("problem with JSON syntax");
-                            server.removeClient(Client.this);
-                            input.close();
-                            output.close();
-                            socket.close();
-                            running = false;
-                            e.printStackTrace();
-                        }
-                    } catch (IOException e1) {
-                        System.err.println("couldnt close socket");
+                }
+            } catch (JsonIOException e) {
+                System.err.println("Failed to receive packet from the socket");
+                e.printStackTrace();
+            } catch (JsonSyntaxException e) {
+                // check if socket is disconnected
+                try {
+                    if (e.getCause() instanceof SocketException) {
+                        System.out.println("closing socket");
+                        server.removeClient(Client.this);
+                        input.close();
+                        output.close();
+                        socket.close();
+                        running = false;
+                    } else {
+                        System.err.println("problem with JSON syntax");
+                        server.removeClient(Client.this);
+                        input.close();
+                        output.close();
+                        socket.close();
+                        running = false;
                         e.printStackTrace();
                     }
+                } catch (IOException e1) {
+                    System.err.println("couldnt close socket");
+                    e.printStackTrace();
                 }
             }
         }

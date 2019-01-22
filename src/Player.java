@@ -12,6 +12,8 @@ public class Player implements Comparable<Player> {
     private int relativeYPosition = 0;
     private int relativeXPosition = 0;
 
+    private transient boolean ready = false;
+
     private boolean movingBackwards = false;
     private String name;
     private int characterSprite;
@@ -89,6 +91,14 @@ public class Player implements Comparable<Player> {
         relativeYPosition = ((int) yPos) % 150;
         relativeXPosition = ((int) xPos) % 150;
         hitBox.setBounds((int) xPos, (int) yPos, dimensions, dimensions);
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     public double getxPos() {

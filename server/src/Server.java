@@ -49,8 +49,15 @@ public class Server implements Runnable{
      * begins game, stops accepting new players
      */
     public void startGame() {
-        accepting = false;
-        serverGame.start();
+        boolean start = false;
+        for (Player p : players) {
+            start = p.isReady();
+        }
+
+        if (start) {
+            accepting = false;
+            serverGame.start();
+        }
     }
 
     public ServerGame getServerGame() {
@@ -120,6 +127,7 @@ public class Server implements Runnable{
         int playersFinished = 0;
         private final int FRAMERATE = 60;
         private ArrayList<MapComponent> masterMarkerList = new ArrayList<>();
+        private boolean inGame = false;
 
         /**
          * constructor
@@ -131,13 +139,17 @@ public class Server implements Runnable{
             gameLoopTimer = new Timer();
         }
 
-
+        public boolean isInGame() {
+            return inGame;
+        }
 
         /**
          * start
          * infinite loop of game calculations
          */
         public void start() {
+            inGame = true;
+
             gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
