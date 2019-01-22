@@ -195,17 +195,17 @@ public class Server implements Runnable{
                         if (map[yMapPosition][xMapPosition] instanceof Marker) {
                             System.out.println("yes");
                             //checks if the player is currently intersecting any remaining markers
-                            for (MapComponent check: p.getMarkerList()) {
-
-                                //if they are, player's markersPassed increments by one
-                                if (p.getHitBox().intersects(check.getHitBox())) {
-                                    System.out.println("yes");
-                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
-
-                                    //removes intersecting marker from arraylist of remaining markers
-                                    p.getMarkerList().remove(check);
-                                }
-                            }
+//                            for (MapComponent check: p.getMarkerList()) {
+//
+//                                //if they are, player's markersPassed increments by one
+//                                if (p.getHitBox().intersects(check.getHitBox())) {
+//                                    System.out.println("yes");
+//                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
+//
+//                                    //removes intersecting marker from arraylist of remaining markers
+//                                    p.getMarkerList().remove(check);
+//                                }
+//                            }
                             //checks if player is over a finish line
                         } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
                             //increase laps completed by one
@@ -216,7 +216,7 @@ public class Server implements Runnable{
                             }
                             //re initializes player's arraylist of markers
                             for (MapComponent marker: masterMarkerList) {
-                                p.getMarkerList().add(marker);
+//                                p.getMarkerList().add(marker);
                             }
                         }
                     }

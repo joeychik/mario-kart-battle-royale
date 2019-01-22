@@ -17,7 +17,7 @@ public class Player implements Comparable<Player> {
     private String name;
     private int characterSprite;
     private int carSprite;
-    private transient Rectangle hitBox;
+    private Rectangle hitBox;
     private transient MapComponent[][] map;
     private transient ArrayList<MapComponent> markerList = new ArrayList<>();
     private MapComponent lastMarker;
@@ -90,7 +90,7 @@ public class Player implements Comparable<Player> {
         relativeYPosition = ((int) yPos) % 150;
         relativeXPosition = ((int) xPos) % 150;
 
-        //hitBox.setLocation((int) xPos, (int) yPos);
+        hitBox.setLocation((int) xPos, (int) yPos);
     }
 
     public boolean isReady() {
