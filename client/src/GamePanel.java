@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
         int playerXPos = ((int) player.getxPos()) / 150;
 
         String tileName = "";
-    	tileName = "road.jpg";
+    	tileName = "road.png";
 
         for (int i = playerYPos - 4; i < playerYPos + 4; i++) {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel {
                     if (map[i][j] != null) {
                         g.setColor(Color.WHITE);
                         if (map[i][j] instanceof Road) {
-                        	tileName = "road.jpg";
+                        	tileName = "road.png";
                             g.setColor(Color.BLACK);
                         } else if (map[i][j] instanceof Wall) {
                         	tileName = "grass.png";
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
 
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), (j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
-                        	tileName = "road.jpg";
+                        	tileName = "road.png";
                         } 
 //                        else {
 //                            g.fillRect((j - playerXPos + 4) * (int)map[i][j].getDimensions() - ((int)(player.getxPos()) % 150 % 150), ((i - playerYPos + 4) * (int) map[i][j].getDimensions() - player.getRelativeYPosition() % 150), (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions());

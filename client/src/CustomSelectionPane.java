@@ -81,11 +81,11 @@ public class CustomSelectionPane extends JPanel implements KeyListener{
 		g2.drawRect(180 + 200*xPoz, 100, 200, 300);
 				
 		
-		
-		this.setFocusable(true);
-        this.requestFocusInWindow();
-        this.requestFocus();
-
+		if (this.isVisible()) {
+			this.setFocusable(true);
+	        this.requestFocusInWindow();
+	        this.requestFocus();
+		}
 				
 		repaint();
 	}

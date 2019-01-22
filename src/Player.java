@@ -23,6 +23,8 @@ public class Player implements Comparable<Player> {
     private int markersPassed;
     private int lapsCompleted;
     private boolean finishedRace;
+    
+    private static int TERMINAL_VELOCITY = 10;
 
     Player(String name, String characterSprite, String carSprite) {
         xPos = 250.0;
@@ -45,8 +47,8 @@ public class Player implements Comparable<Player> {
     public void update() {
         velocity += accel;
 
-        if (velocity > 4) {
-            velocity = 4;
+        if (velocity > TERMINAL_VELOCITY) {
+            velocity = TERMINAL_VELOCITY;
         } else if (velocity < -0.6) {
             velocity = -0.6;
         }
