@@ -44,7 +44,7 @@ public class Player implements Comparable<Player> {
         velocity += accel;
 
         if (velocity > 4) {
-            velocity = 1;
+            velocity = 4;
         } else if (velocity < -0.6) {
             velocity = -0.6;
         }
