@@ -206,21 +206,24 @@ public class GamePanel extends JPanel {
             for (int j = playerXPos - 4; j < playerXPos + 4; j++) {
                 if ((i > -1) && (j > -1) && (i < map.length) && (j < map[i].length)) {
                     if (map[i][j] != null) {
-                        g.setColor(Color.WHITE);
-                        if (map[i][j] instanceof Road) {
+
+                    	if (map[i][j] instanceof Road) {
                         	tileName = "road.png";
-                            g.setColor(Color.BLACK);
                         } else if (map[i][j] instanceof Wall) {
                         	tileName = "grass.png";
-                            g.setColor(Color.BLUE);
+                        } else if (map[i][j] instanceof Marker) {
+                        	tileName = "road.png";
+                        } else if (map[i][j] instanceof FinishMarker) {
+                        	tileName = "finish.png";
                         }
+                    	                    	
                         if (!tileName.equals("")) {
                         	g.drawImage(Utilities.getTileImages(tileName), 
                         			
                         			(j - playerXPos + 4) * (int)map[i][j].getDimensions() - player.getRelativeXPosition()%150 - 50,
                         		   ((i - playerYPos + 3) * (int) map[i][j].getDimensions() - player.getRelativeYPosition()%150),
                         		   (int) map[i][j].getDimensions(), (int) map[i][j].getDimensions(), null);
-                        	tileName = "road.png";
+                        	tileName = "finish.png";
                         } 
                         
                        	g.setColor(Color.red);
