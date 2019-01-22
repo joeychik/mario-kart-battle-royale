@@ -1,4 +1,11 @@
-import com.google.gson.Gson;
+/**
+ * [Game.java]  
+ * Actual game code class
+ * @author Yash Arora
+ * @since 2019-01-22
+ */
+
+import com.google.gson.Gson; 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;

@@ -1,4 +1,8 @@
-
+/**
+ * [JoinGamePanel.java]  
+ * Allows user to join game based on ip
+ * @since 2019-01-22
+ */
 
 import javax.swing.*;
 import java.awt.*;
