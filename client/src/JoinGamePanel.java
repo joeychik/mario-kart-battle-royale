@@ -92,7 +92,15 @@ public class JoinGamePanel extends JPanel {
             	if (back.isMouseOnButton(panel)) {
             		window.changeState(0);
             	} else if (message.isMouseOnButton(panel)) {
-            		// DO SOMETHING HERE
+            		
+            		if (field.getText().equals("")) {
+                	    window.connectToGame("127.0.0.1", 5000);
+            		} else {
+                	    window.connectToGame(field.getText(), 5000);
+            		}
+            		window.changeState(6);
+
+
                     // window.connectToGame(server ip, port this should be 5000);
             	}
             }

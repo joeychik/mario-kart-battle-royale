@@ -101,7 +101,6 @@ public class CreateGamePanel extends JPanel {
 //                        Thread.sleep(50);
 //                    } catch (InterruptedException e1) {}
 
-            	    window.connectToGame("127.0.0.1", 5000);
             	    
             	    
             		window.changeState(7);
