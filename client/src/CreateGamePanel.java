@@ -100,7 +100,7 @@ public class CreateGamePanel extends JPanel {
 //            	    try {
 //                        Thread.sleep(50);
 //                    } catch (InterruptedException e1) {}
-
+                    window.ready();
             	                	    
             		window.changeState(7);
             	}
