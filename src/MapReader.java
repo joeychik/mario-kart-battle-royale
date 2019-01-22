@@ -105,10 +105,18 @@ public class MapReader {
 
     }
 
+    /**
+     * getMap
+     * @return MapComponent 2D array
+     */
     public MapComponent[][] getMap () {
         return mapLayout;
     }
 
+    /**
+     * getMarkerList
+     * @return Arraylist of markers in map
+     */
     public ArrayList<MapComponent> getMarkerList () {
         return markerList;
     }

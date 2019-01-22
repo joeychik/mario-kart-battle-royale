@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Rectangle;
 
 public class Wall extends MapComponent{
     private boolean driveable;

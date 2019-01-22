@@ -1,18 +1,9 @@
-import javax.imageio.ImageIO; 
+
+
 import javax.swing.*;
-
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -20,17 +11,20 @@ import javax.swing.JTextField;
 public class JoinGamePanel extends JPanel {
         private Game window;
         private JLayeredPane pane;
-        Action action;
+        private Action action;
 
-        Image background;
-        JPanel panel;
-        String ip;
-        JTextField field;
-        CustomButton message;
-        CustomButton back;
+        private Image background;
+        private JPanel panel;
+        private String ip;
+        private JTextField field;
+        private CustomButton message;
+        private CustomButton back;
 
-
-        JoinGamePanel(Game window) {
+    /**
+     * Constructor
+     * @param window
+     */
+    JoinGamePanel(Game window) {
         	
         	this.panel = this;
             this.window = window;
@@ -39,12 +33,7 @@ public class JoinGamePanel extends JPanel {
             pane = new JLayeredPane();
             pane.setBounds(0, 0, 800, 600);
 
-//            try {
-//                background = ImageIO.read(new File("res/menubackground.png"));
-//            } catch (IOException e) {
-//                System.err.println("Error loading image");
-//            }
-
+            //setting textfield properties
             field = new JTextField(8);
             field.setBounds(new Rectangle(300, 200, 200, 60));
             field.setOpaque(false);
@@ -54,11 +43,12 @@ public class JoinGamePanel extends JPanel {
         	field.setHorizontalAlignment(JTextField.CENTER);
             field.setForeground(Color.white);
 
+            //adding to panel
             pane.add(field);
             add(pane);
             pane.setVisible(true);
             
-            
+            //buttons
             message = new CustomButton("Join", 300, 300, 200, 60);
             back = new CustomButton("Menu", 650, 0, 150, 60);
             
@@ -70,8 +60,8 @@ public class JoinGamePanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            //g.drawImage(background, 0,0, 800, 600, null);
 
+            //draws textboxes and buttons
             g.fillRect(0, 0, 800, 600);
             message.draw(g, panel);
             back.draw(g, panel);
@@ -84,18 +74,21 @@ public class JoinGamePanel extends JPanel {
             }
 
             /**
+             * mouseClicked
              * Checks which button was clicked and acts accordingly
-             *
              * @param e mouse event which occurred
              */
             public void mouseClicked(MouseEvent e) {
             	if (back.isMouseOnButton(panel)) {
             		window.changeState(0);
             	} else if (message.isMouseOnButton(panel)) {
-            		
+
+            	    //connects to server given IP
             		if (field.getText().equals("")) {
+            		    //if textfield is blank, default IP is local
                 	    window.connectToGame("127.0.0.1", 5000);
             		} else {
+            		    //connects to given IP
                 	    window.connectToGame(field.getText(), 5000);
             		}
             		window.changeState(6);

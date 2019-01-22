@@ -40,7 +40,7 @@ public class Game extends JFrame {
     private JPanel createGamePanel;
     private GamePanel gamePanel;
     private ArrayList<Player> playerList = new ArrayList<Player>();
-    int playerID = -1;
+    private int playerID = -1;
 
 
     private Player player;
@@ -48,7 +48,7 @@ public class Game extends JFrame {
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
     private boolean inRace = false;
-    
+
     private int charVal = -1;
 	private int carVal = -1;
 
@@ -80,8 +80,8 @@ public class Game extends JFrame {
         this.setLayout(new BorderLayout());
 
         this.menuPanel = new MenuPanel(this);
-        this.characterPanel = new CharacterPanel(this);
-        this.carPanel = new CarPanel(this);
+        this.setCharacterPanel(new CharacterPanel(this));
+        this.setCarPanel(new CarPanel(this));
         this.controlPanel = new ControlPanel(this);
         this.createGamePanel = new CreateGamePanel(this); // NEEDS TO BE CHANGED
         this.joinGamePanel = new JoinGamePanel(this);
@@ -182,10 +182,10 @@ public class Game extends JFrame {
                 switchPanel(serverPanel);
                 return;
             case 4:
-                switchPanel(characterPanel);
+                switchPanel(getCharacterPanel());
                 return;
             case 5:
-                switchPanel(carPanel);
+                switchPanel(getCarPanel());
                 return;
             case 6:
                 switchPanel(createGamePanel);
@@ -251,7 +251,7 @@ public class Game extends JFrame {
     public void setControlPanel(JPanel controlPanel) {
         this.controlPanel = controlPanel;
     }
-    
+
     public int getGameId() {
     	return playerID;
     }
@@ -345,17 +345,17 @@ public class Game extends JFrame {
             playerList = packet.getPlayerList();
             for (Player p : playerList) {
                 if (p.getPlayerID() == playerID) {
-                	
 
-                	
+
+
                     player.setVelocity(p.getVelocity());
                     player.setxPos(p.getxPos());
                     player.setyPos(p.getyPos());
                     player.setRelativeXPosition(p.getRelativeXPosition());
                     player.setRelativeYPosition(p.getRelativeYPosition());
-                    
-                    
-                    
+
+
+
                 }
             }
         }
@@ -366,7 +366,19 @@ public class Game extends JFrame {
 	}
 
 	public void setCarVal(int carValue) {
-		
+
+	}
+
+	public CharacterPanel getCharacterPanel() {
+		return characterPanel;
+	}
+
+	public CarPanel getCarPanel() {
+		return carPanel;
+	}
+
+	public void setCarPanel(CarPanel carPanel) {
+		this.carPanel = carPanel;
 	}
 
 }
