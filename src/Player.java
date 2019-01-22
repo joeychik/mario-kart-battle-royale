@@ -7,7 +7,7 @@ public class Player implements Comparable<Player> {
     private int dimensions;
     private double velocity;
     private double accel;
-    private boolean brake;
+	private boolean brake;
     private double orientation;
     private int relativeYPosition = 0;
     private int relativeXPosition = 0;
@@ -133,6 +133,21 @@ public class Player implements Comparable<Player> {
     public double getxPos() {
         return xPos;
     }
+    /**
+     * getAccel
+     * @return acceleration
+     */
+    public double getAccel() {
+		return accel;
+	}
+    
+    /**
+     * isBrake
+     * @return brake
+     */
+	public boolean isBrake() {
+		return brake;
+	}
 
     /**
      * setxPos
