@@ -156,7 +156,7 @@ public class Server implements Runnable{
             gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("timer run");
+                    //System.out.println("timer run");
 
                     if (playersFinished == players.size()) {
                         //finished game code
@@ -193,7 +193,7 @@ public class Server implements Runnable{
                     //sends packet
                     for (Client client : clients) {
                         client.send(packet);
-                        System.out.println("send serverpacket");
+                        //System.out.println("send serverpacket");
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate

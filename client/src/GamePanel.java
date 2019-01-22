@@ -59,16 +59,21 @@ public class GamePanel extends JPanel {
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         // Update player position, velocity, etc.
-        player.update();
+        //player.update();
         
         // Draw the entire map in desired location
         drawMap(g);
         
+
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+        		System.out.println(p.getxPos());
+        		System.out.println(p.getyPos());
+
+        	}
+        }
         
 
-        //System.out.println(window.getPlayerList().get(0).getxPos());
-        
-        
         // Required to rotate sprites in place
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
@@ -81,7 +86,6 @@ public class GamePanel extends JPanel {
         g.setColor(Color.red);
 
 
-        //g.fillRect((int)(600 + 400 - player.getxPos()), (int)(600 + 400 - player.getyPos()), 50, 50);
 
             //player position corresponding to an index in the array
             yArrayPosition = ((int)player.getyPos() /150) - 1;
@@ -144,6 +148,12 @@ public class GamePanel extends JPanel {
         int playerYPos =  (int)(player.getyPos() / 150);
         int playerXPos =  (int)(player.getxPos() / 150);
     	
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+                playerYPos =  (int)(p.getyPos() / 150);
+                playerXPos =  (int)(p.getxPos() / 150);
+        	}
+        }
         
 
         
