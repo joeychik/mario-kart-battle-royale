@@ -128,7 +128,7 @@ public class Server implements Runnable{
         int yMapPosition = 0;
         int xMapPosition = 0;
         int playersFinished = 0;
-        private final int FRAMERATE = 30;
+        private final int FRAMERATE = 10;
         private ArrayList<MapComponent> masterMarkerList = new ArrayList<>();
         private boolean inGame = false;
 

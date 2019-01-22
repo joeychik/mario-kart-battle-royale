@@ -48,6 +48,18 @@ public class Game extends JFrame {
     private ServerConnection serverConnection;
     private Timer gameLoopTimer;
     private boolean inRace = false;
+    
+    private int charVal = -1;
+	private int carVal = -1;
+
+    public int getCharVal() {
+		return charVal;
+	}
+
+	public int getCarVal() {
+		return carVal;
+	}
+
 
     //Main
     public static void main(String[] args) {
@@ -296,5 +308,13 @@ public class Game extends JFrame {
             }
         }
     }
+
+	public void setCharVal(int characterValue) {
+		charVal = characterValue;
+	}
+
+	public void setCarVal(int carValue) {
+		
+	}
 
 }

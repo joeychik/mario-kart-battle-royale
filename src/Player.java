@@ -255,12 +255,30 @@ public class Player implements Comparable<Player> {
 
     @Override
     public int compareTo(Player player) {
-        if (this.getMarkerList().size() < player.getMarkerList().size()) {
-            return -1;
-        } else if (this.getMarkerList().size() > player.getMarkerList().size()) {
-            return 1;
-        } else {
-            return 0;
-        }
+//    	try {
+//            if (this.getMarkerList().size() < player.getMarkerList().size()) {
+//                return -1;
+//            } else if (this.getMarkerList().size() > player.getMarkerList().size()) {
+//                return 1;
+//            } else {
+//                return 0;
+//            }
+//    	} catch (Exception e) {
+//    		return 0;
+//    	}
+    	
+    	try {
+            if (markersPassed < player.getMarkersPassed()) {
+                return -1;
+            } else if (markersPassed > player.getMarkersPassed()) {
+                return 1;
+            } else {
+                return 0;
+            }
+    	} catch (Exception e) {
+    		return 0;
+    	}
+    	
+
     }
 }
