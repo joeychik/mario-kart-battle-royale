@@ -216,7 +216,7 @@ public class Server implements Runnable{
                             }
                             //re initializes player's arraylist of markers
                             for (MapComponent marker: masterMarkerList) {
-                                p.getMarkerList().add(marker);
+//                                p.getMarkerList().add(marker);
                             }
                         }
                     }

@@ -103,7 +103,7 @@ public class CreateGamePanel extends JPanel {
 
                     window.ready();
 
-            		//window.changeState(7);
+            		window.changeState(7);
             	}
             }
 

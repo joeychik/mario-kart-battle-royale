@@ -60,8 +60,10 @@ public class GamePanel extends JPanel {
         
         // Draw the entire map in desired location
         drawMap(g);
+        
+        
 
-        System.out.println(window.getPlayerList().get(0).getxPos());
+        //System.out.println(window.getPlayerList().get(0).getxPos());
         
         
         // Required to rotate sprites in place
@@ -72,6 +74,12 @@ public class GamePanel extends JPanel {
         
         // Draw the actual combined sprites
         g2d.drawImage(combined, trans, this);
+        
+        g.setColor(Color.red);
+
+
+        //g.fillRect((int)(600 + 400 - player.getxPos()), (int)(600 + 400 - player.getyPos()), 50, 50);
+
 
         
         // Call again
@@ -97,6 +105,9 @@ public class GamePanel extends JPanel {
         int playerYPos =  (int)(player.getyPos() / 150);
         int playerXPos =  (int)(player.getxPos() / 150);
     	
+        
+
+        
         String tileName = "";
     	tileName = "road.png";
         for (int i = playerYPos - 3; i < playerYPos + 3; i++) {
