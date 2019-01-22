@@ -76,7 +76,12 @@ public class Utilities {
 		
 		return im;
 	}
-	
+
+	/**
+	 * getIcon
+	 * @param name
+	 * @return Image
+	 */
 	public static Image getIcon(String name) {
 		Image im = null;
 		try {
