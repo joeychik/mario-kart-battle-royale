@@ -55,7 +55,6 @@ public class CreateGamePanel extends JPanel {
             pane.setVisible(true);
 
 
-
             ready = new CustomButton("Ready", 650, 520, 150, 60);
 
             this.setVisible(true);
@@ -104,6 +103,7 @@ public class CreateGamePanel extends JPanel {
 
                     window.connectToGame("127.0.0.1", 5000);
     
+
             		window.changeState(7);
             	}
             }
