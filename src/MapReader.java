@@ -38,7 +38,7 @@ public class MapReader {
      * Constructs a 2D array out of a text file
      * @throws Exception
      */
-    void readMap() throws Exception{
+    void readMap() {
         String line;
         ArrayList<String> mapChar = new ArrayList<>();
         int length = 0;
@@ -93,7 +93,7 @@ public class MapReader {
 
         //adjusts hit boxes for markers to make it easier to detect intersections in the game
         for (MapComponent m : markerList) {
-            rightIndex = m.getxPosition();
+            rightIndex = m.getxPosition() / 150;
             while (!(mapLayout[(m.getyPosition()/150) - 1][rightIndex] instanceof Wall)) {
                 rightIndex++;
             }

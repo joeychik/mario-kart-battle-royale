@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class CharacterPanel extends JPanel {
 
-    private Game2 window;
+    private Game window;
     private JLayeredPane pane;
     Action action;
 
@@ -33,7 +33,7 @@ public class CharacterPanel extends JPanel {
     String[] characters = new String[] {"Brick", "Question Mark", "Pipe"};
     Image[] images = new Image[3];
  
-    CharacterPanel(Game2 window) {
+    CharacterPanel(Game window) {
         this.window = window;
 
         this.setLayout(new BorderLayout());

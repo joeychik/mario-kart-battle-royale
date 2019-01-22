@@ -13,7 +13,7 @@ public class GamePanel extends JPanel {
     private int mapIncrement = 0;
     private int yMapPosition = 0;
     private Player player;
-    private Game2 window;
+    private Game window;
     
     private Image image;
     private Image car;
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
 
 
 
-    GamePanel(String mapName, Player player, Game2 window) {
+    GamePanel(String mapName, Player player, Game window) {
     	this.window = window;
     	this.player = player;
         this.mapName = mapName;

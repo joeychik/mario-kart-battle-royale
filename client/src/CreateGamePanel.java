@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CreateGamePanel extends JPanel {
-        private Game2 window;
+        private Game window;
         private JLayeredPane pane;
         Action action;
 
@@ -33,7 +33,7 @@ public class CreateGamePanel extends JPanel {
         int characterNumber;
         int carNumber;
 
-        CreateGamePanel(Game2 window) {
+        CreateGamePanel(Game window) {
         	
         	
         	this.panel = this;
@@ -95,6 +95,11 @@ public class CreateGamePanel extends JPanel {
              */
             public void mouseClicked(MouseEvent e) {
             	if (ready.isMouseOnButton(panel)) {
+            	    window.startServer();
+            	    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e1) {}
+            	    window.connectToGame("127.0.0.1", 5000);
             		window.changeState(7);
             	}
             }
