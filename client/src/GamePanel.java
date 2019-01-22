@@ -97,6 +97,9 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
+        
+        System.out.println(window.getPlayerList().get(0).getxPos());
+        
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
         trans.translate(-15, -15);
@@ -114,10 +117,13 @@ public class GamePanel extends JPanel {
 
         for (int i = 0; i < 10; i++ ) {
             if (map[playerYPos -  1][i] instanceof Wall && map[playerYPos -  1][i].getxPosition() > 450) {
-                System.out.println(map[playerYPos - 1][i]);
-                System.out.println(player.getyPos());
+//                System.out.println(map[playerYPos - 1][i]);
+//                System.out.println(player.getyPos());
             }
         }
+        
+        
+        
 //        for (int i = 0; i < map[0].length; i++) {
 //            if (map[playerYPos][i].getHitBox().intersects(player.getHitBox()) && !map[playerYPos][i].getDriveable() ) {
 //                System.out.println("hit");

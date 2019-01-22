@@ -210,7 +210,7 @@ public class Server implements Runnable{
 
                     //sends packet
                     for (Client client : clients) {
-                        //    client.send(new ServerPacket(players));
+                            client.send(new ServerPacket(players));
                     }
                 }
             }, 0, 1000 / FRAMERATE); //delay and framerate

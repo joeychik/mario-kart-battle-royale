@@ -254,17 +254,16 @@ public class Game extends JFrame {
         private void processStartServerPacket(ServerPacket packet) {
         	playerList = packet.getPlayerList();
 
-            for (Player player : packet.getPlayerList()) {
-            	
-                System.out.println(player.getName());
-                
-                
-                
-            }
+//            for (Player player : packet.getPlayerList()) {
+//            	
+//                System.out.println(player.getName());
+//                
+//
+//            }
         }
 
         private void processServerPacket(ServerPacket packet) {
-
+        	playerList = packet.getPlayerList();
         }
     }
 
