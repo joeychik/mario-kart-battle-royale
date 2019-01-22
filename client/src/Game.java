@@ -191,6 +191,10 @@ public class Game extends JFrame {
     public void setControlPanel(JPanel controlPanel) {
         this.controlPanel = controlPanel;
     }
+    
+    public int getGameId() {
+    	return playerID;
+    }
 
     /** --------- INNER CLASSES ------------- **/
 

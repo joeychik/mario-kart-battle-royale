@@ -22,6 +22,10 @@ public class GamePanel extends JPanel {
     AffineTransform identity = new AffineTransform(0, 0, 0, 0, 0, 0);
 
     BufferedImage combined;
+    
+    int yArrayPosition;
+    int xArrayPosition;
+    private MapComponent bufferMarker = null;
 
 
     GamePanel(String mapName, Player player, Game window) {
@@ -56,16 +60,20 @@ public class GamePanel extends JPanel {
         AffineTransform trans = AffineTransform.getTranslateInstance(400, 300);
 
         // Update player position, velocity, etc.
-        player.update();
+        //player.update();
         
         // Draw the entire map in desired location
         drawMap(g);
         
+
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+        		System.out.println(p.getxPos());
+        		System.out.println(p.getyPos());
+        	}
+        }
         
 
-        //System.out.println(window.getPlayerList().get(0).getxPos());
-        
-        
         // Required to rotate sprites in place
         trans.translate(15, 15);
         trans.rotate(player.getOrientation() + Math.PI/2);
@@ -78,10 +86,46 @@ public class GamePanel extends JPanel {
         g.setColor(Color.red);
 
 
-        //g.fillRect((int)(600 + 400 - player.getxPos()), (int)(600 + 400 - player.getyPos()), 50, 50);
 
 
-        
+            //player position corresponding to an index in the array
+            yArrayPosition = ((int)player.getyPos() /150) - 1;
+            xArrayPosition = ((int)player.getxPos()/150) - 1;
+
+            //markers are used to determine how far the player has travelled
+            //the number of markers passed is used to determine a player's position in the leaderboard
+
+            // checks if the player is over a marker
+            if (map[yArrayPosition][xArrayPosition] instanceof Marker) {
+                //checks if the player is currently intersecting any remaining markers
+                for (MapComponent check: player.getMarkerList()) {
+
+                    //if they are, player's markersPassed increments by one
+                    if (player.getHitBox().intersects(check.getHitBox())) {
+                        player.setMarkersPassed(player.getMarkersPassed() + 1);
+
+                        //buffer to get rid of concurrent modification error
+                        bufferMarker = check;
+                        //removes intersecting marker from arraylist of remaining markers
+
+                    }
+                }
+                //checks if player is over a finish line
+            } else if (map[yArrayPosition][xArrayPosition] instanceof FinishMarker) {
+                //increase laps completed by one
+                player.setLapsCompleted(player.getLapsCompleted() + 1);
+                if (player.getLapsCompleted() == 3) {
+                    player.setFinishedRace(true);
+                }
+                //re initializes player's arraylist of markers
+                for (MapComponent marker: mapInfo.getMarkerList()) {
+                    player.getMarkerList().add(marker);
+                }
+            }
+
+        if (bufferMarker != null) {
+            player.getMarkerList().remove(bufferMarker);
+        }
         // Call again
         repaint();
         
@@ -105,6 +149,12 @@ public class GamePanel extends JPanel {
         int playerYPos =  (int)(player.getyPos() / 150);
         int playerXPos =  (int)(player.getxPos() / 150);
     	
+        for(Player p: window.getPlayerList()) {    	
+        	if (p.getPlayerID() == window.getGameId()) {
+                playerYPos =  (int)(p.getyPos() / 150);
+                playerXPos =  (int)(p.getxPos() / 150);
+        	}
+        }
         
 
         
