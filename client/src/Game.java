@@ -211,7 +211,8 @@ public class Game extends JFrame {
                     e.printStackTrace();
                 }
 
-                run();
+                Thread thread = new Thread(this);
+                thread.start();
             } catch (Exception e) {
                 System.err.println("problem connecting to server");
                 e.printStackTrace();
