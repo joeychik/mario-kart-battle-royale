@@ -29,12 +29,12 @@ public class MenuPanel extends JPanel {
         BufferedImage createGameIcon;
         BufferedImage joinGameIcon;
         BufferedImage controlsIcon;
-        
+
         JPanel panel;
 
 
         MenuPanel(Game window) {
-        	
+
         	this.panel = this;
             this.window = window;
             this.addMouseListener(new MyMouseListener());
@@ -47,7 +47,7 @@ public class MenuPanel extends JPanel {
             } catch (IOException e) {
                 System.err.println("Error loading image");
             }
-        
+
             joinGame = new CustomButton("Join Game", 350, 300, 200, 50, Color.black);
             createGame = new CustomButton("Create Game", 400, 400, 250, 50, Color.black);
             controls = new CustomButton("", 750, 0, 50, 50, null);
@@ -73,7 +73,7 @@ public class MenuPanel extends JPanel {
 
             repaint();
         }
-        
+
         public class MyMouseListener implements MouseListener {
             public void mouseEntered(MouseEvent e) {
 
@@ -85,16 +85,20 @@ public class MenuPanel extends JPanel {
              * @param e mouse event which occurred
              */
             public void mouseClicked(MouseEvent e) {
-            	            	
+
                 if (controls.isMouseOnButton(panel)) { // back button returns to teacher dashboard
                 	window.changeState(1);
                 } else if (joinGame.isMouseOnButton(panel)) {
                 	window.changeState(2);
                 } else if (createGame.isMouseOnButton(panel)) {
+
+
+
+
+
                 	window.changeState(4); // go to character
-                	
-                	
-                	
+
+
                 	window.startServer();
                     window.connectToGame("127.0.0.1", 5000);
 

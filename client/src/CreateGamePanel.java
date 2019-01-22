@@ -95,8 +95,13 @@ public class CreateGamePanel extends JPanel {
              */
             public void mouseClicked(MouseEvent e) {
             	if (ready.isMouseOnButton(panel)) {
-            	    window.ready();
-            	    
+            	   
+//            		window.startServer();
+//            	    try {
+//                        Thread.sleep(50);
+//                    } catch (InterruptedException e1) {}
+
+            	                	    
             		window.changeState(7);
             	}
             }
