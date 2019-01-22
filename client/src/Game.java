@@ -286,6 +286,8 @@ public class Game extends JFrame {
                     player.setVelocity(p.getVelocity());
                     player.setxPos(p.getxPos());
                     player.setyPos(p.getyPos());
+                    player.setRelativeXPosition(p.getRelativeXPosition());
+                    player.setRelativeYPosition(p.getRelativeYPosition());
                 }
             }
         }
