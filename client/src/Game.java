@@ -273,8 +273,10 @@ public class Game extends JFrame {
         }
 
         private void processServerPacket(ServerPacket packet) {
-            System.out.println("packet");
-            inRace = true;
+            if (!inRace) {
+                changeState(7);
+                inRace = true;
+            }
             startRace();
             playerList = packet.getPlayerList();
         }

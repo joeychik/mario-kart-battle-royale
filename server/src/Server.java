@@ -182,44 +182,7 @@ public class Server implements Runnable{
                     }
 
                     //position and leaderboard calculations
-                    for (Player p : players) {
 
-                        //player position corresponding to an index in the array
-                        yMapPosition = ((int)p.getyPos() /150) - 1;
-                        xMapPosition = ((int)p.getxPos()/150) - 1;
-
-                        //markers are used to determine how far the player has travelled
-                        //the number of markers passed is used to determine a player's position in the leaderboard
-
-                        // checks if the player is over a marker
-                        if (map[yMapPosition][xMapPosition] instanceof Marker) {
-                            System.out.println("yes");
-                            //checks if the player is currently intersecting any remaining markers
-//                            for (MapComponent check: p.getMarkerList()) {
-//
-//                                //if they are, player's markersPassed increments by one
-//                                if (p.getHitBox().intersects(check.getHitBox())) {
-//                                    System.out.println("yes");
-//                                    p.setMarkersPassed(p.getMarkersPassed() + 1);
-//
-//                                    //removes intersecting marker from arraylist of remaining markers
-//                                    p.getMarkerList().remove(check);
-//                                }
-//                            }
-                            //checks if player is over a finish line
-                        } else if (map[yMapPosition][xMapPosition] instanceof FinishMarker) {
-                            //increase laps completed by one
-                            p.setLapsCompleted(p.getLapsCompleted() + 1);
-                            if (p.getLapsCompleted() == lapCount) {
-                                p.setFinishedRace(true);
-                                playersFinished++;
-                            }
-                            //re initializes player's arraylist of markers
-                            for (MapComponent marker: masterMarkerList) {
-//                                p.getMarkerList().add(marker);
-                            }
-                        }
-                    }
 
                     //sorts players in array by number of markers passed
                     Collections.sort(players);
